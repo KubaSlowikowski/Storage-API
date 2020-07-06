@@ -3,10 +3,12 @@ package pl.slowikowski.demo.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
+import pl.slowikowski.demo.model.ProductGroupDTO;
 import pl.slowikowski.demo.persistence.model.ProductGroup;
 import pl.slowikowski.demo.persistence.repository.ProductGroupRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductGroupRepositoryImpl {
 
@@ -28,11 +30,11 @@ public class ProductGroupRepositoryImpl {
         return repository.save(toCreate);
     }
 
-    public ProductGroup findById(int id) {
+    public ProductGroupDTO findById(int id) {
         if (!repository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Product does not exist!");
         }
-        return repository.findById(id).get();
+        return repository.findById(id).get().toDTO();
     }
 
     public void updateGroup(int id, ProductGroup toUpdate) {

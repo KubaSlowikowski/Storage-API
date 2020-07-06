@@ -4,6 +4,7 @@ package pl.slowikowski.demo.persistence.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import pl.slowikowski.demo.model.ProductGroupDTO;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -28,6 +29,12 @@ public class ProductGroup {
     @JsonIgnore
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
     private Set<Product> products;
+
+    public ProductGroup(String name, String description, Set<Product> products) {
+        this.name = name;
+        this.description = description;
+        this.products = products;
+    }
 
     public int getId() {
         return id;
@@ -71,5 +78,9 @@ public class ProductGroup {
         if(source.products != null) {
             this.products = source.products;
         }
+    }
+
+    public ProductGroupDTO toDTO() {
+        return new ProductGroupDTO(this);
     }
 }

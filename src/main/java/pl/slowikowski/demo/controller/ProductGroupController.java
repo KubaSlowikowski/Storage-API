@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import pl.slowikowski.demo.service.ProductGroupRepositoryImpl;
+import pl.slowikowski.demo.model.ProductGroupDTO;
 import pl.slowikowski.demo.persistence.model.ProductGroup;
+import pl.slowikowski.demo.service.ProductGroupRepositoryImpl;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -36,7 +37,7 @@ public class ProductGroupController {
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ProductGroup> findGroupById(@PathVariable("id") int id) {
+    ResponseEntity<ProductGroupDTO> findGroupById(@PathVariable("id") int id) {
         try {
             var result = service.findById(id);
             return ResponseEntity.ok(result);

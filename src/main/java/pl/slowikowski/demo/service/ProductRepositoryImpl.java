@@ -3,6 +3,7 @@ package pl.slowikowski.demo.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
+import pl.slowikowski.demo.model.ProductDTO;
 import pl.slowikowski.demo.persistence.model.Product;
 import pl.slowikowski.demo.persistence.repository.ProductGroupRepository;
 import pl.slowikowski.demo.persistence.repository.ProductRepository;
@@ -24,18 +25,19 @@ public class ProductRepositoryImpl {
     }
 
     public List<Product> findAll(Pageable page) {
-        return repository.findAll(page).getContent();
+        return repository.findAll(page)
+                .getContent();
     }
 
     public Product save(Product toCreate) {
         return repository.save(toCreate);
     }
 
-    public Product findById(int id) {
+    public ProductDTO findById(int id) {
         if (!repository.existsById(id)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Product does not exist!");
         }
-        return repository.findById(id).get();
+        return repository.findById(id).get().toDTO();
     }
 
     public void buyProduct(int id) {
@@ -59,7 +61,7 @@ public class ProductRepositoryImpl {
     }
 
     public List<Product> findAllByGroupId(int groupId) {
-        if(!groupRepository.existsById(groupId)) {
+        if (!groupRepository.existsById(groupId)) {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Product group does not exist!");
         }
         return repository.findAllByGroup_Id(groupId);

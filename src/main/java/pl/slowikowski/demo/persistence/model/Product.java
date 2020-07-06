@@ -100,7 +100,7 @@ public class Product {
         }
     }
 
-    public ProductDTO toDTO(Product source) {
+    public ProductDTO toDTO() {
         return new ProductDTO(this);
     }
 }
