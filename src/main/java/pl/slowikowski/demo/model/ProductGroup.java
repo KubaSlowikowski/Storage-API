@@ -2,11 +2,7 @@ package pl.slowikowski.demo.model;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.config.Task;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -22,6 +18,8 @@ public class ProductGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank(message = "Products group's name must be not null and not be empty")
+    private String name;
     @NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
     @Embedded
@@ -35,7 +33,7 @@ public class ProductGroup {
         return id;
     }
 
-    public void setId(final int id) {
+    void setId(final int id) {
         this.id = id;
     }
 
@@ -55,8 +53,16 @@ public class ProductGroup {
         this.products = products;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void updateFrom(final ProductGroup source) {
-        this.id = source.id;
+        this.name = source.name;
         this.description = source.description;
         this.products = source.products;
     }

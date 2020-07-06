@@ -2,9 +2,11 @@ package pl.slowikowski.demo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import pl.slowikowski.demo.logic.ProductService;
 import pl.slowikowski.demo.model.Product;
 import pl.slowikowski.demo.model.ProductRepository;
 
@@ -17,18 +19,26 @@ import java.util.List;
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductRepository repository;
+    private final ProductService service;
 
-    public ProductController(final ProductRepository repository) {
+    public ProductController(final ProductRepository repository, final ProductService service) {
         this.repository = repository;
+        this.service = service;
     }
 
-    @GetMapping()
+    @GetMapping(params = {"!sort", "!page", "!size"})
     ResponseEntity<List<Product>> findAllProducts() {
         logger.warn("Exposing all the products!");
         return ResponseEntity.ok(repository.findAll());
     }
 
-    @PostMapping()
+    @GetMapping
+    ResponseEntity<List<Product>> findAllProducts(Pageable page) {
+        logger.warn("Exposing all the products!");
+        return ResponseEntity.ok(repository.findAll(page).getContent());
+    }
+
+    @PostMapping
     ResponseEntity<Product> createProduct(@RequestBody @Valid Product toCreate) {
         Product result = repository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
@@ -36,28 +46,21 @@ public class ProductController {
 
     @PutMapping(path = "/{id}")
     ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody @Valid Product toUpdate) {
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+        try {
+            service.updateProduct(id, toUpdate);
+            return ResponseEntity.noContent().build();
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
-        repository.findById(id)
-                .ifPresent( product -> {
-                    product.updateFrom(toUpdate);
-                    repository.save(product);
-                        }
-                );
-        return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping(path = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> buyProduct(@PathVariable int id) {
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
+        try {
+            service.buyProduct(id);
+            return ResponseEntity.noContent().build();
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
-        repository.findById(id)
-                .ifPresent(product ->  {
-                    product.toogle();
-                    repository.save(product);
-                });
-        return ResponseEntity.noContent().build();
     }
 }

@@ -2,13 +2,11 @@ package pl.slowikowski.demo.model;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.scheduling.config.Task;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "products")
@@ -19,8 +17,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank(message = "Product's name must be not null and not be empty")
+    private String name;
     @NotBlank(message = "Product's description must be not null and not be empty")
     private String description;
+    @PositiveOrZero
+    private int price;
     private boolean sold;
     @Embedded
     private Audit audit = new Audit();
@@ -32,7 +34,7 @@ public class Product {
         return id;
     }
 
-    public void setId(final int id) {
+    void setId(final int id) {
         this.id = id;
     }
 
@@ -60,8 +62,23 @@ public class Product {
         this.group = group;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public void updateFrom(final Product source) {
-        this.id = source.id;
         this.description = source.description;
         this.group = source.group;
         this.sold = source.sold;
