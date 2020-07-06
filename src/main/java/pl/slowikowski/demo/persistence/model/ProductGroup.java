@@ -1,12 +1,11 @@
-package pl.slowikowski.demo.model;
+package pl.slowikowski.demo.persistence.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
@@ -18,14 +17,15 @@ public class ProductGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @NotBlank(message = "Products group's name must be not null and not be empty")
+    //@NotBlank(message = "Products group's name must be not null and not be empty")
     private String name;
-    @NotBlank(message = "Product group's description must be not null and not be empty")
+    //@NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
     @Embedded
     private Audit audit = new Audit();
-    @Valid
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    //@Valid
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", orphanRemoval = true)
+    @JsonIgnore
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
     private Set<Product> products;
 
@@ -61,9 +61,15 @@ public class ProductGroup {
         this.name = name;
     }
 
-    public void updateFrom(final ProductGroup source) {
-        this.name = source.name;
-        this.description = source.description;
-        this.products = source.products;
+    public void updateFrom(ProductGroup source) {
+        if (source.name != null) {
+            this.name = source.name;
+        }
+        if (source.description != null) {
+            this.description = source.description;
+        }
+        if(source.products != null) {
+            this.products = source.products;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.model;
+package pl.slowikowski.demo.persistence.model;
 
 import javax.persistence.Embeddable;
 import javax.persistence.PrePersist;

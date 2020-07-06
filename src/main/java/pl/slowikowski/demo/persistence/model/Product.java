@@ -1,11 +1,11 @@
-package pl.slowikowski.demo.model;
+package pl.slowikowski.demo.persistence.model;
 
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import pl.slowikowski.demo.model.ProductDTO;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
@@ -17,9 +17,9 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @NotBlank(message = "Product's name must be not null and not be empty")
+    //@NotBlank(message = "Product's name must be not null and not be empty")
     private String name;
-    @NotBlank(message = "Product's description must be not null and not be empty")
+    //@NotBlank(message = "Product's description must be not null and not be empty")
     private String description;
     @PositiveOrZero
     private int price;
@@ -29,6 +29,12 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_group_id") //jak pobieramy taska, pobieramy tez grupe
     private ProductGroup group;
+
+    public Product(String name, String description, int price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     public int getId() {
         return id;
@@ -78,13 +84,23 @@ public class Product {
         this.price = price;
     }
 
-    public void updateFrom(final Product source) {
-        this.description = source.description;
-        this.group = source.group;
-        this.sold = source.sold;
-    }
-
     public void toogle() {
         this.sold = !this.sold;
+    }
+
+    public void updateFrom(Product source) {
+        if (source.name != null) {
+            this.name = source.name;
+        }
+        if (source.description != null) {
+            this.description = source.description;
+        }
+        if (source.price >= 0) {
+            this.price = source.price;
+        }
+    }
+
+    public ProductDTO toDTO(Product source) {
+        return new ProductDTO(this);
     }
 }

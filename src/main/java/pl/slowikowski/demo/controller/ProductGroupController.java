@@ -6,9 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import pl.slowikowski.demo.logic.ProductGroupService;
-import pl.slowikowski.demo.model.ProductGroup;
-import pl.slowikowski.demo.model.ProductGroupRepository;
+import pl.slowikowski.demo.service.ProductGroupRepositoryImpl;
+import pl.slowikowski.demo.persistence.model.ProductGroup;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -18,34 +17,42 @@ import java.util.List;
 @RequestMapping("/groups")
 public class ProductGroupController {
     private static final Logger logger = LoggerFactory.getLogger(ProductGroupController.class);
-    private ProductGroupRepository repository;
-    private ProductGroupService service;
+    private ProductGroupRepositoryImpl service;
 
-    public ProductGroupController(final ProductGroupRepository repository, final ProductGroupService service) {
-        this.repository = repository;
+    public ProductGroupController(final ProductGroupRepositoryImpl service) {
         this.service = service;
     }
 
     @GetMapping(params = {"!sort", "!page", "!size"})
     ResponseEntity<List<ProductGroup>> findAllGroups() {
         logger.warn("Exposing all the product groups!");
-        return ResponseEntity.ok(repository.findAll());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping
     ResponseEntity<List<ProductGroup>> findAllGroups(Pageable page) {
         logger.warn("Exposing all the product groups!");
-        return ResponseEntity.ok(repository.findAll(page).getContent());
+        return ResponseEntity.ok(service.findAll(page));
+    }
+
+    @GetMapping(path = "/{id}")
+    ResponseEntity<ProductGroup> findGroupById(@PathVariable("id") int id) {
+        try {
+            var result = service.findById(id);
+            return ResponseEntity.ok(result);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity(e.getMessage(), e.getStatusCode());
+        }
     }
 
     @PostMapping()
     ResponseEntity<ProductGroup> createGroup(@RequestBody @Valid ProductGroup toCreate) {
-        ProductGroup result = repository.save(toCreate);
+        ProductGroup result = service.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @PutMapping(path = "/{id}")
-    ResponseEntity<?> updateGroup(@PathVariable int id, @RequestBody @Valid ProductGroup toUpdate) {
+    @PatchMapping(path = "/{id}")
+    ResponseEntity<?> updateGroup(@PathVariable("id") int id, @RequestBody @Valid ProductGroup toUpdate) {
         try {
             service.updateGroup(id, toUpdate);
             return ResponseEntity.noContent().build();
