@@ -1,10 +1,14 @@
 package pl.slowikowski.demo.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import pl.slowikowski.demo.persistence.model.Product;
 import pl.slowikowski.demo.persistence.model.ProductGroup;
 
 import java.util.Set;
 
+@Getter
+@Setter
 public class ProductGroupDTO {
     private String name;
     private String description;
@@ -14,30 +18,6 @@ public class ProductGroupDTO {
         this.name = source.getName();
         this.description = source.getDescription();
         this.products = source.getProducts();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
     }
 
     public ProductGroup toGroup() {

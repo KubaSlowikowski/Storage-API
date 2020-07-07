@@ -28,14 +28,36 @@ class ProductControllerE2ETest {
     void httpGet_returnsAllProducts() {
         //given
         final int initialSize = service.findAll().size();
-        service.save(new Product("foo", "bar", 1));
-        service.save(new Product("foo2", "bar2", 2));
+        var p1 = new Product("foo", "bar", 1);
+        var p2 = new Product("foo2", "bar2", 2);
+        service.save(p1);
+        service.save(p2);
 
         //when
         Product[] result = restTemplate.getForObject("http://localhost:" + port + "/products", Product[].class);
 
         //then
-        assertThat(result).hasSize(2);
+        assertThat(result).hasSize(initialSize + 2);
+    }
+
+    @Test
+    void httpGet_returnsSpecificProduct() {
+        //given
+        final String name = "foo";
+        final String description = "bar";
+        final int price = 123;
+        final int initialSize = service.findAll().size();
+        final int id = service.save(new Product(name, description, price)).getId();
+
+        //when
+        Product result = restTemplate.getForObject("http://localhost:" + port + "/products/" + id, Product.class);
+
+        //then
+        assertThat(result)
+                .hasFieldOrPropertyWithValue("name", name)
+                .hasFieldOrPropertyWithValue("description", description)
+                .hasFieldOrPropertyWithValue("price", price);
+        assertThat(service.findAll().size()).isEqualTo(initialSize + 1);
     }
 
 }
