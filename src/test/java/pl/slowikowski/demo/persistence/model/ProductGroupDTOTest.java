@@ -11,7 +11,7 @@ class ProductGroupDTOTest {
     @Test
     void should_create_ProductGroupDTO() {
         //given
-        var set = Set.of(new Product("foo", "bar", 123));
+        var set = getSetOfProducts();
         var source = new ProductGroup("foo", "bar", set);
         //when
         var result = new ProductGroupDTO(source);
@@ -26,7 +26,7 @@ class ProductGroupDTOTest {
     @Test
     void should_convert_from_ProductGroupDTO_to_ProductGroup() {
         //given
-        var set = Set.of(new Product("foo", "bar", 123));
+        var set = getSetOfProducts();
         var source = new ProductGroupDTO(new ProductGroup("foo", "bar", set));
         //when
         var result = source.toGroup();
@@ -36,5 +36,9 @@ class ProductGroupDTOTest {
                 .hasFieldOrPropertyWithValue("name", "foo")
                 .hasFieldOrPropertyWithValue("description", "bar")
                 .hasFieldOrPropertyWithValue("products", set);
+    }
+
+    private static Set<Product> getSetOfProducts() {
+        return Set.of(new Product("foo", "bar", 123));
     }
 }

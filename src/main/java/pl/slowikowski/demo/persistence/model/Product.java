@@ -95,7 +95,7 @@ public class Product {
         if (source.description != null) {
             this.description = source.description;
         }
-        if (source.price >= 0) {
+        if (source.price > 0) {
             this.price = source.price;
         }
     }
