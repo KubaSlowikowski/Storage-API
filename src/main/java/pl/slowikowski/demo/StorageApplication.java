@@ -8,10 +8,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import javax.validation.Validator;
 
 @SpringBootApplication
-public class DemoApplication {
+public class StorageApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(StorageApplication.class, args);
     }
 
     @Bean

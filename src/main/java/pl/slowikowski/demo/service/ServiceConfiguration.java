@@ -9,17 +9,12 @@ import pl.slowikowski.demo.persistence.repository.ProductRepository;
 class ServiceConfiguration {
 
     @Bean
-    ProductRepositoryImpl productService(
-            final ProductRepository repository,
-            final ProductGroupRepository groupRepository
-    ) {
+    ProductRepositoryImpl productService(final ProductRepository repository, final ProductGroupRepository groupRepository) {
         return new ProductRepositoryImpl(repository, groupRepository);
     }
 
     @Bean
-    ProductGroupRepositoryImpl productGroupService(
-            final ProductGroupRepository repository
-    ) {
+    ProductGroupRepositoryImpl productGroupService(final ProductGroupRepository repository) {
         return new ProductGroupRepositoryImpl(repository);
     }
 }

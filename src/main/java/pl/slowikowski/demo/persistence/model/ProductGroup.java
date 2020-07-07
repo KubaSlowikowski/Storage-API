@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import pl.slowikowski.demo.model.ProductGroupDTO;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.Set;
 
 @Entity
@@ -24,10 +25,10 @@ public class ProductGroup {
     private String description;
     @Embedded
     private Audit audit = new Audit();
-    //@Valid
+    @Valid
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", orphanRemoval = true)
-    @JsonIgnore
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
+    @JsonIgnore
     private Set<Product> products;
 
     public ProductGroup(String name, String description, Set<Product> products) {

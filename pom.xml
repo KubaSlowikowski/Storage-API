@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.slowikowski</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>Storage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
-    <description>Projekt z TT. Mini fabryka</description>
+    <description>Projekt z TT. Mini magazyn</description>
 
     <properties>
         <java.version>11</java.version>
@@ -60,6 +60,21 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+
+
+        <dependency>
+            <groupId>com.opentable.components</groupId>
+            <artifactId>otj-pg-embedded</artifactId>
+            <version>0.13.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
