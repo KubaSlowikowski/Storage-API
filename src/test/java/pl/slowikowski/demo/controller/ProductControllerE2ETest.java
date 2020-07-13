@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-import pl.slowikowski.demo.persistence.model.Product;
-import pl.slowikowski.demo.service.ProductRepositoryImpl;
+import pl.slowikowski.demo.entity.Product;
+import pl.slowikowski.demo.service.impl.ProductServiceImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static pl.slowikowski.demo.utils.Utils.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("testing")
@@ -22,42 +24,39 @@ class ProductControllerE2ETest {
     private TestRestTemplate restTemplate; //klasa do odpytywanie usług (np. strzela GET-em)
 
     @Autowired
-    ProductRepositoryImpl service;
+    ProductServiceImpl service;
 
     @Test
     void httpGet_returnsAllProducts() {
         //given
-        final int initialSize = service.findAll().size();
-        var p1 = new Product("foo", "bar", 1);
-        var p2 = new Product("foo2", "bar2", 2);
-        service.save(p1);
-        service.save(p2);
+        final int initialSize = service.findAllProducts(Pageable.unpaged()).size();
+
+        service.saveProduct(getProductDto());
+        service.saveProduct(getSecondProductDto());
 
         //when
         Product[] result = restTemplate.getForObject("http://localhost:" + port + "/products", Product[].class);
 
         //then
-        assertThat(result).hasSize(initialSize + 2);
+        assertThat(result).hasSize(initialSize + 2); //FIXME - czasami initialSize = 1 <-- dlaczego?
     }
 
     @Test
     void httpGet_returnsSpecificProduct() {
         //given
-        final String name = "foo";
-        final String description = "bar";
-        final int price = 123;
-        final int initialSize = service.findAll().size();
-        final int id = service.save(new Product(name, description, price)).getId();
+        final int initialSize = service.findAllProducts(Pageable.unpaged()).size();
+        final int id = service.saveProduct(getProductDto()).getId();
 
         //when
         Product result = restTemplate.getForObject("http://localhost:" + port + "/products/" + id, Product.class);
 
         //then
         assertThat(result)
+                .hasFieldOrPropertyWithValue("id", id)
                 .hasFieldOrPropertyWithValue("name", name)
                 .hasFieldOrPropertyWithValue("description", description)
                 .hasFieldOrPropertyWithValue("price", price);
-        assertThat(service.findAll().size()).isEqualTo(initialSize + 1);
+        assertThat(service.findAllProducts(Pageable.unpaged()).size()).isEqualTo(initialSize + 1);
     }
 
 }

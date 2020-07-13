@@ -3,62 +3,47 @@ package pl.slowikowski.demo.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import pl.slowikowski.demo.model.ProductGroupDTO;
-import pl.slowikowski.demo.persistence.model.ProductGroup;
-import pl.slowikowski.demo.service.ProductGroupRepositoryImpl;
+import pl.slowikowski.demo.service.ProductGroupService;
+import pl.slowikowski.demo.service.impl.ProductGroupServiceImpl;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
 public class ProductGroupController {
     private static final Logger logger = LoggerFactory.getLogger(ProductGroupController.class);
-    private ProductGroupRepositoryImpl service;
+    private ProductGroupService service;
 
-    public ProductGroupController(final ProductGroupRepositoryImpl service) {
+    public ProductGroupController(final ProductGroupServiceImpl service) {
         this.service = service;
     }
 
-    @GetMapping(params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<ProductGroup>> findAllGroups() {
-        logger.warn("Exposing all the product groups!");
-        return ResponseEntity.ok(service.findAll());
-    }
-
     @GetMapping
-    ResponseEntity<List<ProductGroup>> findAllGroups(Pageable page) {
+    List<ProductGroupDTO> findAllGroups(Pageable page) {
         logger.warn("Exposing all the product groups!");
-        return ResponseEntity.ok(service.findAll(page));
+        return service.findAllProductGroups(page);
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ProductGroupDTO> findGroupById(@PathVariable("id") int id) {
-        try {
-            var result = service.findById(id);
-            return ResponseEntity.ok(result);
-        } catch (HttpClientErrorException e) {
-            return new ResponseEntity(e.getMessage(), e.getStatusCode());
-        }
+    ProductGroupDTO findGroupById(@PathVariable("id") int id) {
+        return service.findById(id);
     }
 
     @PostMapping()
-    ResponseEntity<ProductGroup> createGroup(@RequestBody @Valid ProductGroup toCreate) {
-        ProductGroup result = service.save(toCreate);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    ProductGroupDTO createGroup(@RequestBody ProductGroupDTO toCreate) {
+        return service.saveProductGroup(toCreate);
     }
 
-    @PatchMapping(path = "/{id}")
-    ResponseEntity<?> updateGroup(@PathVariable("id") int id, @RequestBody @Valid ProductGroup toUpdate) {
-        try {
-            service.updateGroup(id, toUpdate);
-            return ResponseEntity.noContent().build();
-        } catch (HttpClientErrorException e) {
-            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
-        }
+    @PutMapping(path = "/{id}")
+    ProductGroupDTO updateGroup(@PathVariable("id") int id, @RequestBody @Valid ProductGroupDTO toUpdate) {
+        return service.updateGroup(id, toUpdate);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    ProductGroupDTO deleteGroup(@PathVariable("id") int id) {
+        return service.deleteProductById(id);
     }
 }
