@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -48,7 +47,7 @@ public class Product {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + price;
         result = 31 * result + (sold ? 1 : 0);
-        result = 31 * result + (group != null ? group.hashCode() : 0);
+//        result = 31 * result + (group != null ? group.getId().hashCode() : 0);
         return result;
     }
 
@@ -61,7 +60,7 @@ public class Product {
                 ", price=" + price +
                 ", sold=" + sold +
                 ", audit=" + audit +
-                ", group=" + group +
+                ", groupId=" + group.getId() +
                 '}';
     }
 

@@ -17,6 +17,7 @@ public class ProductDTO {
     @PositiveOrZero
     private int price;
     private boolean sold;
+    private int groupId;
 
     public void toogle() {
         this.sold = !this.sold;
@@ -28,6 +29,7 @@ public class ProductDTO {
         private String description;
         private int price;
         private boolean sold;
+        private int groupId;
 
         private ProductDTOBuilder() {
         }
@@ -61,6 +63,11 @@ public class ProductDTO {
             return this;
         }
 
+        public ProductDTOBuilder withGroupId(int groupId) {
+            this.groupId = groupId;
+            return this;
+        }
+
         public ProductDTO build() {
             ProductDTO productDTO = new ProductDTO();
             productDTO.setId(id);
@@ -68,6 +75,7 @@ public class ProductDTO {
             productDTO.setDescription(description);
             productDTO.setPrice(price);
             productDTO.setSold(sold);
+            productDTO.setGroupId(groupId);
             return productDTO;
         }
     }

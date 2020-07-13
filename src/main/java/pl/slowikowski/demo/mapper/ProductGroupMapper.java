@@ -7,7 +7,7 @@ import pl.slowikowski.demo.model.ProductGroupDTO;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ProductMapper.class)
 public interface ProductGroupMapper {
 
     ProductGroupMapper INSTANCE = Mappers.getMapper(ProductGroupMapper.class);

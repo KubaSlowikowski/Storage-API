@@ -1,7 +1,6 @@
 package pl.slowikowski.demo.entity;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "product_groups")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

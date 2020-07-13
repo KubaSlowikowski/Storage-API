@@ -53,9 +53,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(int id, ProductDTO toUpdate) {
-        getProductById(id);
+        var fromDatabase = getProductById(id);
         toUpdate.setId(id);
         Product result = productMapper.productDtoToProduct(toUpdate);
+        result.setAudit(fromDatabase.getAudit());
         repository.save(result);
         return toUpdate;
     }

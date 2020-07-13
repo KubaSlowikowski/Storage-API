@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ProductGroupController {
     private static final Logger logger = LoggerFactory.getLogger(ProductGroupController.class);
     private ProductGroupService service;

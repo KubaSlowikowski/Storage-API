@@ -16,8 +16,10 @@ class ProductMapperTest {
         //given
         Product product = getProduct();
         ProductDTO productDTO = getProductDto();
+
         //when
         ProductDTO result = productMapper.productToProductDto(product);
+
         //then
         assertEquals(productDTO,result);
     }
@@ -27,8 +29,10 @@ class ProductMapperTest {
         //given
         Product product = getProduct();
         ProductDTO productDTO = getProductDto();
+
         //when
         Product result = productMapper.productDtoToProduct(productDTO);
+
         //then
         assertEquals(product, result);
     }
@@ -39,8 +43,10 @@ class ProductMapperTest {
         Product product = getProduct();
         product.setId(123);
         ProductDTO productDTO = getProductDto();
+
         //when
         ProductDTO result = productMapper.productToProductDto(product);
+
         //then
         assertNotEquals(productDTO,result);
     }
@@ -51,8 +57,10 @@ class ProductMapperTest {
         Product product = getProduct();
         ProductDTO productDTO = getProductDto();
         productDTO.setName("foo");
+
         //when
         Product result = productMapper.productDtoToProduct(productDTO);
+
         //then
         assertNotEquals(product, result);
     }

@@ -1,6 +1,7 @@
 package pl.slowikowski.demo.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import pl.slowikowski.demo.entity.Product;
 import pl.slowikowski.demo.model.ProductDTO;
@@ -13,6 +14,7 @@ public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
+    @Mapping(source = "group.id", target = "groupId")
     ProductDTO productToProductDto(Product product);
 
     Product productDtoToProduct(ProductDTO productDTO);

@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService service;
@@ -21,7 +22,7 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping()
     List<ProductDTO> findAllProducts(Pageable page) {
         logger.warn("Exposing all the products!");
         return service.findAllProducts(page);
