@@ -1,9 +1,9 @@
 package pl.slowikowski.demo.utils;
 
-import pl.slowikowski.demo.entity.Product;
-import pl.slowikowski.demo.entity.ProductGroup;
-import pl.slowikowski.demo.model.ProductDTO;
-import pl.slowikowski.demo.model.ProductGroupDTO;
+import pl.slowikowski.demo.product.Product;
+import pl.slowikowski.demo.productGroup.ProductGroup;
+import pl.slowikowski.demo.product.ProductDTO;
+import pl.slowikowski.demo.productGroup.ProductGroupDTO;
 
 public class Utils {
 
