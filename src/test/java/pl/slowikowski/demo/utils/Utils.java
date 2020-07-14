@@ -1,9 +1,11 @@
 package pl.slowikowski.demo.utils;
 
 import pl.slowikowski.demo.product.Product;
-import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.product.ProductDTO;
+import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.productGroup.ProductGroupDTO;
+
+import java.util.HashSet;
 
 public class Utils {
 
@@ -71,6 +73,7 @@ public class Utils {
                 .withId(groupId)
                 .withName(groupName)
                 .withDescription(groupDescription)
+                .withProducts(new HashSet<>())
                 .build();
     }
 
@@ -79,6 +82,7 @@ public class Utils {
                 .withId(secondGroupId)
                 .withName(secondGroupName)
                 .withDescription(secondGroupDescription)
+                .withProducts(new HashSet<>())
                 .build();
     }
 
@@ -87,6 +91,7 @@ public class Utils {
                 .withId(groupId)
                 .withName(groupName)
                 .withDescription(groupDescription)
+                .withProducts(new HashSet<>())
                 .build();
     }
 }

@@ -21,6 +21,4 @@ public interface ProductMapper {
     Set<ProductDTO> productSetToProductDtoSet(Set<Product> productSet);
 
     List<ProductDTO> productsListToProductDtoList(List<Product> productList);
-
-    List<Product> productsDtoListToProductList(List<ProductDTO> productDooList);
 }

@@ -2,8 +2,14 @@ package pl.slowikowski.demo.productGroup.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
+import pl.slowikowski.demo.product.ProductMapper;
 import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.productGroup.ProductGroupMapper;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
@@ -18,15 +24,26 @@ import static org.mockito.Mockito.when;
 import static pl.slowikowski.demo.utils.Utils.getProductGroup;
 import static pl.slowikowski.demo.utils.Utils.getProductGroupDto;
 
+@RunWith(MockitoJUnitRunner.class)
 class ProductGroupServiceImplTest {
 
     @Mock
     ProductGroupRepository mockProductGroupRepository;
 
-    private final ProductGroupMapper mapper = ProductGroupMapper.INSTANCE;
+    @Spy
+    ProductGroupMapper mapper = ProductGroupMapper.INSTANCE;
+
+    @Spy
+    ProductMapper productMapper = ProductMapper.INSTANCE;
 
     @BeforeEach
-    void init_mocks() {
+    public void init_mocks() {
+        ProductMapper productMapper = Mappers.getMapper(ProductMapper.class); // Initialization of the mapper
+        ReflectionTestUtils.setField(mapper, "productMapper", productMapper);
+    }
+
+    @BeforeEach
+    void init_mocks2() {
         MockitoAnnotations.initMocks(this);
     }
 

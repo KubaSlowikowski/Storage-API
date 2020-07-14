@@ -6,7 +6,7 @@ import pl.slowikowski.demo.product.ProductMapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = ProductMapper.class)
+@Mapper(componentModel = "spring", uses = {ProductMapper.class})
 public interface ProductGroupMapper {
 
     ProductGroupMapper INSTANCE = Mappers.getMapper(ProductGroupMapper.class);
