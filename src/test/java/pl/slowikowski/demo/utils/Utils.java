@@ -31,6 +31,7 @@ public class Utils {
                 .withName(name)
                 .withDescription(description)
                 .withPrice(price)
+                .withGroup(getProductGroup())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class Utils {
                 .withName(secondName)
                 .withDescription(secondDescription)
                 .withPrice(secondPrice)
+                .withGroup(getSecondGroup())
                 .build();
     }
 

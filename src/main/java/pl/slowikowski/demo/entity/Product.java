@@ -35,19 +35,17 @@ public class Product {
         if (id != product.id) return false;
         if (price != product.price) return false;
         if (sold != product.sold) return false;
-        if (name != null ? !name.equals(product.name) : product.name != null) return false;
-        if (description != null ? !description.equals(product.description) : product.description != null) return false;
-        return group != null ? group.equals(product.group) : product.group == null;
+        if (!name.equals(product.name)) return false;
+        return description.equals(product.description);
     }
 
-    @Override //BEZ AUDYTU
+    @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
         result = 31 * result + price;
         result = 31 * result + (sold ? 1 : 0);
-//        result = 31 * result + (group != null ? group.getId().hashCode() : 0);
         return result;
     }
 

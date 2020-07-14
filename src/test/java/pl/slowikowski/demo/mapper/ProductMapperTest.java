@@ -16,6 +16,7 @@ class ProductMapperTest {
         //given
         Product product = getProduct();
         ProductDTO productDTO = getProductDto();
+        productDTO.setGroupId(product.getGroup().getId());
 
         //when
         ProductDTO result = productMapper.productToProductDto(product);
@@ -70,8 +71,6 @@ class ProductMapperTest {
         //given
         var toTest = getProduct();
         var product = getProduct();
-        product.setGroup(getProductGroup());
-        product.setGroup(null);
 
         //when
         var productDTO = productMapper.productToProductDto(product);

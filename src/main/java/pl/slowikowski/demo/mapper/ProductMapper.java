@@ -17,6 +17,7 @@ public interface ProductMapper {
     @Mapping(source = "group.id", target = "groupId")
     ProductDTO productToProductDto(Product product);
 
+    @Mapping(source = "groupId", target = "group.id")
     Product productDtoToProduct(ProductDTO productDTO);
 
     Set<ProductDTO> productSetToProductDtoSet(Set<Product> productSet);

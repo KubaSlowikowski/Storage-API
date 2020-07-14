@@ -39,16 +39,16 @@ public class ProductGroup {
         ProductGroup that = (ProductGroup) o;
 
         if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!name.equals(that.name)) return false;
+        if (!description.equals(that.description)) return false;
         return products != null ? products.equals(that.products) : that.products == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
         result = 31 * result + (products != null ? products.hashCode() : 0);
         return result;
     }
