@@ -4,7 +4,7 @@ package pl.slowikowski.demo.productGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.slowikowski.demo.Audit;
+import pl.slowikowski.demo.audit.Audit;
 import pl.slowikowski.demo.product.Product;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductGroup {
+public class ProductGroup extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,13 +25,21 @@ public class ProductGroup {
     private String name;
     //@NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
-    @Embedded
-    private Audit audit = new Audit();
     @Valid
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", orphanRemoval = true)
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
 //    @JsonIgnore
     private Set<Product> products;
+
+    @Override
+    public String toString() {
+        return "ProductGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", products=" + products +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,22 +63,14 @@ public class ProductGroup {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "ProductGroup{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", audit=" + audit +
-                ", products=" + products +
-                '}';
-    }
-
     public static final class ProductGroupBuilder {
         private int id;
+        //@NotBlank(message = "Products group's name must be not null and not be empty")
         private String name;
+        //@NotBlank(message = "Product group's description must be not null and not be empty")
         private String description;
-        private Audit audit = new Audit();
+        //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
+    //    @JsonIgnore
         private Set<Product> products;
 
         private ProductGroupBuilder() {
@@ -95,11 +95,6 @@ public class ProductGroup {
             return this;
         }
 
-        public ProductGroupBuilder withAudit(Audit audit) {
-            this.audit = audit;
-            return this;
-        }
-
         public ProductGroupBuilder withProducts(Set<Product> products) {
             this.products = products;
             return this;
@@ -110,7 +105,6 @@ public class ProductGroup {
             productGroup.setId(id);
             productGroup.setName(name);
             productGroup.setDescription(description);
-            productGroup.setAudit(audit);
             productGroup.setProducts(products);
             return productGroup;
         }

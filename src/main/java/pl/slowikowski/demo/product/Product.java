@@ -1,8 +1,10 @@
 package pl.slowikowski.demo.product;
 
 
-import lombok.*;
-import pl.slowikowski.demo.Audit;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import pl.slowikowski.demo.audit.Audit;
 import pl.slowikowski.demo.productGroup.ProductGroup;
 
 import javax.persistence.*;
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Product extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,11 +23,21 @@ public class Product {
     private String description;
     private int price;
     private boolean sold;
-    @Embedded
-    private Audit audit = new Audit();
     @ManyToOne
     @JoinColumn(name = "product_group_id") //jak pobieramy taska, pobieramy tez grupe
     private ProductGroup group;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                ", group=" + group +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -51,26 +63,13 @@ public class Product {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", sold=" + sold +
-                ", audit=" + audit +
-                ", groupId=" + group.getId() +
-                '}';
-    }
-
     public static final class ProductBuilder {
         private int id;
         private String name;
         private String description;
         private int price;
         private boolean sold;
-        private Audit audit = new Audit();
+        //jak pobieramy taska, pobieramy tez grupe
         private ProductGroup group;
 
         private ProductBuilder() {
@@ -105,11 +104,6 @@ public class Product {
             return this;
         }
 
-        public ProductBuilder withAudit(Audit audit) {
-            this.audit = audit;
-            return this;
-        }
-
         public ProductBuilder withGroup(ProductGroup group) {
             this.group = group;
             return this;
@@ -122,7 +116,6 @@ public class Product {
             product.setDescription(description);
             product.setPrice(price);
             product.setSold(sold);
-            product.setAudit(audit);
             product.setGroup(group);
             return product;
         }
