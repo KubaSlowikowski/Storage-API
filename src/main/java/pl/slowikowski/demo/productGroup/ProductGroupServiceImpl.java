@@ -40,6 +40,9 @@ public class ProductGroupServiceImpl implements ProductGroupService {
 
     @Override
     public ProductGroupDTO updateGroup(int id, ProductGroupDTO toUpdate) {
+        if (id == 1) {
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
+        }
         getGroupById(id);
         toUpdate.setId(id);
         ProductGroup result = groupMapper.groupDtoToGroup(toUpdate);
