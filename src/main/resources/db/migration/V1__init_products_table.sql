@@ -1,17 +1,21 @@
-drop table if exists products;
 create table products(
     id SERIAL PRIMARY KEY,
+    name varchar(100) not null,
     description varchar(100) not null,
-    sold bit
+    price integer,
+    sold boolean,
+    created_on timestamp,
+    updated_on timestamp
 );
 
 create table product_groups(
     id SERIAL PRIMARY KEY,
-    description varchar(100) not null
+    name varchar(100) not null,
+    description varchar(100) not null,
+    created_on timestamp,
+    updated_on timestamp
 );
 
 alter table products add column product_group_id int null;
 alter table products
 add foreign key (product_group_id) references product_groups (id);
-alter table product_groups add column created_on timestamp null;
-alter table product_groups add column updated_on timestamp null;
