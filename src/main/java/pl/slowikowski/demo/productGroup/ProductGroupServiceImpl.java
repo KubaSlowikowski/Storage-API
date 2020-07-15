@@ -1,7 +1,9 @@
 package pl.slowikowski.demo.productGroup;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import pl.slowikowski.demo.exception.NotFoundException;
 
 import java.util.List;
@@ -47,6 +49,9 @@ public class ProductGroupServiceImpl implements ProductGroupService {
 
     @Override
     public ProductGroupDTO deleteProductById(int id) {
+        if (id == 1) {
+            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
+        }
         ProductGroup result = getGroupById(id);
         repository.delete(result);
         return groupMapper.groupToGroupDto(result);
