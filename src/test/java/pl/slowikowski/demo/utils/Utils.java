@@ -19,11 +19,11 @@ public class Utils {
     public static final String secondDescription = "toy123";
     public static final int secondPrice = 22;
 
-    public static final int groupId = 1;
+    public static final int groupId = 2;
     public static final String groupName = "Sport";
     public static final String groupDescription = "Sport123";
 
-    public static final int secondGroupId = 2;
+    public static final int secondGroupId = 3;
     public static final String secondGroupName = "Sport";
     public static final String secondGroupDescription = "Sport123";
 

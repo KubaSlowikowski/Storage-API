@@ -9,7 +9,9 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import pl.slowikowski.demo.product.Product;
 import pl.slowikowski.demo.product.ProductMapper;
+import pl.slowikowski.demo.product.ProductRepository;
 import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.productGroup.ProductGroupMapper;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static pl.slowikowski.demo.utils.Utils.getProductGroup;
 import static pl.slowikowski.demo.utils.Utils.getProductGroupDto;
@@ -53,7 +56,7 @@ class ProductGroupServiceImplTest {
         var group = getProductGroup();
         when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(group));
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
         //when
         var result = toTest.findById(anyInt());
         //then
@@ -68,7 +71,7 @@ class ProductGroupServiceImplTest {
         //and
         when(mockProductGroupRepository.save(any(ProductGroup.class))).thenReturn(productGroup);
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
 
         //when
         var result = toTest.saveProductGroup(productGroupDto);
@@ -87,8 +90,12 @@ class ProductGroupServiceImplTest {
         //and
         when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(productGroup));
 
+        //and
+        var mockProductRepository = mock(ProductRepository.class);
+        when(mockProductRepository.save(any(Product.class))).thenReturn(null);
+
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
 
         //when
         var result = toTest.updateGroup(productGroup.getId(), mapper.groupToGroupDto(modifiedProduct));
@@ -107,7 +114,7 @@ class ProductGroupServiceImplTest {
         when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(productGroup));
 
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
 
         //when
         var result = toTest.deleteProductById(productGroup.getId());

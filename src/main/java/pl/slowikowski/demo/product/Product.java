@@ -28,18 +28,6 @@ public class Product extends Audit {
     private ProductGroup group;
 
     @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", sold=" + sold +
-                ", group=" + group +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -51,6 +39,18 @@ public class Product extends Audit {
         if (sold != product.sold) return false;
         if (!name.equals(product.name)) return false;
         return description.equals(product.description);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                ", groupId=" + group.getId() +
+                '}';
     }
 
     @Override
