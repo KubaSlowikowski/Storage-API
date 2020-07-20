@@ -31,7 +31,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     }
 
     private E getEntityById(int id) {
-        return commonRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "entity"));
+        return commonRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "entityName"));//FIXME
     }
 
     @Override

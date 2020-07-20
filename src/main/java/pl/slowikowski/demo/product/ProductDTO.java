@@ -1,15 +1,15 @@
 package pl.slowikowski.demo.product;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import pl.slowikowski.demo.abstraction.AbstractDto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ProductDTO {
-    @Positive
-    private int id;
+public class ProductDTO extends AbstractDto {
     @NotBlank(message = "Product's name must be not null and not be empty")
     private String name;
     @NotBlank(message = "Product's description must be not null and not be empty")

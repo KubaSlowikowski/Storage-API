@@ -1,16 +1,16 @@
 package pl.slowikowski.demo.productGroup;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import pl.slowikowski.demo.abstraction.AbstractDto;
 import pl.slowikowski.demo.product.ProductDTO;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class ProductGroupDTO {
-    @Positive
-    private int id;
+public class ProductGroupDTO extends AbstractDto {
     @NotBlank(message = "Products group's name must be not null and not be empty")
     private String name;
     @NotBlank(message = "Product group's description must be not null and not be empty")

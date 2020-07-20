@@ -3,24 +3,17 @@ package pl.slowikowski.demo.product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-import java.util.Set;
+import pl.slowikowski.demo.abstraction.CommonMapper;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
-
+public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
+    @Override
     @Mapping(source = "group.id", target = "groupId")
-    ProductDTO productToProductDto(Product product);
+    ProductDTO toDto(Product product);
 
+    @Override
     @Mapping(source = "groupId", target = "group.id")
-    Product productDtoToProduct(ProductDTO productDTO);
-
-    Set<ProductDTO> productSetToProductDtoSet(Set<Product> productSet);
-
-    Set<Product> productDtoSetToProductSet(Set<ProductDTO> productDtoSet);
-
-    List<ProductDTO> productsListToProductDtoList(List<Product> productList);
+    Product fromDto(ProductDTO dto);
 }

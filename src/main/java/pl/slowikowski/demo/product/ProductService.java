@@ -1,22 +1,12 @@
 package pl.slowikowski.demo.product;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import pl.slowikowski.demo.abstraction.CommonService;
 
 import java.util.List;
 
-public interface ProductService {
-    Page<ProductDTO> findAllProducts(Pageable page);
-
-    ProductDTO findById(int id);
+public interface ProductService extends CommonService<ProductDTO> {
 
     List<ProductDTO> findAllByGroupId(int groupId);
-
-    ProductDTO saveProduct(ProductDTO toCreate);
-
-    ProductDTO updateProduct(int id, ProductDTO toUpdate);
-
-    ProductDTO deleteProductById(int id);
 
     ProductDTO buyProduct(int id);
 }

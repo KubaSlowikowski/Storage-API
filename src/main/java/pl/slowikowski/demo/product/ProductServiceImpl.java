@@ -1,10 +1,8 @@
 package pl.slowikowski.demo.product;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.slowikowski.demo.abstraction.AbstractService;
 import pl.slowikowski.demo.exception.NotFoundException;
 import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
@@ -12,13 +10,14 @@ import pl.slowikowski.demo.productGroup.ProductGroupRepository;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends AbstractService<Product, ProductDTO> implements ProductService {
 
-    private ProductRepository repository;
-    private ProductGroupRepository groupRepository;
-    private ProductMapper productMapper;
+    private final  ProductRepository repository;
+    private final ProductGroupRepository groupRepository;
+    private final ProductMapper productMapper;
 
     public ProductServiceImpl(final ProductRepository repository, final ProductGroupRepository groupRepository, ProductMapper productMapper) {
+        super(productMapper, repository);
         this.repository = repository;
         this.groupRepository = groupRepository;
         this.productMapper = productMapper;
@@ -26,65 +25,42 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Page<ProductDTO> findAllProducts(Pageable page) {
-        var result = repository.findAll(page);
-        var content = productMapper.productsListToProductDtoList(result.getContent());
-        return new PageImpl<>(content, page, result.getTotalElements());
-    }
-
-    @Override
-    @Transactional
-    public ProductDTO findById(int id) {
-        Product result = getProductById(id);
-        return productMapper.productToProductDto(result);
-    }
-
-    @Override
-    @Transactional
     public List<ProductDTO> findAllByGroupId(int groupId) {
         getGroupById(groupId);
         List<Product> productList = repository.findAllByGroup_Id(groupId);
-        return productMapper.productsListToProductDtoList(productList);
+        return productMapper.toListDto(productList);
     }
 
     @Override
     @Transactional
-    public ProductDTO saveProduct(ProductDTO toCreate) {
+    public ProductDTO save(ProductDTO toCreate) {
         if (toCreate.getGroupId() == 0) {
             toCreate.setGroupId(1);
         }
-        Product product = productMapper.productDtoToProduct(toCreate);
+        Product product = productMapper.fromDto(toCreate);
         Product result = repository.save(product);
-        return productMapper.productToProductDto(result);
+        return productMapper.toDto(result);
     }
 
     @Override
     @Transactional
-    public ProductDTO updateProduct(int id, ProductDTO toUpdate) {
+    public ProductDTO update(int id, ProductDTO toUpdate) {
         if (toUpdate.getGroupId() == 0) {
             toUpdate.setGroupId(1);
         }
         toUpdate.setId(id);
-        Product result = productMapper.productDtoToProduct(toUpdate);
+        Product result = productMapper.fromDto(toUpdate);
         repository.save(result);
         return toUpdate;
     }
 
     @Override
     @Transactional
-    public ProductDTO deleteProductById(int id) {
-        Product result = getProductById(id);
-        repository.delete(result);
-        return productMapper.productToProductDto(result);
-    }
-
-    @Override
-    @Transactional
     public ProductDTO buyProduct(int id) {
         Product product = getProductById(id);
-        ProductDTO productDto = productMapper.productToProductDto(product);
+        ProductDTO productDto = productMapper.toDto(product);
         productDto.toogle();
-        product = productMapper.productDtoToProduct(productDto);
+        product = productMapper.fromDto(productDto);
         repository.save(product);
         return productDto;
     }
