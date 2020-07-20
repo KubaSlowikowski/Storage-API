@@ -1,5 +1,7 @@
 package pl.slowikowski.demo.productGroup;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,8 +11,6 @@ import pl.slowikowski.demo.exception.NotFoundException;
 import pl.slowikowski.demo.product.Product;
 import pl.slowikowski.demo.product.ProductMapper;
 import pl.slowikowski.demo.product.ProductRepository;
-
-import java.util.List;
 
 @Service
 public class ProductGroupServiceImpl implements ProductGroupService {
@@ -29,9 +29,10 @@ public class ProductGroupServiceImpl implements ProductGroupService {
 
     @Override
     @Transactional
-    public List<ProductGroupDTO> findAllProductGroups(Pageable page) {
-        List<ProductGroup> result = groupRepository.findAll(page).getContent();
-        return groupMapper.groupListToGroupDtoList(result);
+    public Page<ProductGroupDTO> findAllProductGroups(Pageable page) {
+        var result = groupRepository.findAll(page);
+        var content = groupMapper.groupListToGroupDtoList(result.getContent());
+        return new PageImpl<>(content, page, result.getTotalElements());
     }
 
     @Override

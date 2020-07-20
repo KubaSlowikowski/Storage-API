@@ -1,5 +1,6 @@
 package pl.slowikowski.demo.product;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    List<ProductDTO> findAllProducts(Pageable page) {
+    Page<ProductDTO> findAllProducts(Pageable page) {
         return service.findAllProducts(page);
     }
 

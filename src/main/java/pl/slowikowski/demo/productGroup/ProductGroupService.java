@@ -1,12 +1,11 @@
 package pl.slowikowski.demo.productGroup;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface ProductGroupService {
 
-    List<ProductGroupDTO> findAllProductGroups(Pageable page);
+    Page<ProductGroupDTO> findAllProductGroups(Pageable page);
 
     ProductGroupDTO findById(int id);
 

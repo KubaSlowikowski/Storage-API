@@ -1,10 +1,10 @@
 package pl.slowikowski.demo.productGroup;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
@@ -17,7 +17,7 @@ public class ProductGroupController {
     }
 
     @GetMapping
-    List<ProductGroupDTO> findAllGroups(Pageable page) {
+    Page<ProductGroupDTO> findAllGroups(Pageable page) {
         return service.findAllProductGroups(page);
     }
 

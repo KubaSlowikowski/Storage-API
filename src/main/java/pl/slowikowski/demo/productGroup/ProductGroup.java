@@ -28,7 +28,6 @@ public class ProductGroup extends Audit {
     @Valid
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
-//    @JsonIgnore
     private Set<Product> products;
 
 //    @Override

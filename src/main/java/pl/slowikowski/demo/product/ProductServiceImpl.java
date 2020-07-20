@@ -1,5 +1,7 @@
 package pl.slowikowski.demo.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,9 +26,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<ProductDTO> findAllProducts(Pageable page) {
-        List<Product> result = repository.findAll(page).getContent();
-        return productMapper.productsListToProductDtoList(result);
+    public Page<ProductDTO> findAllProducts(Pageable page) {
+        var result = repository.findAll(page);
+        var content = productMapper.productsListToProductDtoList(result.getContent());
+        return new PageImpl<>(content, page, result.getTotalElements());
     }
 
     @Override
