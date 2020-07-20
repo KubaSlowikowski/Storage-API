@@ -3,6 +3,7 @@ package pl.slowikowski.demo.productGroup;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import pl.slowikowski.demo.exception.NotFoundException;
 import pl.slowikowski.demo.product.Product;
@@ -14,38 +15,55 @@ import java.util.List;
 @Service
 public class ProductGroupServiceImpl implements ProductGroupService {
 
-    private ProductGroupRepository repository;
+    private ProductGroupRepository groupRepository;
     private ProductRepository productRepository;
     private final ProductGroupMapper groupMapper;
     private final ProductMapper productMapper;
 
     public ProductGroupServiceImpl(final ProductGroupRepository repository, final ProductRepository productRepository, final ProductGroupMapper groupMapper, final ProductMapper productMapper) {
-        this.repository = repository;
+        this.groupRepository = repository;
         this.productRepository = productRepository;
         this.groupMapper = groupMapper;
         this.productMapper = productMapper;
     }
 
     @Override
+    @Transactional
     public List<ProductGroupDTO> findAllProductGroups(Pageable page) {
-        List<ProductGroup> result = repository.findAll(page).getContent();
+        List<ProductGroup> result = groupRepository.findAll(page).getContent();
         return groupMapper.groupListToGroupDtoList(result);
     }
 
     @Override
+    @Transactional
     public ProductGroupDTO findById(int id) {
         ProductGroup result = getGroupById(id);
         return groupMapper.groupToGroupDto(result);
     }
 
     @Override
+    @Transactional
     public ProductGroupDTO saveProductGroup(ProductGroupDTO toCreate) {
-        ProductGroup group = groupMapper.groupDtoToGroup(toCreate);
-        ProductGroup result = repository.save(group);
+        var productsDto = toCreate.getProducts();
+        toCreate.setProducts(null);
+        var group = groupMapper.groupDtoToGroup(toCreate);
+        ProductGroup result = groupRepository.saveAndFlush(group);
+//after mapping TODO
+        var products = productMapper.productDtoSetToProductSet(productsDto);
+        if (products != null) {
+            products.forEach(product -> {
+                product.setGroup(result);
+                productRepository.save(product);
+            });
+        }
+        result.setProducts(products);
+        groupRepository.save(result);
+
         return groupMapper.groupToGroupDto(result);
     }
 
     @Override
+    @Transactional
     public ProductGroupDTO updateGroup(int id, ProductGroupDTO toUpdate) {
         if (id == 1) {
             throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
@@ -61,6 +79,7 @@ public class ProductGroupServiceImpl implements ProductGroupService {
                         productRepository.save(product); //will move all products to default group
                     });
         } else {
+            //modifying
             var newProducts = toUpdate.getProducts();
             for (Product product : getGroupById(id).getProducts()) {
                 if (!newProducts.contains(productMapper.productToProductDto(product))) { //will move orphan products to default group
@@ -72,37 +91,23 @@ public class ProductGroupServiceImpl implements ProductGroupService {
         }
 
         ProductGroup result = groupMapper.groupDtoToGroup(toUpdate);
-        result = updateCreationData(result, getGroupById(id));
-        repository.save(result);
+        groupRepository.save(result);
         return toUpdate;
     }
 
     @Override
+    @Transactional
     public ProductGroupDTO deleteProductById(int id) {
         if (id == 1) {
             throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
         }
         ProductGroup result = getGroupById(id);
-        repository.delete(result);
+        groupRepository.delete(result);
         return groupMapper.groupToGroupDto(result);
     }
 
     private ProductGroup getGroupById(int id) {
-        return repository.findById(id)
+        return groupRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id, ProductGroup.class.getSimpleName()));
-    }
-
-    private ProductGroup updateCreationData(ProductGroup productGroup, ProductGroup source) {
-        var updatedProducts = productGroup.getProducts();
-        updatedProducts.forEach(product -> {
-            var productFromRepo = productRepository.findById(product.getId()).get();
-            product.setCreatedOn(productFromRepo.getCreatedOn());
-            product.setCreatedBy(productFromRepo.getCreatedBy());
-        });
-        productGroup.setProducts(updatedProducts);
-
-        productGroup.setCreatedBy(source.getCreatedBy());
-        productGroup.setCreatedOn(source.getCreatedOn());
-        return productGroup;
     }
 }

@@ -2,6 +2,7 @@ package pl.slowikowski.demo.product;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.exception.NotFoundException;
 import pl.slowikowski.demo.productGroup.ProductGroup;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
@@ -22,18 +23,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public List<ProductDTO> findAllProducts(Pageable page) {
         List<Product> result = repository.findAll(page).getContent();
         return productMapper.productsListToProductDtoList(result);
     }
 
     @Override
+    @Transactional
     public ProductDTO findById(int id) {
         Product result = getProductById(id);
         return productMapper.productToProductDto(result);
     }
 
     @Override
+    @Transactional
     public List<ProductDTO> findAllByGroupId(int groupId) {
         getGroupById(groupId);
         List<Product> productList = repository.findAllByGroup_Id(groupId);
@@ -41,6 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDTO saveProduct(ProductDTO toCreate) {
         if (toCreate.getGroupId() == 0) {
             toCreate.setGroupId(1);
@@ -51,18 +56,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDTO updateProduct(int id, ProductDTO toUpdate) {
         if (toUpdate.getGroupId() == 0) {
             toUpdate.setGroupId(1);
         }
         toUpdate.setId(id);
         Product result = productMapper.productDtoToProduct(toUpdate);
-        result = updateCreationData(result, getProductById(id));
         repository.save(result);
         return toUpdate;
     }
 
     @Override
+    @Transactional
     public ProductDTO deleteProductById(int id) {
         Product result = getProductById(id);
         repository.delete(result);
@@ -70,13 +76,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDTO buyProduct(int id) {
         Product product = getProductById(id);
-        var productFromDataBase = product; //tymczasowa zmienna przechowujaca dane z Audytu
         ProductDTO productDto = productMapper.productToProductDto(product);
         productDto.toogle();
         product = productMapper.productDtoToProduct(productDto);
-        product = updateCreationData(product, productFromDataBase);
         repository.save(product);
         return productDto;
     }
@@ -89,11 +94,5 @@ public class ProductServiceImpl implements ProductService {
     private ProductGroup getGroupById(int id) {
         return groupRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(id, ProductGroup.class.getSimpleName()));
-    }
-
-    private Product updateCreationData(Product product, Product source) {
-        product.setCreatedBy(source.getCreatedBy());
-        product.setCreatedOn(source.getCreatedOn());
-        return product;
     }
 }

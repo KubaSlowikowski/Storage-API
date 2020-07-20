@@ -10,7 +10,6 @@ import pl.slowikowski.demo.product.Product;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "product_groups")
@@ -27,20 +26,20 @@ public class ProductGroup extends Audit {
     //@NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
     //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
 //    @JsonIgnore
     private Set<Product> products;
 
-    @Override
-    public String toString() {
-        return "ProductGroup{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", products=" + products.stream().map(Product::getId).collect(Collectors.toList()) +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ProductGroup{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", products=" + products.stream().map(Product::getId).collect(Collectors.toList()) +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

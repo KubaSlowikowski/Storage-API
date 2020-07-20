@@ -23,9 +23,21 @@ public class Product extends Audit {
     private String description;
     private int price;
     private boolean sold;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_group_id") //jak pobieramy taska, pobieramy tez grupe
     private ProductGroup group;
+
+    //    @Override
+//    public String toString() {
+//        return "Product{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", price=" + price +
+//                ", sold=" + sold +
+//                ", groupId=" + group.getId() +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -34,33 +46,12 @@ public class Product extends Audit {
 
         Product product = (Product) o;
 
-        if (id != product.id) return false;
-        if (price != product.price) return false;
-        if (sold != product.sold) return false;
-        if (!name.equals(product.name)) return false;
-        return description.equals(product.description);
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", sold=" + sold +
-                ", groupId=" + group.getId() +
-                '}';
+        return id == product.id;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + price;
-        result = 31 * result + (sold ? 1 : 0);
-        return result;
+        return id;
     }
 
     public static final class ProductBuilder {
