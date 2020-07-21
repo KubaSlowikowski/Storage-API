@@ -23,9 +23,6 @@ class ProductGroupMapperTest {
     @InjectMocks
     ProductGroupMapper groupMapper = ProductGroupMapper.INSTANCE;
 
-//    @Spy
-//    ProductMapper productMapper = ProductMapper.INSTANCE;
-
     @BeforeEach
     public void setUp() {
         ProductMapper productMapper = Mappers.getMapper(ProductMapper.class); // Initialization of the mapper
@@ -38,7 +35,7 @@ class ProductGroupMapperTest {
         ProductGroup group = getProductGroup();
         ProductGroupDTO groupDto = getProductGroupDto();
         //when
-        ProductGroupDTO result = groupMapper.groupToGroupDto(group);
+        ProductGroupDTO result = groupMapper.toDto(group);
         //then
         assertEquals(groupDto, result);
     }
@@ -49,7 +46,7 @@ class ProductGroupMapperTest {
         ProductGroup group = getProductGroup();
         ProductGroupDTO groupDto = getProductGroupDto();
         //when
-        ProductGroup result = groupMapper.groupDtoToGroup(groupDto);
+        ProductGroup result = groupMapper.fromDto(groupDto);
         //then
         assertEquals(group, result);
     }
@@ -61,7 +58,7 @@ class ProductGroupMapperTest {
         group.setName("foo");
         ProductGroupDTO groupDto = getProductGroupDto();
         //when
-        ProductGroupDTO result = groupMapper.groupToGroupDto(group);
+        ProductGroupDTO result = groupMapper.toDto(group);
         //then
         assertNotEquals(groupDto, result);
     }
@@ -73,7 +70,7 @@ class ProductGroupMapperTest {
         ProductGroupDTO groupDto = getProductGroupDto();
         groupDto.setName("foo");
         //when
-        ProductGroup result = groupMapper.groupDtoToGroup(groupDto);
+        ProductGroup result = groupMapper.fromDto(groupDto);
         //then
         assertNotEquals(group, result);
     }

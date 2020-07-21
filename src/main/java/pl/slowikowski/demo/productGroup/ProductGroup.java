@@ -18,23 +18,16 @@ import java.util.Set;
 @Setter
 public class ProductGroup extends AbstractEntity {
 
-    //@NotBlank(message = "Products group's name must be not null and not be empty")
     private String name;
-    //@NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
     @Valid
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group", fetch = FetchType.LAZY)
-    //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "group", fetch = FetchType.LAZY)
     private Set<Product> products;
 
     public static final class ProductGroupBuilder {
         private int id;
-        //@NotBlank(message = "Products group's name must be not null and not be empty")
         private String name;
-        //@NotBlank(message = "Product group's description must be not null and not be empty")
         private String description;
-        //CascadeType.ALL - gdy usune grupe, usuwam wszystkie produkty, mappedBy - wewnątrz każdego produktu ta grupa jest zmapowana jako 'group'
-        //    @JsonIgnore
         private Set<Product> products;
 
         private ProductGroupBuilder() {

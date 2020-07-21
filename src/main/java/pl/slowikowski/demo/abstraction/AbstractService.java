@@ -38,7 +38,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     @Transactional
     public D save(D dto) {
         E entity = commonMapper.fromDto(dto);
-        E savedResult = commonRepository.save(entity);
+        E savedResult = commonRepository.saveAndFlush(entity);
         return commonMapper.toDto(savedResult);
     }
 
@@ -47,7 +47,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     public D update(int id, D dto) {
         dto.setId(id);
         E entity = commonMapper.fromDto(dto);
-        commonRepository.save(entity);
+        commonRepository.saveAndFlush(entity);
         return dto;
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     @Transactional
     public D delete(int id) {
         E entity = getEntityById(id);
-        commonRepository.delete(entity);
+        commonRepository.deleteById(entity.getId());
         return commonMapper.toDto(entity);
     }
 }
