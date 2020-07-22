@@ -1,13 +1,11 @@
 package pl.slowikowski.demo.product;
 
-import org.mapstruct.DecoratedWith;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import pl.slowikowski.demo.abstraction.CommonMapper;
 
 @Mapper(componentModel = "spring")
-@DecoratedWith(ProductMapperDecorator.class)
+//@DecoratedWith(ProductMapperDecorator.class)
 public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
@@ -18,4 +16,11 @@ public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
     @Override
     @Mapping(source = "groupId", target = "group.id")
     Product fromDto(ProductDTO dto);
+
+    @BeforeMapping
+    default void afterMappingFromDTO(ProductDTO source) {
+        if (source.getGroupId() == 0) {
+            source.setGroupId(1);
+        }
+    }
 }
