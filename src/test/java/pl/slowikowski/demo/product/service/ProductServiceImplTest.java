@@ -4,12 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.slowikowski.demo.product.Product;
 import pl.slowikowski.demo.exception.NotFoundException;
+import pl.slowikowski.demo.product.Product;
 import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.productGroup.ProductGroupRepository;
 import pl.slowikowski.demo.product.ProductRepository;
 import pl.slowikowski.demo.product.ProductServiceImpl;
+import pl.slowikowski.demo.productGroup.ProductGroupRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +28,6 @@ class ProductServiceImplTest {
     ProductRepository mockProductRepository;
 
     private ProductMapper mapper = ProductMapper.INSTANCE;
-
-//    @InjectMocks
-//    ProductServiceImpl service;
 
     @BeforeEach
     void init_mocks() {
@@ -84,7 +81,7 @@ class ProductServiceImplTest {
 
         //then
 
-        assertThat(mapper.productDtoToProduct(result)).isEqualTo(product);
+        assertThat(mapper.fromDto(result)).isEqualTo(product);
     }
 
     @Test
@@ -93,16 +90,16 @@ class ProductServiceImplTest {
         var product = getProduct();
         var productDto = getProductDto();
         //and
-        when(mockProductRepository.save(any(Product.class))).thenReturn(product);
+        when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(product);
 
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
-        var result = toTest.saveProduct(productDto);
+        var result = toTest.save(productDto);
 
         //then
-        assertThat(mapper.productDtoToProduct(result)).isEqualTo(product);
+        assertThat(mapper.fromDto(result)).isEqualTo(product);
     }
 
     @Test
@@ -117,10 +114,10 @@ class ProductServiceImplTest {
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
-        var result = toTest.updateProduct(product.getId(), mapper.productToProductDto(modifiedProduct));
+        var result = toTest.update(product.getId(), mapper.toDto(modifiedProduct));
 
         //then
-        assertThat(mapper.productDtoToProduct(result)).isEqualTo(modifiedProduct);
+        assertThat(mapper.fromDto(result)).isEqualTo(modifiedProduct);
     }
 
     @Test
@@ -129,32 +126,37 @@ class ProductServiceImplTest {
         var product = getProduct();
         //and
         when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
-        var result = toTest.deleteProductById(product.getId());
+        var result = toTest.delete(product.getId());
 
         //then
-        assertThat(mapper.productDtoToProduct(result)).isEqualTo(product);
+        assertThat(mapper.fromDto(result)).isEqualTo(product);
     }
 
     @Test
     void should_buy_project_by_id() {
         //given
         var product = getProduct();
+        var changedProduct = getProduct();
+        changedProduct.setSold(!changedProduct.isSold());
         //and
         when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+        when(mockProductRepository.saveAndFlush(changedProduct)).thenReturn(changedProduct);
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
         var result = toTest.buyProduct(product.getId());
+
         //and
         product.setSold(!product.isSold());
 
         //then
-        assertThat(mapper.productDtoToProduct(result)).isEqualTo(product);
+        assertThat(mapper.fromDto(result)).isEqualTo(product);
     }
 
     @Test
@@ -178,7 +180,7 @@ class ProductServiceImplTest {
         //then
         assertThat(result)
                 .hasSize(1)
-                .containsExactly(mapper.productToProductDto(product));
+                .containsExactly(mapper.toDto(product));
     }
 
     @Test

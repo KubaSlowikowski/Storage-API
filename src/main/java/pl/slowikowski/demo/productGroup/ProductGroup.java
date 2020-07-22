@@ -24,6 +24,33 @@ public class ProductGroup extends AbstractEntity {
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "group", fetch = FetchType.LAZY)
     private Set<Product> products;
 
+    @Override
+    public String toString() {
+        return "ProductGroup{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductGroup that = (ProductGroup) o;
+
+        if (getId() != that.getId()) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        return products != null ? products.equals(that.products) : that.products == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * getId();
+        return result;
+    }
+
     public static final class ProductGroupBuilder {
         private int id;
         private String name;

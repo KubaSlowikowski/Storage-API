@@ -1,14 +1,12 @@
 package pl.slowikowski.demo.productGroup;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import pl.slowikowski.demo.abstraction.AbstractDto;
 import pl.slowikowski.demo.product.ProductDTO;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 public class ProductGroupDTO extends AbstractDto {
     @NotBlank(message = "Products group's name must be not null and not be empty")
@@ -16,6 +14,32 @@ public class ProductGroupDTO extends AbstractDto {
     @NotBlank(message = "Product group's description must be not null and not be empty")
     private String description;
     private Set<ProductDTO> products;
+
+    @Override
+    public String toString() {
+        return "ProductGroupDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductGroupDTO that = (ProductGroupDTO) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        return products != null ? products.equals(that.products) : that.products == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * getId();
+        return result;
+    }
 
     public static final class ProductGroupDTOBuilder {
         private int id;

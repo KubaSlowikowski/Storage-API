@@ -2,8 +2,9 @@ package pl.slowikowski.demo.product.mapper;
 
 import org.junit.jupiter.api.Test;
 import pl.slowikowski.demo.product.Product;
-import pl.slowikowski.demo.product.ProductMapper;
 import pl.slowikowski.demo.product.ProductDTO;
+import pl.slowikowski.demo.product.ProductMapper;
+import pl.slowikowski.demo.product.ProductMapperImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -12,7 +13,7 @@ import static pl.slowikowski.demo.utils.Utils.getProductDto;
 
 class ProductMapperTest {
 
-    ProductMapper productMapper = ProductMapper.INSTANCE;
+    ProductMapper productMapper = ProductMapperImpl.INSTANCE;
 
     @Test
     void should_map_product_to_productDto() {
@@ -22,7 +23,7 @@ class ProductMapperTest {
         productDTO.setGroupId(product.getGroup().getId());
 
         //when
-        ProductDTO result = productMapper.productToProductDto(product);
+        ProductDTO result = productMapper.toDto(product);
 
         //then
         assertEquals(productDTO,result);
@@ -35,7 +36,7 @@ class ProductMapperTest {
         ProductDTO productDTO = getProductDto();
 
         //when
-        Product result = productMapper.productDtoToProduct(productDTO);
+        Product result = productMapper.fromDto(productDTO);
 
         //then
         assertEquals(product, result);
@@ -49,7 +50,7 @@ class ProductMapperTest {
         ProductDTO productDTO = getProductDto();
 
         //when
-        ProductDTO result = productMapper.productToProductDto(product);
+        ProductDTO result = productMapper.toDto(product);
 
         //then
         assertNotEquals(productDTO,result);
@@ -63,7 +64,7 @@ class ProductMapperTest {
         productDTO.setName("foo");
 
         //when
-        Product result = productMapper.productDtoToProduct(productDTO);
+        Product result = productMapper.fromDto(productDTO);
 
         //then
         assertNotEquals(product, result);
@@ -76,8 +77,8 @@ class ProductMapperTest {
         var product = getProduct();
 
         //when
-        var productDTO = productMapper.productToProductDto(product);
-        var result  = productMapper.productDtoToProduct(productDTO);
+        var productDTO = productMapper.toDto(product);
+        var result  = productMapper.fromDto(productDTO);
 
         //then
         assertEquals(result, toTest);

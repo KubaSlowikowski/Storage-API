@@ -21,7 +21,7 @@ import static pl.slowikowski.demo.utils.Utils.getProductGroupDto;
 class ProductGroupMapperTest {
 
     @InjectMocks
-    ProductGroupMapper groupMapper = ProductGroupMapper.INSTANCE;
+    ProductGroupMapper groupMapper = Mappers.getMapper(ProductGroupMapper.class);
 
     @BeforeEach
     public void setUp() {

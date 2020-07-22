@@ -24,13 +24,42 @@ public class Product extends AbstractEntity {
     @JoinColumn(name = "product_group_id") //jak pobieramy taska, pobieramy tez grupe
     private ProductGroup group;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (getId() != product.getId()) return false;
+        if (price != product.price) return false;
+        if (sold != product.sold) return false;
+        if (name != null ? !name.equals(product.name) : product.name != null) return false;
+        return description != null ? description.equals(product.description) : product.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * getId();
+        return result;
+    }
+
     public static final class ProductBuilder {
         private int id;
         private String name;
         private String description;
         private int price;
         private boolean sold;
-        //jak pobieramy taska, pobieramy tez grupe
         private ProductGroup group;
 
         private ProductBuilder() {

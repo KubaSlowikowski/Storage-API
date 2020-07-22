@@ -94,20 +94,4 @@ public class Utils {
                 .withProducts(new HashSet<>())
                 .build();
     }
-
-    public static ProductDTO getProductDTOForDataBase() {
-        return ProductDTO.ProductDTOBuilder.aProductDTO()
-                .withName(name)
-                .withDescription(description)
-                .withPrice(price)
-                .build();
-    }
-
-    public static ProductGroupDTO getProductGroupDTOForDataBase() {
-        return ProductGroupDTO.ProductGroupDTOBuilder.aProductGroupDTO()
-                .withName(groupName)
-                .withDescription(groupDescription)
-                .withProducts(null)
-                .build();
-    }
 }

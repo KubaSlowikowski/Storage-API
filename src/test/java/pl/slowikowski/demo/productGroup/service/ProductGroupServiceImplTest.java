@@ -17,6 +17,7 @@ import pl.slowikowski.demo.productGroup.ProductGroupMapper;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
 import pl.slowikowski.demo.productGroup.ProductGroupServiceImpl;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +33,9 @@ class ProductGroupServiceImplTest {
 
     @Mock
     ProductGroupRepository mockProductGroupRepository;
+
+    @Mock
+    ProductRepository mockProductRepository;
 
     @Spy
     ProductGroupMapper mapper = ProductGroupMapper.INSTANCE;
@@ -60,7 +64,7 @@ class ProductGroupServiceImplTest {
         //when
         var result = toTest.findById(anyInt());
         //then
-        assertThat(mapper.groupDtoToGroup(result)).isEqualTo(group);
+        assertThat(mapper.fromDto(result)).isEqualTo(group);
     }
 
     @Test
@@ -69,15 +73,15 @@ class ProductGroupServiceImplTest {
         var productGroup = getProductGroup();
         var productGroupDto = getProductGroupDto();
         //and
-        when(mockProductGroupRepository.save(any(ProductGroup.class))).thenReturn(productGroup);
+        when(mockProductGroupRepository.saveAndFlush(any(ProductGroup.class))).thenReturn(productGroup);
         //system under test
         var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
 
         //when
-        var result = toTest.saveProductGroup(productGroupDto);
+        var result = toTest.save(productGroupDto);
 
         //then
-        assertThat(mapper.groupDtoToGroup(result)).isEqualTo(productGroup);
+        assertThat(mapper.fromDto(result)).isEqualTo(productGroup);
     }
 
     @Test
@@ -92,16 +96,16 @@ class ProductGroupServiceImplTest {
 
         //and
         var mockProductRepository = mock(ProductRepository.class);
-        when(mockProductRepository.save(any(Product.class))).thenReturn(null);
+        when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(null);
 
         //system under test
         var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
 
         //when
-        var result = toTest.updateGroup(productGroup.getId(), mapper.groupToGroupDto(modifiedProduct));
+        var result = toTest.update(productGroup.getId(), mapper.toDto(modifiedProduct));
 
         //then
-        assertThat(mapper.groupDtoToGroup(result)).isEqualTo(modifiedProduct);
+        assertThat(mapper.fromDto(result)).isEqualTo(modifiedProduct);
 
     }
 
@@ -112,14 +116,15 @@ class ProductGroupServiceImplTest {
 
         //and
         when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(productGroup));
+        when(mockProductRepository.findAllByGroup_Id(anyInt())).thenReturn(Collections.emptyList());
 
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
 
         //when
-        var result = toTest.deleteProductById(productGroup.getId());
+        var result = toTest.delete(productGroup.getId());
 
         //then
-        assertThat(mapper.groupDtoToGroup(result)).isEqualTo(productGroup);
+        assertThat(mapper.fromDto(result)).isEqualTo(productGroup);
     }
 }

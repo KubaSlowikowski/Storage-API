@@ -1,13 +1,11 @@
 package pl.slowikowski.demo.product;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import pl.slowikowski.demo.abstraction.AbstractDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 public class ProductDTO extends AbstractDto {
     @NotBlank(message = "Product's name must be not null and not be empty")
@@ -21,6 +19,35 @@ public class ProductDTO extends AbstractDto {
 
     public void toogle() {
         this.sold = !this.sold;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductDTO that = (ProductDTO) o;
+        if (getId() != that.getId()) return false;
+        if (price != that.price) return false;
+        if (sold != that.sold) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return description != null ? description.equals(that.description) : that.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * getId();
+        return result;
     }
 
     public static final class ProductDTOBuilder {
