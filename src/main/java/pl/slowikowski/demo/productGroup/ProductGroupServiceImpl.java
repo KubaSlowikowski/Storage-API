@@ -1,10 +1,9 @@
 package pl.slowikowski.demo.productGroup;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import pl.slowikowski.demo.abstraction.AbstractService;
+import pl.slowikowski.demo.exception.GroupModifyingForbiddenException;
 import pl.slowikowski.demo.product.ProductMapper;
 import pl.slowikowski.demo.product.ProductRepository;
 
@@ -37,7 +36,7 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     @Transactional
     public ProductGroupDTO update(int id, ProductGroupDTO toUpdate) {
         if (id == 1) {
-            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
+            throw new GroupModifyingForbiddenException();
         }
         toUpdate.setId(id);
 
@@ -57,7 +56,7 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     @Transactional
     public ProductGroupDTO delete(int id) {
         if (id == 1) {
-            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
+            throw new GroupModifyingForbiddenException();
         }
         var products = productMapper.toListDto(productRepository.findAllByGroup_Id(id)); //cause of ProductGroup --> @OneToMany CascadeType.MERGE
         products.forEach(productDTO -> {
