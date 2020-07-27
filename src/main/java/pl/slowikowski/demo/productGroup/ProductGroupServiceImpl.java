@@ -60,11 +60,7 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
         if (id == 1) {
             throw new GroupModifyingForbiddenException();
         }
-        var products = productMapper.toListDto(productRepository.findAllByGroup_Id(id)); //cause of ProductGroup --> @OneToMany CascadeType.MERGE
-        products.forEach(productDTO -> {
-            productDTO.setGroupId(1);
-            productRepository.saveAndFlush(productMapper.fromDto(productDTO));
-        });
+        productRepository.assignProductsFromGroupWithIdToSystemGroup(id);
         var dto = findById(id);
         groupRepository.deleteById(dto.getId());
         return dto;
