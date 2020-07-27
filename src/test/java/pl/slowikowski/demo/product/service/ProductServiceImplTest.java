@@ -4,11 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import pl.slowikowski.demo.exception.NotFoundException;
-import pl.slowikowski.demo.product.Product;
-import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.product.ProductRepository;
-import pl.slowikowski.demo.product.ProductServiceImpl;
+import pl.slowikowski.demo.product.*;
 import pl.slowikowski.demo.productGroup.ProductGroupRepository;
 
 import java.util.List;
@@ -34,20 +34,23 @@ class ProductServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-//    @Test
-//    void should_find_All_products() {
-//        //given
-//        List<ProductDTO> list = List.of(getProductDto());
-//
-//        //and
-//        when(mockProductRepository.findAll(Pageable.unpaged())).thenReturn((Page<Product>) mapper.productsDtoListToProductList(list));
-//
-//        //system under test
-//        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
-//
-//        //when +then
-//        assertThat(toTest.findAllProducts(Pageable.unpaged())).isEqualTo(list);
-//    }
+    @Test
+    void should_find_all_products() {
+        //given
+        List<ProductDTO> dtoList = List.of(getProductDto());
+        List<Product> list = List.of(getProduct());
+
+        //and
+        when(mockProductRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(new PageImpl<>(list));
+
+        //system under test
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+
+        //when +then
+        assertThat(toTest.getAll(Specification.where(null), Pageable.unpaged()).getContent())
+                .isEqualTo(dtoList)
+                .hasSize(list.size());
+    }
 
     @Test
     void should_not_find_product_by_id_and_throw_HttpClientErrorException() {
