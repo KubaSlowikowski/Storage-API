@@ -74,8 +74,10 @@ class ProductGroupServiceImplTest {
         var productGroupDto = getProductGroupDto();
         //and
         when(mockProductGroupRepository.saveAndFlush(any(ProductGroup.class))).thenReturn(productGroup);
+        when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(null);
+
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
 
         //when
         var result = toTest.save(productGroupDto);

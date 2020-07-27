@@ -2,9 +2,10 @@ package pl.slowikowski.demo.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface CommonService<D> {
-    Page<D> getAll(Pageable page);
+    Page<D> getAll(Specification specs, Pageable page);
 
     D findById(int id);
 

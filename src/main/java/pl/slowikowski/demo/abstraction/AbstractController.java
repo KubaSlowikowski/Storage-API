@@ -1,9 +1,9 @@
 package pl.slowikowski.demo.abstraction;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -16,8 +16,8 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping
-    Page<E> findAll(Pageable page) {
-        return service.getAll(page);
+    Page<E> findAll(@SearchSpec Specification<E> specs, Pageable page) {
+        return service.getAll(specs, page);
     }
 
     @GetMapping(path = "/{id}")

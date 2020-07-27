@@ -28,7 +28,9 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     public ProductGroupDTO save(ProductGroupDTO dto) {
         var entity = groupMapper.fromDto(dto);
         var savedResult = groupRepository.saveAndFlush(entity);
-        entity.getProducts().forEach(productRepository::saveAndFlush);
+        if(entity.getProducts() != null) {
+            entity.getProducts().forEach(productRepository::saveAndFlush);
+        }
         return groupMapper.toDto(savedResult);
     }
 

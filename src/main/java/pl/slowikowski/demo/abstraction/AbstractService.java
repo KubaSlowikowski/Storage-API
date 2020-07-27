@@ -3,11 +3,12 @@ package pl.slowikowski.demo.abstraction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.exception.NotFoundException;
 
 public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDto> implements CommonService<D> {
-    protected final CommonMapper<E,D> commonMapper;
+    protected final CommonMapper<E, D> commonMapper;
     protected final CommonRepository<E> commonRepository;
 
     public AbstractService(CommonMapper<E, D> commonMapper, CommonRepository<E> commonRepository) {
@@ -17,8 +18,8 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public Page<D> getAll(Pageable page) {
-        var result = commonRepository.findAll(page);
+    public Page<D> getAll(Specification specs, Pageable page) {
+        var result = commonRepository.findAll(specs, page);
         var content = commonMapper.toListDto(result.getContent());
         return new PageImpl<>(content, page, result.getTotalElements());
     }
