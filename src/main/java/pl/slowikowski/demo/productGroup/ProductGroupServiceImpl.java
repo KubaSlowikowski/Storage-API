@@ -26,11 +26,28 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
 
     @Override
     @Transactional
+    public ProductGroupDTO save(ProductGroupDTO dto) {
+        var entity = groupMapper.fromDto(dto);
+        var savedResult = groupRepository.saveAndFlush(entity);
+        entity.getProducts().forEach(productRepository::saveAndFlush);
+        return groupMapper.toDto(savedResult);
+    }
+
+    @Override
+    @Transactional
     public ProductGroupDTO update(int id, ProductGroupDTO toUpdate) {
         if (id == 1) {
             throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "This group is required for the website to function properly");
         }
         toUpdate.setId(id);
+
+        var systemGroup = getEntityById(1);
+        var previousVersionOfGroup = getEntityById(id);
+
+        previousVersionOfGroup
+                .getProducts()
+                .forEach(product -> product.setGroup(systemGroup));
+
         ProductGroup result = groupMapper.fromDto(toUpdate);
         groupRepository.save(result);
         return groupMapper.toDto(result);

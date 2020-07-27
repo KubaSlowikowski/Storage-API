@@ -18,7 +18,7 @@ public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
     Product fromDto(ProductDTO dto);
 
     @BeforeMapping
-    default void afterMappingFromDTO(ProductDTO source) {
+    default void beforeMappingFromDTO(ProductDTO source) {
         if (source.getGroupId() == 0) {
             source.setGroupId(1);
         }

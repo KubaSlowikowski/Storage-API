@@ -30,7 +30,8 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
         return commonMapper.toDto(entity);
     }
 
-    private E getEntityById(int id) {
+    @Transactional
+    public E getEntityById(int id) {
         return commonRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "entityName"));//FIXME
     }
 
