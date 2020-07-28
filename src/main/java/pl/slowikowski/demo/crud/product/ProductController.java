@@ -1,7 +1,7 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
 import org.springframework.web.bind.annotation.*;
-import pl.slowikowski.demo.abstraction.AbstractController;
+import pl.slowikowski.demo.crud.abstraction.AbstractController;
 
 import java.util.List;
 

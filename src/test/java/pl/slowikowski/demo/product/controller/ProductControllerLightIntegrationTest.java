@@ -2,7 +2,7 @@ package pl.slowikowski.demo.product.controller;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.ActiveProfiles;
-import pl.slowikowski.demo.product.ProductController;
+import pl.slowikowski.demo.crud.product.ProductController;
 
 @WebMvcTest(ProductController.class)
 @ActiveProfiles("integration")

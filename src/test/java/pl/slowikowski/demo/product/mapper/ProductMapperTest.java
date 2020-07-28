@@ -1,15 +1,17 @@
 package pl.slowikowski.demo.product.mapper;
 
 import org.junit.jupiter.api.Test;
-import pl.slowikowski.demo.product.Product;
-import pl.slowikowski.demo.product.ProductDTO;
-import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.product.ProductMapperImpl;
+import pl.slowikowski.demo.crud.product.Product;
+import pl.slowikowski.demo.crud.product.ProductDTO;
+import pl.slowikowski.demo.crud.product.ProductMapper;
+import pl.slowikowski.demo.crud.product.ProductMapperImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static pl.slowikowski.demo.utils.Utils.getProduct;
 import static pl.slowikowski.demo.utils.Utils.getProductDto;
+
+//import pl.slowikowski.demo.product.ProductMapperImpl;
 
 class ProductMapperTest {
 

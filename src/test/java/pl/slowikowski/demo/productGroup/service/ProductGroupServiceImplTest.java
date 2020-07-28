@@ -12,10 +12,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
-import pl.slowikowski.demo.product.Product;
-import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.product.ProductRepository;
-import pl.slowikowski.demo.productGroup.*;
+import pl.slowikowski.demo.crud.product.Product;
+import pl.slowikowski.demo.crud.product.ProductMapper;
+import pl.slowikowski.demo.crud.product.ProductRepository;
+import pl.slowikowski.demo.crud.productGroup.*;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,6 +1,6 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
-import pl.slowikowski.demo.abstraction.CommonService;
+import pl.slowikowski.demo.crud.abstraction.CommonService;
 
 import java.util.List;
 

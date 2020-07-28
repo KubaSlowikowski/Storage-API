@@ -1,11 +1,11 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.slowikowski.demo.abstraction.AbstractEntity;
-import pl.slowikowski.demo.productGroup.ProductGroup;
+import pl.slowikowski.demo.crud.abstraction.AbstractEntity;
+import pl.slowikowski.demo.crud.productGroup.ProductGroup;
 
 import javax.persistence.*;
 

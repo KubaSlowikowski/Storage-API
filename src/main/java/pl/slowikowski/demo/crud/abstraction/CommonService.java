@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.abstraction;
+package pl.slowikowski.demo.crud.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

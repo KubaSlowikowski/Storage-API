@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.audit;
+package pl.slowikowski.demo.crud.audit;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

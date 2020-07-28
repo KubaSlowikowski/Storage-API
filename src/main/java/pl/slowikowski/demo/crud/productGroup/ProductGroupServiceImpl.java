@@ -1,11 +1,11 @@
-package pl.slowikowski.demo.productGroup;
+package pl.slowikowski.demo.crud.productGroup;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.slowikowski.demo.abstraction.AbstractService;
-import pl.slowikowski.demo.exception.GroupModifyingForbiddenException;
-import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.product.ProductRepository;
+import pl.slowikowski.demo.crud.abstraction.AbstractService;
+import pl.slowikowski.demo.crud.exception.GroupModifyingForbiddenException;
+import pl.slowikowski.demo.crud.product.ProductMapper;
+import pl.slowikowski.demo.crud.product.ProductRepository;
 
 @Service
 public class ProductGroupServiceImpl extends AbstractService<ProductGroup, ProductGroupDTO> implements ProductGroupService {

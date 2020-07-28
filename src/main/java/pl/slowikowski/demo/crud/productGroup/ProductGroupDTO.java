@@ -1,8 +1,8 @@
-package pl.slowikowski.demo.productGroup;
+package pl.slowikowski.demo.crud.productGroup;
 
 import lombok.Data;
-import pl.slowikowski.demo.abstraction.AbstractDto;
-import pl.slowikowski.demo.product.ProductDTO;
+import pl.slowikowski.demo.crud.abstraction.AbstractDto;
+import pl.slowikowski.demo.crud.product.ProductDTO;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;

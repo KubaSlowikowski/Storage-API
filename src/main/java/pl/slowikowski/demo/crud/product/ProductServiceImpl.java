@@ -1,11 +1,11 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.slowikowski.demo.abstraction.AbstractService;
-import pl.slowikowski.demo.exception.NotFoundException;
-import pl.slowikowski.demo.productGroup.ProductGroup;
-import pl.slowikowski.demo.productGroup.ProductGroupRepository;
+import pl.slowikowski.demo.crud.abstraction.AbstractService;
+import pl.slowikowski.demo.crud.exception.NotFoundException;
+import pl.slowikowski.demo.crud.productGroup.ProductGroup;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
 
 import java.util.List;
 

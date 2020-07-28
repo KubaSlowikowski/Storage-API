@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.abstraction;
+package pl.slowikowski.demo.crud.abstraction;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.domain.Page;

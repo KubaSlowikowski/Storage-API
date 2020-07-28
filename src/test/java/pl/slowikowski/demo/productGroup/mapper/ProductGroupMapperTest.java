@@ -7,10 +7,10 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import pl.slowikowski.demo.product.ProductMapper;
-import pl.slowikowski.demo.productGroup.ProductGroup;
-import pl.slowikowski.demo.productGroup.ProductGroupDTO;
-import pl.slowikowski.demo.productGroup.ProductGroupMapper;
+import pl.slowikowski.demo.crud.product.ProductMapper;
+import pl.slowikowski.demo.crud.productGroup.ProductGroup;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupDTO;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

@@ -1,8 +1,8 @@
-package pl.slowikowski.demo.productGroup;
+package pl.slowikowski.demo.crud.productGroup;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.slowikowski.demo.abstraction.AbstractController;
+import pl.slowikowski.demo.crud.abstraction.AbstractController;
 
 @RestController
 @RequestMapping("/groups")

@@ -1,7 +1,7 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
 import lombok.Data;
-import pl.slowikowski.demo.abstraction.AbstractDto;
+import pl.slowikowski.demo.crud.abstraction.AbstractDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;

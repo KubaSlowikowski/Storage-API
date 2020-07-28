@@ -1,8 +1,8 @@
-package pl.slowikowski.demo.product;
+package pl.slowikowski.demo.crud.product;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import pl.slowikowski.demo.abstraction.CommonMapper;
+import pl.slowikowski.demo.crud.abstraction.CommonMapper;
 
 @Mapper(componentModel = "spring")
 //@DecoratedWith(ProductMapperDecorator.class)

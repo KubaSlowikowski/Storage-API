@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.exception;
+package pl.slowikowski.demo.crud.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

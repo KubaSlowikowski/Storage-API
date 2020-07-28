@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.exception;
+package pl.slowikowski.demo.crud.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(int id, String className) {

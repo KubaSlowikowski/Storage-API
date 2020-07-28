@@ -1,11 +1,11 @@
-package pl.slowikowski.demo.abstraction;
+package pl.slowikowski.demo.crud.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
-import pl.slowikowski.demo.exception.NotFoundException;
+import pl.slowikowski.demo.crud.exception.NotFoundException;
 
 public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDto> implements CommonService<D> {
     protected final CommonMapper<E, D> commonMapper;

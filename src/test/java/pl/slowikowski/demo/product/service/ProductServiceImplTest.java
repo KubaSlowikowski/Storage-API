@@ -7,9 +7,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import pl.slowikowski.demo.exception.NotFoundException;
-import pl.slowikowski.demo.product.*;
-import pl.slowikowski.demo.productGroup.ProductGroupRepository;
+import pl.slowikowski.demo.crud.exception.NotFoundException;
+import pl.slowikowski.demo.crud.product.*;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
 
 import java.util.List;
 import java.util.Optional;

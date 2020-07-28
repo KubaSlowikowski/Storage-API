@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.abstraction;
+package pl.slowikowski.demo.crud.abstraction;
 
 import java.util.List;
 import java.util.Set;
