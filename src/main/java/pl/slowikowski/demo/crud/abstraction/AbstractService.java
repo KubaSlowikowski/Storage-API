@@ -26,13 +26,13 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public D findById(int id) {
+    public D findById(Long id) {
         E entity = getEntityById(id);
         return commonMapper.toDto(entity);
     }
 
     @Transactional
-    public E getEntityById(int id) {
+    public E getEntityById(Long id) {
         return commonRepository.findById(id).orElseThrow(() -> new NotFoundException(id, "entityName"));//FIXME
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public D update(int id, D dto) {
+    public D update(Long id, D dto) {
         dto.setId(id);
         E entity = commonMapper.fromDto(dto);
         commonRepository.saveAndFlush(entity);
@@ -55,7 +55,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public D delete(int id) {
+    public D delete(Long id) {
         E entity = getEntityById(id);
         commonRepository.deleteById(entity.getId());
         return commonMapper.toDto(entity);

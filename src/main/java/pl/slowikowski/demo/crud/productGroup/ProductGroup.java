@@ -47,12 +47,12 @@ public class ProductGroup extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int result = 31 * getId();
+        int result = (int) (31 * getId());
         return result;
     }
 
     public static final class ProductGroupBuilder {
-        private int id;
+        private Long id;
         private String name;
         private String description;
         private Set<Product> products;
@@ -64,7 +64,7 @@ public class ProductGroup extends AbstractEntity {
             return new ProductGroupBuilder();
         }
 
-        public ProductGroupBuilder withId(int id) {
+        public ProductGroupBuilder withId(Long id) {
             this.id = id;
             return this;
         }

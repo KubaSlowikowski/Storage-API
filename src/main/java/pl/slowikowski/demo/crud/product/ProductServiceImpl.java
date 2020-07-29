@@ -25,7 +25,7 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDTO> imp
 
     @Override
     @Transactional
-    public List<ProductDTO> findAllByGroupId(int groupId) {
+    public List<ProductDTO> findAllByGroupId(Long groupId) {
         groupRepository.findById(groupId).orElseThrow(() -> new NotFoundException(groupId, ProductGroup.class.getSimpleName()));
         List<Product> productList = repository.findAllByGroup_Id(groupId);
         return productMapper.toListDto(productList);
@@ -33,7 +33,7 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDTO> imp
 
     @Override
     @Transactional
-    public ProductDTO buyProduct(int id) {
+    public ProductDTO buyProduct(Long id) {
         ProductDTO productDto = findById(id);
         productDto.toogle();
         Product product = productMapper.fromDto(productDto);

@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @Setter
 public abstract class AbstractEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @CreationTimestamp
     @Column(updatable = false)

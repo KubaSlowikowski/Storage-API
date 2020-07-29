@@ -1,24 +1,24 @@
-create table products
-(
-    id          SERIAL PRIMARY KEY,
-    name        varchar(100) not null,
-    description varchar(100) not null,
-    price       integer,
-    sold        boolean,
-    created_on  timestamp,
-    updated_on  timestamp
-);
-
 create table product_groups
 (
-    id          SERIAL PRIMARY KEY,
+    id          bigserial PRIMARY KEY,
     name        varchar(100) not null,
     description varchar(100) not null,
     created_on  timestamp,
-    updated_on  timestamp
+    updated_on  timestamp,
+    created_by  varchar(100) default null,
+    modified_by varchar(100) default null
 );
 
-alter table products
-    add column product_group_id int null;
-alter table products
-    add foreign key (product_group_id) references product_groups (id);
+create table products
+(
+    id               bigserial PRIMARY KEY,
+    name             varchar(100) not null,
+    description      varchar(100) not null,
+    price            integer,
+    sold             boolean,
+    product_group_id bigserial    default null references product_groups (id),
+    created_on       timestamp,
+    updated_on       timestamp,
+    created_by       varchar(100) default null,
+    modified_by      varchar(100) default null
+);

@@ -21,7 +21,7 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping(path = "/{id}")
-    E findAllById(@PathVariable("id") int id) {
+    E findAllById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
 
@@ -31,12 +31,12 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @PutMapping(path = "/{id}")
-    E update(@PathVariable("id") int id, @RequestBody E dto) {
+    E update(@PathVariable("id") Long id, @RequestBody E dto) {
         return service.update(id, dto);
     }
 
     @DeleteMapping(path = "/{id}")
-    E delete(@PathVariable("id") int id) {
+    E delete(@PathVariable("id") Long id) {
         return service.delete(id);
     }
 }

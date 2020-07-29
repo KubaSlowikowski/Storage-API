@@ -50,12 +50,12 @@ public class Product extends AbstractEntity {
 
     @Override
     public int hashCode() {
-        int result = 31 * getId();
+        int result = (int) (31 * getId());
         return result;
     }
 
     public static final class ProductBuilder {
-        private int id;
+        private Long id;
         private String name;
         private String description;
         private int price;
@@ -69,7 +69,7 @@ public class Product extends AbstractEntity {
             return new ProductBuilder();
         }
 
-        public ProductBuilder withId(int id) {
+        public ProductBuilder withId(Long id) {
             this.id = id;
             return this;
         }

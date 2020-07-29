@@ -9,21 +9,21 @@ import java.util.HashSet;
 
 public class Utils {
 
-    public static final int id = 1;
+    public static final Long id = 1L;
     public static final String name = "Bike";
     public static final String description = "bike123";
     public static final int price = 11;
 
-    public static final int secondId = 2;
+    public static final Long secondId = 2L;
     public static final String secondName = "Toy";
     public static final String secondDescription = "toy123";
     public static final int secondPrice = 22;
 
-    public static final int groupId = 2;
+    public static final Long groupId = 2L;
     public static final String groupName = "Sport";
     public static final String groupDescription = "Sport123";
 
-    public static final int secondGroupId = 3;
+    public static final Long secondGroupId = 3L;
     public static final String secondGroupName = "Sport";
     public static final String secondGroupDescription = "Sport123";
 

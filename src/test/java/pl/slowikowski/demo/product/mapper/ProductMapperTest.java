@@ -48,7 +48,7 @@ class ProductMapperTest {
     void shouldnt_map_product_to_productDto() {
         //given
         Product product = getProduct();
-        product.setId(123);
+        product.setId(123L);
         ProductDTO productDTO = getProductDto();
 
         //when

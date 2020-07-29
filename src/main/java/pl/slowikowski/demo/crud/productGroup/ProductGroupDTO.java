@@ -37,12 +37,12 @@ public class ProductGroupDTO extends AbstractDto {
 
     @Override
     public int hashCode() {
-        int result = 31 * getId();
+        int result = (int) (31 * getId());
         return result;
     }
 
     public static final class ProductGroupDTOBuilder {
-        private int id;
+        private Long id;
         private String name;
         private String description;
         private Set<ProductDTO> products;
@@ -54,7 +54,7 @@ public class ProductGroupDTO extends AbstractDto {
             return new ProductGroupDTOBuilder();
         }
 
-        public ProductGroupDTOBuilder withId(int id) {
+        public ProductGroupDTOBuilder withId(Long id) {
             this.id = id;
             return this;
         }

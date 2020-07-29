@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class AbstractDto {
-    private int id;
+    private Long id;
 }

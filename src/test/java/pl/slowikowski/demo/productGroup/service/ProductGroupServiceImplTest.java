@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static pl.slowikowski.demo.utils.Utils.getProductGroup;
@@ -79,11 +78,11 @@ class ProductGroupServiceImplTest {
     void should_find_productGroup_by_id() {
         //given
         var group = getProductGroup();
-        when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(group));
+        when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(group));
         //system under test
         var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
         //when
-        var result = toTest.findById(anyInt());
+        var result = toTest.findById(anyLong());
         //then
         assertThat(mapper.fromDto(result)).isEqualTo(group);
     }
@@ -115,7 +114,7 @@ class ProductGroupServiceImplTest {
         modifiedProduct.setDescription("changedDesc");
 
         //and
-        when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(productGroup));
+        when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(productGroup));
 
         //and
         var mockProductRepository = mock(ProductRepository.class);
@@ -138,8 +137,8 @@ class ProductGroupServiceImplTest {
         var productGroup = getProductGroup();
 
         //and
-        when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(productGroup));
-        when(mockProductRepository.findAllByGroup_Id(anyInt())).thenReturn(Collections.emptyList());
+        when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(productGroup));
+        when(mockProductRepository.findAllByGroup_Id(anyLong())).thenReturn(Collections.emptyList());
 
         //system under test
         var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);

@@ -16,8 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static pl.slowikowski.demo.utils.Utils.*;
@@ -55,13 +54,13 @@ class ProductServiceImplTest {
     @Test
     void should_not_find_product_by_id_and_throw_HttpClientErrorException() {
         //given
-        when(mockProductRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockProductRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
-        var exception = catchThrowable(() -> toTest.findById(anyInt()));
+        var exception = catchThrowable(() -> toTest.findById(anyLong()));
 
         //then
         assertThat(exception)
@@ -74,13 +73,13 @@ class ProductServiceImplTest {
         var product = getProduct();
 
         //and
-        when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+        when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
         //when
-        var result = toTest.findById(anyInt());
+        var result = toTest.findById(anyLong());
 
         //then
 
@@ -112,7 +111,7 @@ class ProductServiceImplTest {
         var modifiedProduct = getProduct();
         modifiedProduct.setDescription("qwerty");
         //and
-        when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+        when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
 
@@ -128,7 +127,7 @@ class ProductServiceImplTest {
         //given
         var product = getProduct();
         //and
-        when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+        when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
@@ -147,7 +146,7 @@ class ProductServiceImplTest {
         var changedProduct = getProduct();
         changedProduct.setSold(!changedProduct.isSold());
         //and
-        when(mockProductRepository.findById(anyInt())).thenReturn(Optional.of(product));
+        when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
         when(mockProductRepository.saveAndFlush(changedProduct)).thenReturn(changedProduct);
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
@@ -168,17 +167,17 @@ class ProductServiceImplTest {
         var product = getProduct();
 
         //and
-        when(mockProductRepository.findAllByGroup_Id(anyInt())).thenReturn(List.of(product));
+        when(mockProductRepository.findAllByGroup_Id(anyLong())).thenReturn(List.of(product));
 
         //and
         ProductGroupRepository mockProductGroupRepository = mock(ProductGroupRepository.class);
-        when(mockProductGroupRepository.findById(anyInt())).thenReturn(Optional.of(getProductGroup()));
+        when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(getProductGroup()));
 
         //system under test
         var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
 
         //when
-        var result = toTest.findAllByGroupId(anyInt());
+        var result = toTest.findAllByGroupId(anyLong());
 
         //then
         assertThat(result)
@@ -198,7 +197,7 @@ class ProductServiceImplTest {
         var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
 
         //when
-        var exception = catchThrowable(() -> toTest.findAllByGroupId(anyInt()));
+        var exception = catchThrowable(() -> toTest.findAllByGroupId(anyLong()));
 
         //then
         assertThat(exception)

@@ -15,7 +15,7 @@ public class ProductDTO extends AbstractDto {
     @PositiveOrZero
     private int price;
     private boolean sold;
-    private int groupId;
+    private Long groupId;
 
     public void toogle() {
         this.sold = !this.sold;
@@ -46,17 +46,17 @@ public class ProductDTO extends AbstractDto {
 
     @Override
     public int hashCode() {
-        int result = 31 * getId();
+        int result = (int) (31 * getId());
         return result;
     }
 
     public static final class ProductDTOBuilder {
-        private int id;
+        private Long id;
         private String name;
         private String description;
         private int price;
         private boolean sold;
-        private int groupId;
+        private Long groupId;
 
         private ProductDTOBuilder() {
         }
@@ -65,7 +65,7 @@ public class ProductDTO extends AbstractDto {
             return new ProductDTOBuilder();
         }
 
-        public ProductDTOBuilder withId(int id) {
+        public ProductDTOBuilder withId(Long id) {
             this.id = id;
             return this;
         }
@@ -90,7 +90,7 @@ public class ProductDTO extends AbstractDto {
             return this;
         }
 
-        public ProductDTOBuilder withGroupId(int groupId) {
+        public ProductDTOBuilder withGroupId(Long groupId) {
             this.groupId = groupId;
             return this;
         }

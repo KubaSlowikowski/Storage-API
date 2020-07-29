@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductService extends CommonService<ProductDTO> {
 
-    List<ProductDTO> findAllByGroupId(int groupId);
+    List<ProductDTO> findAllByGroupId(Long groupId);
 
-    ProductDTO buyProduct(int id);
+    ProductDTO buyProduct(Long id);
 }

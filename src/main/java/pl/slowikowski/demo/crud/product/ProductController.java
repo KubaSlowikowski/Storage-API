@@ -17,12 +17,12 @@ public class ProductController extends AbstractController<ProductService, Produc
     }
 
     @GetMapping(path = "/all/{id}")
-    List<ProductDTO> findAllProductsByGroupId(@PathVariable("id") int groupId) {
+    List<ProductDTO> findAllProductsByGroupId(@PathVariable("id") Long groupId) {
         return service.findAllByGroupId(groupId);
     }
 
     @PostMapping(path = "/{id}")
-    ProductDTO buyProduct(@PathVariable int id) {
+    ProductDTO buyProduct(@PathVariable Long id) {
         return service.buyProduct(id);
     }
 }

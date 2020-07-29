@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CommonRepository<Product> {
 
-    List<Product> findAllByGroup_Id(Integer groupId);
+    List<Product> findAllByGroup_Id(Long groupId);
 
     @Modifying
     @Query(value = "UPDATE public.products SET product_group_id=1 where product_group_id=:id", nativeQuery = true)
-    void assignProductsFromGroupWithIdToSystemGroup(@Param("id") int id);
+    void assignProductsFromGroupWithIdToSystemGroup(@Param("id") Long id);
 }

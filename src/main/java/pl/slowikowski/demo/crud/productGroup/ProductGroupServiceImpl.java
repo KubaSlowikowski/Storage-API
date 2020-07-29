@@ -26,6 +26,9 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     @Override
     @Transactional
     public ProductGroupDTO save(ProductGroupDTO dto) {
+        if (dto.getId() == 1) {
+            throw new GroupModifyingForbiddenException();
+        }
         var entity = groupMapper.fromDto(dto);
         var savedResult = groupRepository.saveAndFlush(entity);
         if(entity.getProducts() != null) {
@@ -36,13 +39,13 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
 
     @Override
     @Transactional
-    public ProductGroupDTO update(int id, ProductGroupDTO toUpdate) {
+    public ProductGroupDTO update(Long id, ProductGroupDTO toUpdate) {
         if (id == 1) {
             throw new GroupModifyingForbiddenException();
         }
         toUpdate.setId(id);
 
-        var systemGroup = getEntityById(1);
+        var systemGroup = getEntityById(1L);
         var previousVersionOfGroup = getEntityById(id);
 
         previousVersionOfGroup
@@ -56,7 +59,7 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
 
     @Override
     @Transactional
-    public ProductGroupDTO delete(int id) {
+    public ProductGroupDTO delete(Long id) {
         if (id == 1) {
             throw new GroupModifyingForbiddenException();
         }
