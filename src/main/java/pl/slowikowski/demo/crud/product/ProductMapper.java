@@ -4,8 +4,7 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import pl.slowikowski.demo.crud.abstraction.CommonMapper;
 
-@Mapper(componentModel = "spring")
-//@DecoratedWith(ProductMapperDecorator.class)
+@Mapper(componentModel = "spring", nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
 public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
@@ -19,7 +18,7 @@ public interface ProductMapper extends CommonMapper<Product, ProductDTO> {
 
     @BeforeMapping
     default void beforeMappingFromDTO(ProductDTO source) {
-        if (source.getGroupId() == 0) {
+        if (source.getGroupId() == null || source.getGroupId() == 0L) {
             source.setGroupId(1L);
         }
     }

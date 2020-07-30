@@ -26,7 +26,7 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     @Override
     @Transactional
     public ProductGroupDTO save(ProductGroupDTO dto) {
-        if (dto.getId() == 1) {
+        if (dto.getId()!=null && dto.getId() == 1) {
             throw new GroupModifyingForbiddenException();
         }
         var entity = groupMapper.fromDto(dto);

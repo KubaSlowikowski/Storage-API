@@ -4,6 +4,7 @@ import lombok.Data;
 import pl.slowikowski.demo.crud.abstraction.AbstractDto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 @Data
@@ -15,6 +16,7 @@ public class ProductDTO extends AbstractDto {
     @PositiveOrZero
     private int price;
     private boolean sold;
+    @Positive
     private Long groupId;
 
     public void toogle() {

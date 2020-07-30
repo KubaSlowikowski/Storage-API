@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public abstract class AbstractController<T extends CommonService<E>, E extends AbstractDto>  {
 
@@ -21,17 +23,17 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping(path = "/{id}")
-    E findAllById(@PathVariable("id") Long id) {
+    E findById(@PathVariable("id") Long id) {
         return service.findById(id);
     }
 
     @PostMapping
-    E save(@RequestBody E dto) {
+    E save(@Valid @RequestBody E dto) {
         return service.save(dto);
     }
 
     @PutMapping(path = "/{id}")
-    E update(@PathVariable("id") Long id, @RequestBody E dto) {
+    E update(@PathVariable("id") Long id, @Valid @RequestBody E dto) {
         return service.update(id, dto);
     }
 

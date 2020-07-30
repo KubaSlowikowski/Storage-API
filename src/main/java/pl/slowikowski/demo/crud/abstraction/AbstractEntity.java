@@ -30,8 +30,8 @@ public abstract class AbstractEntity implements Serializable {
 
     @CreatedBy
     @Column(updatable = false)
-    private String createdBy;
+    private Long createdBy;
 
     @LastModifiedBy
-    private String modifiedBy;
+    private Long modifiedBy;
 }
