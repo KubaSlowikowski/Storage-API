@@ -5,9 +5,9 @@ create table products
     description      varchar(100) not null,
     price            integer,
     sold             boolean,
-    product_group_id bigserial    not null references product_groups (id),
+    product_group_id bigserial references product_groups (id),
     created_on       timestamp,
     updated_on       timestamp,
-    created_by       varchar(100) default null,
-    modified_by      varchar(100) default null
+    created_by       bigint null,
+    modified_by      bigint null
 );

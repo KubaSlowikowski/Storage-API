@@ -5,6 +5,6 @@ create table product_groups
     description varchar(100) not null,
     created_on  timestamp,
     updated_on  timestamp,
-    created_by  varchar(100) default null,
-    modified_by varchar(100) default null
+    created_by  bigint null,
+    modified_by bigint null
 );
