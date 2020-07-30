@@ -3,12 +3,10 @@ package pl.slowikowski.demo.product.searchSpecification;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import pl.slowikowski.demo.crud.abstraction.SearchCriteria;
 import pl.slowikowski.demo.crud.product.Product;
 import pl.slowikowski.demo.crud.product.ProductRepository;
@@ -22,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static pl.slowikowski.demo.utils.Utils.getProduct;
 import static pl.slowikowski.demo.utils.Utils.getSecondProduct;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+//@RunWith(SpringRunner.class)
 @ActiveProfiles("testing")
 class ProductSearchSpecificationE2ETest {
 

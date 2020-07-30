@@ -27,7 +27,9 @@ public class ProductGroupSearchSpecificationBuilder /*extends AbstractSearchSpec
         List<Specification> specs = params.stream()
                 .map(ProductGroupSearchSpecification::new)
                 .collect(Collectors.toList());
-
+//FIXME sprobowac tworzyc cale Specification naraz, a nie oddzielnie jak wyzej
+// FIXME w AbstractSearchSpecification dodac w CASE'ach ENUMy zamiast stringow
+// FIXME zobaczyc, czy w ogole ProductSearchSpecification jest mi potrzebny, bo moze jest niepotrzebną warstwą pośrednią
         Specification result = specs.get(0);
 
         for (int i = 1; i < params.size(); i++) {
