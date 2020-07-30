@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
+import pl.slowikowski.demo.crud.exception.WrongIdException;
 
 public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDto> implements CommonService<D> {
     protected final CommonMapper<E, D> commonMapper;
@@ -47,7 +48,9 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     @Override
     @Transactional
     public D update(Long id, D dto) {
-        dto.setId(id);
+        if(id < 1 || dto.getId() != id) {
+            throw new WrongIdException(id);
+        }
         E entity = commonMapper.fromDto(dto);
         commonRepository.saveAndFlush(entity);
         return dto;
