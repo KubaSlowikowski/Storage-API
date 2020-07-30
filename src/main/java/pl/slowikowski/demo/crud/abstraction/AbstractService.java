@@ -3,7 +3,6 @@ package pl.slowikowski.demo.crud.abstraction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
@@ -19,8 +18,8 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public Page<D> getAll(Specification specs, Pageable page) {
-        var result = commonRepository.findAll(specs, page);
+    public Page<D> getAll(Pageable page) {
+        var result = commonRepository.findAll(page);
         var content = commonMapper.toListDto(result.getContent());
         return new PageImpl<>(content, page, result.getTotalElements());
     }

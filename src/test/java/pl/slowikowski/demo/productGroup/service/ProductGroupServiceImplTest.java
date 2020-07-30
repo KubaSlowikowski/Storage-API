@@ -8,21 +8,21 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 import pl.slowikowski.demo.crud.product.Product;
 import pl.slowikowski.demo.crud.product.ProductMapper;
 import pl.slowikowski.demo.crud.product.ProductRepository;
-import pl.slowikowski.demo.crud.productGroup.*;
+import pl.slowikowski.demo.crud.productGroup.ProductGroup;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupMapper;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
+import pl.slowikowski.demo.crud.productGroup.ProductGroupServiceImpl;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static pl.slowikowski.demo.utils.Utils.getProductGroup;
@@ -54,25 +54,25 @@ class ProductGroupServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    void should_find_all_productGroups() {
-        //given
-        List<ProductGroupDTO> dtoList = List.of(getProductGroupDto());
-        List<ProductGroup> list = List.of(getProductGroup());
-
-        //and
-        when(mockProductGroupRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(new PageImpl<>(list));
-
-        //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
-
-        //when
-        assertThat(toTest.getAll(Specification.where(null), Pageable.unpaged()).getContent())
-                .isEqualTo(dtoList)
-                .hasSize(list.size());
-
-        //then
-    }
+//    @Test
+//    void should_find_all_productGroups() {
+//        //given
+//        List<ProductGroupDTO> dtoList = List.of(getProductGroupDto());
+//        List<ProductGroup> list = List.of(getProductGroup());
+//
+//        //and
+//        when(mockProductGroupRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(new PageImpl<>(list));
+//
+//        //system under test
+//        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
+//
+//        //when
+//        assertThat(toTest.getAll(Specification.where(null), Pageable.unpaged()).getContent())
+//                .isEqualTo(dtoList)
+//                .hasSize(list.size());
+//
+//        //then
+//    }
 
     @Test
     void should_find_productGroup_by_id() {

@@ -5,4 +5,16 @@ spring:
     password: 'kuba'
   jpa:
     hibernate:
-      ddl-auto: 'create'
+      ddl-auto: 'create-drop'
+    properties:
+      hibernate:
+        dialect: 'org.hibernate.dialect.PostgreSQLDialect'
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  flyway:
+    enabled: false
+storage:
+  app:
+    jwtSecret: 'KubaSecretKey'
+    jwtExpirationMs: 86400000

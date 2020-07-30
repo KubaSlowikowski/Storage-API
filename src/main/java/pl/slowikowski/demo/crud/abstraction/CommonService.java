@@ -2,12 +2,11 @@ package pl.slowikowski.demo.crud.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @PreAuthorize("hasRole('MODERATOR')")
 public interface CommonService<D> {
-    Page<D> getAll(Specification specs, Pageable page);
+    Page<D> getAll(Pageable page);
 
     D findById(Long id);
 

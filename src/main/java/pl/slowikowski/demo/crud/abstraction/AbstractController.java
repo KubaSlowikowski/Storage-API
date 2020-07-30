@@ -1,9 +1,7 @@
 package pl.slowikowski.demo.crud.abstraction;
 
-import com.sipios.springsearch.anotation.SearchSpec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,8 +16,8 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping
-    Page<E> findAll(@SearchSpec Specification<E> specs, Pageable page) {
-        return service.getAll(specs, page);
+    Page<E> findAll(Pageable page) {
+        return service.getAll(page);
     }
 
     @GetMapping(path = "/{id}")
