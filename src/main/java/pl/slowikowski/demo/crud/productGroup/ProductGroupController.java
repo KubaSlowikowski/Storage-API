@@ -1,9 +1,11 @@
 package pl.slowikowski.demo.crud.productGroup;
 
+import com.google.common.base.Joiner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.crud.abstraction.AbstractController;
+import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,14 +25,16 @@ public class ProductGroupController extends AbstractController<ProductGroupServi
 
 
 
-    @RequestMapping(method = RequestMethod.GET, value = "/search")
+    @GetMapping("/search")
     @ResponseBody
     public List<ProductGroupDTO> search(@RequestParam(value = "search") String search) {
         ProductGroupSearchSpecificationBuilder builder = new ProductGroupSearchSpecificationBuilder();
-        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),", Pattern.UNICODE_CHARACTER_CLASS); //2nd arg - non english characters
+        String operationSetExper = Joiner.on("|")
+                .join(SearchOperation.SIMPLE_OPERATION_SET);
+        Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
         Matcher matcher = pattern.matcher(search + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
         }
 
         Specification<ProductGroup> spec = builder.build();
