@@ -14,11 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import pl.slowikowski.demo.security.jwt.AuthEntryPointJwt;
 import pl.slowikowski.demo.security.jwt.AuthTokenFilter;
 import pl.slowikowski.demo.security.services.UserDetailsServiceImpl;
 
+//@Profile("!testing")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -60,8 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-//                .antMatchers("/groups/**").permitAll()
-//                .antMatchers("/products/**").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
