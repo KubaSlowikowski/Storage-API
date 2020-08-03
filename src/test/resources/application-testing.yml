@@ -12,6 +12,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+    database: postgresql
   flyway:
     enabled: false
 storage:

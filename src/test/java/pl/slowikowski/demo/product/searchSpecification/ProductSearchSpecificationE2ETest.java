@@ -1,12 +1,15 @@
 package pl.slowikowski.demo.product.searchSpecification;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import pl.slowikowski.demo.crud.abstraction.SearchCriteria;
 import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 import pl.slowikowski.demo.crud.product.Product;
@@ -21,9 +24,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static pl.slowikowski.demo.utils.Utils.getProduct;
 import static pl.slowikowski.demo.utils.Utils.getSecondProduct;
 
-@SpringBootTest
-//@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@RunWith(SpringRunner.class)
 @ActiveProfiles("testing")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) //aby @BeforeAll nie musialo byc static
 class ProductSearchSpecificationE2ETest {
 
     @Autowired
@@ -36,7 +40,7 @@ class ProductSearchSpecificationE2ETest {
     private static Product toy;
     private static ProductGroup group;
 
-    @BeforeEach
+    @BeforeAll
     void init() {
         group = new ProductGroup();
         group.setName("name");
@@ -55,11 +59,10 @@ class ProductSearchSpecificationE2ETest {
         toy = productRepository.saveAndFlush(toy);
     }
 
-    @AfterEach
+    @AfterAll
     void cleanup() {
-        productRepository.delete(bike);
-        productRepository.delete(toy);
-        groupRepository.delete(group);
+        productRepository.deleteAll();
+        groupRepository.deleteAll();
     }
     @Test
     void givenDescription_whenGettingListOfProducts_thenCorrect() {

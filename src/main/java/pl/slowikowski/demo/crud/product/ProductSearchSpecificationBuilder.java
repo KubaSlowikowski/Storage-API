@@ -4,10 +4,16 @@ import org.springframework.data.jpa.domain.Specification;
 import pl.slowikowski.demo.crud.abstraction.SearchCriteria;
 import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecificationBuilder<Product>*/ {
+
     private List<SearchCriteria> params;
+
+    public ProductSearchSpecificationBuilder() {
+        params = new ArrayList<>();
+    }
 
     public ProductSearchSpecificationBuilder with(
             String key, String operation, Object value, String prefix, String suffix) {
