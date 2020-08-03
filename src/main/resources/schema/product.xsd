@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://jakub.slowikowski.pl/soap-example"
+           targetNamespace="http://jakub.slowikowski.pl/soap-example">
+
+    <xs:element name="getProduct"> <!--pobieranie produktu-->
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getResponse"> <!--zwracanie produktu-->
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="product" type="tns:product"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="product"> <!--co bedzie szlo w response-->
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="price" type="xs:int"/>
+            <xs:element name="sold" type="xs:boolean"/>
+            <xs:element name="groupId" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
