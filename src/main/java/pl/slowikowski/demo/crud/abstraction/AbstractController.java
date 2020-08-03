@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-public abstract class AbstractController<T extends CommonService<E>, E extends AbstractDto>  {
+public abstract class AbstractController<T extends CommonService<E>, E extends AbstractDto> {
 
     private final T service;
 
@@ -16,8 +16,8 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping
-    Page<E> findAll(Pageable page) {
-        return service.getAll(page);
+    Page<E> findAll(Pageable page, @RequestParam(value = "search") String search) {
+        return service.getAll(page, search);
     }
 
     @GetMapping(path = "/{id}")

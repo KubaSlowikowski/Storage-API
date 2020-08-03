@@ -29,7 +29,7 @@ import static pl.slowikowski.demo.utils.Utils.getSecondProduct;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("testing")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) //aby @BeforeAll nie musialo byc static
-class ProductSearchSpecificationE2ETest {
+class ProductSearchSpecificationIntegrationTest {
 
     @Autowired
     private ProductRepository productRepository;

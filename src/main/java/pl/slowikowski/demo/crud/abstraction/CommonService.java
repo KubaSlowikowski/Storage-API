@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @PreAuthorize("hasRole('MODERATOR')")
 public interface CommonService<D> {
-    Page<D> getAll(Pageable page);
+    Page<D> getAll(Pageable page, String search);
 
     D findById(Long id);
 
