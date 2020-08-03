@@ -7,10 +7,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public abstract class AbstractSearchSpecification<E extends AbstractEntity> implements Specification<E> {
+public class CommonSearchSpecification<E extends AbstractEntity> implements Specification<E> {
     private SearchCriteria criteria;
 
-    protected AbstractSearchSpecification(final SearchCriteria criteria) {
+    public CommonSearchSpecification(final SearchCriteria criteria) {
         this.criteria = criteria;
     }
 
@@ -42,5 +42,9 @@ public abstract class AbstractSearchSpecification<E extends AbstractEntity> impl
             default:
                 return null;
         }
+    }
+
+    public SearchCriteria getCriteria() {
+        return criteria;
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.crud.abstraction.AbstractController;
+import pl.slowikowski.demo.crud.abstraction.CommonSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class ProductController extends AbstractController<ProductService, Produc
     }
 
     private Specification<Product> resolveSpecification(String searchParameters) {
-        ProductSearchSpecificationBuilder builder = new ProductSearchSpecificationBuilder();
+        CommonSearchSpecificationBuilder<Product> builder = new CommonSearchSpecificationBuilder();
         String operationSetExper = Joiner.on("|")
                 .join(SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile(

@@ -1,25 +1,22 @@
-package pl.slowikowski.demo.crud.product;
+package pl.slowikowski.demo.crud.abstraction;
 
 import org.springframework.data.jpa.domain.Specification;
-import pl.slowikowski.demo.crud.abstraction.SearchCriteria;
-import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecificationBuilder<Product>*/ {
-
+public class CommonSearchSpecificationBuilder<E extends AbstractEntity> {
     private List<SearchCriteria> params;
 
-    public ProductSearchSpecificationBuilder() {
+    public CommonSearchSpecificationBuilder() {
         params = new ArrayList<>();
     }
 
-    public final ProductSearchSpecificationBuilder with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
+    public final CommonSearchSpecificationBuilder with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
         return with(null, key, operation, value, prefix, suffix);
     }
 
-    public ProductSearchSpecificationBuilder with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
+    public CommonSearchSpecificationBuilder with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
 
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
@@ -40,27 +37,28 @@ public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecifica
         return this;
     }
 
-    public Specification<Product> build() {
+    public Specification<E> build() {
         if (params.size() == 0) {
             return null;
         }
-        Specification<Product> result = new ProductSearchSpecification(params.get(0));
+        Specification<E> result = new CommonSearchSpecification<E>(params.get(0));
 
         for (int i = 1; i < params.size(); i++) {
             result = params.get(i).isOrPredicate()
-                    ? Specification.where(result).or(new ProductSearchSpecification(params.get(i)))
-                    : Specification.where(result).and(new ProductSearchSpecification(params.get(i)));
+                    ? Specification.where(result).or(new CommonSearchSpecification<E>(params.get(i)))
+                    : Specification.where(result).and(new CommonSearchSpecification<E>(params.get(i)));
         }
         return result;
     }
 
-    public final ProductSearchSpecificationBuilder with(ProductSearchSpecification spec) {
+    public final CommonSearchSpecificationBuilder with(CommonSearchSpecification spec) {
         params.add(spec.getCriteria());
         return this;
     }
 
-    public final ProductSearchSpecificationBuilder with(SearchCriteria criteria) {
+    public final CommonSearchSpecificationBuilder with(SearchCriteria criteria) {
         params.add(criteria);
         return this;
     }
+
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.crud.abstraction.AbstractController;
+import pl.slowikowski.demo.crud.abstraction.CommonSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class ProductGroupController extends AbstractController<ProductGroupServi
     @GetMapping("/search")
     @ResponseBody
     public List<ProductGroupDTO> search(@RequestParam(value = "search") String search) {
-        ProductGroupSearchSpecificationBuilder builder = new ProductGroupSearchSpecificationBuilder();
+        CommonSearchSpecificationBuilder<ProductGroup> builder = new CommonSearchSpecificationBuilder();
         String operationSetExper = Joiner.on("|")
                 .join(SearchOperation.SIMPLE_OPERATION_SET);
         Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");

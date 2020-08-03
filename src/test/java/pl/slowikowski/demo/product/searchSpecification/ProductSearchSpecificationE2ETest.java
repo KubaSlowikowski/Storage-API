@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import pl.slowikowski.demo.crud.abstraction.CommonSearchSpecification;
+import pl.slowikowski.demo.crud.abstraction.CommonSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.abstraction.SearchCriteria;
 import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 import pl.slowikowski.demo.crud.product.Product;
 import pl.slowikowski.demo.crud.product.ProductRepository;
-import pl.slowikowski.demo.crud.product.ProductSearchSpecification;
-import pl.slowikowski.demo.crud.product.ProductSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.productGroup.ProductGroup;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
 
@@ -39,11 +39,10 @@ class ProductSearchSpecificationE2ETest {
 
     private static Product bike;
     private static Product toy;
-    private static ProductGroup group;
 
     @BeforeAll
     void init() {
-        group = new ProductGroup();
+        ProductGroup group = new ProductGroup();
         group.setName("name");
         group.setDescription("desc");
         group = groupRepository.saveAndFlush(group);
@@ -68,7 +67,7 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenDescription_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.CONTAINS, "iption"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("description", SearchOperation.CONTAINS, "iption"));
         List<Product> results = productRepository.findAll(spec);
 
         assertThat(results)
@@ -80,8 +79,8 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenNameAndDescription_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("name", SearchOperation.EQUALITY, "Toy"));
-        ProductSearchSpecification spec2 = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.EQUALITY, "toy description"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("name", SearchOperation.EQUALITY, "Toy"));
+        CommonSearchSpecification<Product> spec2 = new CommonSearchSpecification<>(new SearchCriteria("description", SearchOperation.EQUALITY, "toy description"));
 
         List<Product> results = productRepository.findAll(Specification.where(spec).and(spec2));
 
@@ -94,9 +93,9 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenDescriptionAndPriceRange_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("price", SearchOperation.GREATER_THAN, "15"));
-        ProductSearchSpecification spec2 = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.ENDS_WITH, "description"));
-        ProductSearchSpecification spec3 = new ProductSearchSpecification(new SearchCriteria("price", SearchOperation.LESS_THAN, "150"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("price", SearchOperation.GREATER_THAN, "15"));
+        CommonSearchSpecification<Product> spec2 = new CommonSearchSpecification<>(new SearchCriteria("description", SearchOperation.ENDS_WITH, "description"));
+        CommonSearchSpecification<Product> spec3 = new CommonSearchSpecification<>(new SearchCriteria("price", SearchOperation.LESS_THAN, "150"));
 
         List<Product> results = productRepository.findAll(Specification.where(spec).and(spec2).and(spec3));
 
@@ -109,8 +108,8 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenWrongNameAndDescription_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("name", SearchOperation.LIKE, "kjfldshafiuyseuin"));
-        ProductSearchSpecification spec2 = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.LIKE, "aieuswrydhi54fb"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("name", SearchOperation.LIKE, "kjfldshafiuyseuin"));
+        CommonSearchSpecification<Product> spec2 = new CommonSearchSpecification<>(new SearchCriteria("description", SearchOperation.LIKE, "aieuswrydhi54fb"));
 
         List<Product> results = productRepository.findAll(Specification.where(spec).and(spec2));
 
@@ -121,7 +120,7 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenPartialDescription_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.ENDS_WITH, "ion"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("description", SearchOperation.ENDS_WITH, "ion"));
 
         List<Product> results = productRepository.findAll(Specification.where(spec));
 
@@ -134,7 +133,7 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenNameInverse_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("name", SearchOperation.NEGATION, "Toy"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("name", SearchOperation.NEGATION, "Toy"));
         List<Product> results = productRepository.findAll(Specification.where(spec));
 
         assertThat(results)
@@ -146,7 +145,7 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenNamePrefix_whenGettingListOfProducts_thenCorrect() {
-        ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("name", SearchOperation.STARTS_WITH, "T"));
+        CommonSearchSpecification<Product> spec = new CommonSearchSpecification<>(new SearchCriteria("name", SearchOperation.STARTS_WITH, "T"));
 
         List<Product> results = productRepository.findAll(Specification.where(spec));
 
@@ -159,7 +158,7 @@ class ProductSearchSpecificationE2ETest {
 
     @Test
     void givenNameOrDescription_whenGettingListProducts_thenCorrect() {
-        ProductSearchSpecificationBuilder builder = new ProductSearchSpecificationBuilder();
+        CommonSearchSpecificationBuilder<Product> builder = new CommonSearchSpecificationBuilder<>();
 
         SearchCriteria spec = new SearchCriteria("name", SearchOperation.EQUALITY, "Toy");
         SearchCriteria spec2 = new SearchCriteria("description", SearchOperation.ENDS_WITH, "tion", "'");
