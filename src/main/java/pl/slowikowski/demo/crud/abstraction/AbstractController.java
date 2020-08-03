@@ -16,7 +16,7 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping
-    Page<E> findAll(Pageable page, @RequestParam(value = "search") String search) {
+    Page<E> findAll(Pageable page, @RequestParam(value = "search", required = false) String search) {
         return service.getAll(page, search);
     }
 
