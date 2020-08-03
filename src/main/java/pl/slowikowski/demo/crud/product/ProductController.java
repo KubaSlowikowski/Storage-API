@@ -38,16 +38,24 @@ public class ProductController extends AbstractController<ProductService, Produc
     @GetMapping("/search")
     @ResponseBody
     public List<ProductDTO> search(@RequestParam(value = "search") String search) {
+        Specification<Product> spec = resolveSpecification(search);
+        return mapper.toListDto(repo.findAll(spec));
+    }
+
+    private Specification<Product> resolveSpecification(String searchParameters) {
         ProductSearchSpecificationBuilder builder = new ProductSearchSpecificationBuilder();
         String operationSetExper = Joiner.on("|")
                 .join(SearchOperation.SIMPLE_OPERATION_SET);
-        Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
-        Matcher matcher = pattern.matcher(search + ",");
+        Pattern pattern = Pattern.compile(
+                "(\\p{Punct}?)(\\w+?)("
+                        + operationSetExper
+                        + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
+        Matcher matcher = pattern.matcher(searchParameters + ",");
         while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3),
+                    matcher.group(5), matcher.group(4), matcher.group(6));
         }
 
-        Specification<Product> spec = builder.build();
-        return mapper.toListDto(repo.findAll(spec));
+        return builder.build();
     }
 }

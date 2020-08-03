@@ -89,4 +89,16 @@ class ProductControllerSearchSpecificationTest {
                 .contains(car);
     }
 
+    //OR statement below
+
+    @Test
+    void givenNameOrDescription_whenGettingListOfProducts_thenCorrect() {
+        Product[] results = restTemplate.getForObject(URL_PREFIX + "name:bike,'description:car", Product[].class);
+
+        assertThat(results)
+                .isNotEmpty()
+                .hasSize(2)
+                .contains(bike)
+                .contains(car);
+    }
 }

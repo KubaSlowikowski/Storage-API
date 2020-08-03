@@ -15,6 +15,7 @@ import pl.slowikowski.demo.crud.abstraction.SearchOperation;
 import pl.slowikowski.demo.crud.product.Product;
 import pl.slowikowski.demo.crud.product.ProductRepository;
 import pl.slowikowski.demo.crud.product.ProductSearchSpecification;
+import pl.slowikowski.demo.crud.product.ProductSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.productGroup.ProductGroup;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
 
@@ -64,6 +65,7 @@ class ProductSearchSpecificationE2ETest {
         productRepository.deleteAll();
         groupRepository.deleteAll();
     }
+
     @Test
     void givenDescription_whenGettingListOfProducts_thenCorrect() {
         ProductSearchSpecification spec = new ProductSearchSpecification(new SearchCriteria("description", SearchOperation.CONTAINS, "iption"));
@@ -153,5 +155,21 @@ class ProductSearchSpecificationE2ETest {
                 .containsExactly(toy)
                 .doesNotContain(bike)
                 .hasSize(1);
+    }
+
+    @Test
+    void givenNameOrDescription_whenGettingListProducts_thenCorrect() {
+        ProductSearchSpecificationBuilder builder = new ProductSearchSpecificationBuilder();
+
+        SearchCriteria spec = new SearchCriteria("name", SearchOperation.EQUALITY, "Toy");
+        SearchCriteria spec2 = new SearchCriteria("description", SearchOperation.ENDS_WITH, "tion", "'");
+
+        List<Product> results = productRepository.findAll(builder.with(spec).with(spec2).build());
+
+        assertThat(results)
+                .isNotEmpty()
+                .contains(toy)
+                .contains(bike)
+                .hasSize(2);
     }
 }

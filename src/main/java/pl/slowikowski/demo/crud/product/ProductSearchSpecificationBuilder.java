@@ -15,14 +15,17 @@ public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecifica
         params = new ArrayList<>();
     }
 
-    public ProductSearchSpecificationBuilder with(
-            String key, String operation, Object value, String prefix, String suffix) {
+    public final ProductSearchSpecificationBuilder with(final String key, final String operation, final Object value, final String prefix, final String suffix) {
+        return with(null, key, operation, value, prefix, suffix);
+    }
+
+    public ProductSearchSpecificationBuilder with(final String orPredicate, final String key, final String operation, final Object value, final String prefix, final String suffix) {
 
         SearchOperation op = SearchOperation.getSimpleOperation(operation.charAt(0));
         if (op != null) {
-            if (op == SearchOperation.EQUALITY) {
-                boolean startWithAsterisk = prefix.contains("*");
-                boolean endWithAsterisk = suffix.contains("*");
+            if (op == SearchOperation.EQUALITY) { // the operation may be complex operation
+                final boolean startWithAsterisk = prefix != null && prefix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
+                final boolean endWithAsterisk = suffix != null && suffix.contains(SearchOperation.ZERO_OR_MORE_REGEX);
 
                 if (startWithAsterisk && endWithAsterisk) {
                     op = SearchOperation.CONTAINS;
@@ -32,7 +35,7 @@ public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecifica
                     op = SearchOperation.STARTS_WITH;
                 }
             }
-            params.add(new SearchCriteria(key, op, value));
+            params.add(new SearchCriteria(key, op, value, orPredicate));
         }
         return this;
     }
@@ -41,15 +44,23 @@ public class ProductSearchSpecificationBuilder /*extends AbstractSearchSpecifica
         if (params.size() == 0) {
             return null;
         }
-
-        Specification result = new ProductSearchSpecification(params.get(0));
+        Specification<Product> result = new ProductSearchSpecification(params.get(0));
 
         for (int i = 1; i < params.size(); i++) {
             result = params.get(i).isOrPredicate()
                     ? Specification.where(result).or(new ProductSearchSpecification(params.get(i)))
                     : Specification.where(result).and(new ProductSearchSpecification(params.get(i)));
         }
-
         return result;
+    }
+
+    public final ProductSearchSpecificationBuilder with(ProductSearchSpecification spec) {
+        params.add(spec.getCriteria());
+        return this;
+    }
+
+    public final ProductSearchSpecificationBuilder with(SearchCriteria criteria) {
+        params.add(criteria);
+        return this;
     }
 }
