@@ -3,23 +3,7 @@
            xmlns:tns="http://jakub.slowikowski.pl/soap-example/product"
            targetNamespace="http://jakub.slowikowski.pl/soap-example/product">
 
-    <xs:element name="getProduct"> <!--pobieranie produktu-->
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="id" type="xs:long"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="getProductResponse"> <!--zwracanie produktu-->
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="product" type="tns:product"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:complexType name="product"> <!--co bedzie szlo w response-->
+    <xs:complexType name="product">
         <xs:sequence>
             <xs:element name="id" type="xs:long"/>
             <xs:element name="name" type="xs:string"/>
@@ -29,5 +13,71 @@
             <xs:element name="groupId" type="xs:long"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:element name="ProductList">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="tns:product" name="products" maxOccurs="unbounded" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ProductObject"> <!--for update method too-->
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="price" type="xs:int"/>
+                <xs:element name="sold" type="xs:boolean"/>
+                <xs:element name="groupId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="FindProductRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="SaveProductRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="price" type="xs:int"/>
+                <xs:element name="groupId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="DeleteProductRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ProductsInGroupRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="BuyProductRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 
 </xs:schema>
