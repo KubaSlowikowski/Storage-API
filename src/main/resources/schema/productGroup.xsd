@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://jakub.slowikowski.pl/soap-example/product-group"
+           xmlns:product="http://jakub.slowikowski.pl/soap-example/product"
+           targetNamespace="http://jakub.slowikowski.pl/soap-example/product-group">
+
+    <xs:import namespace="http://jakub.slowikowski.pl/soap-example/product" schemaLocation="product.xsd"/>
+
+    <xs:element name="getProductGroup"> <!--pobieranie grupy-->
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProductGroupResponse"> <!--zwracanie grupy-->
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="productGroup" type="tns:productGroup"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="productGroup"> <!--co bedzie szlo w response-->
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="products" type="product:product" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

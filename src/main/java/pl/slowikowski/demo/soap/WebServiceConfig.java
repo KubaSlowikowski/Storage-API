@@ -23,18 +23,37 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean(servlet, "/ws/*");
     }
 
-    @Bean(name = "countries")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+//    PRODUCT:
+
+    @Bean(name = "products")
+    public DefaultWsdl11Definition productWsdl11Definition(XsdSchema productsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ProductPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://jakub.slowikowski.pl/soap-example");
-        wsdl11Definition.setSchema(countriesSchema);
+        wsdl11Definition.setTargetNamespace("http://jakub.slowikowski.pl/soap-example/product");
+        wsdl11Definition.setSchema(productsSchema);
         return wsdl11Definition;
     }
 
     @Bean
-    public XsdSchema countriesSchema() {
+    public XsdSchema productsSchema() {
         return new SimpleXsdSchema(new ClassPathResource("/schema/product.xsd"));
+    }
+
+//    PRODUCT GROUP:
+
+    @Bean(name = "productGroups")
+    public DefaultWsdl11Definition productGroupWsdl11Definition(XsdSchema productGroupsSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("ProductGroupPort");
+        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setTargetNamespace("http://jakub.slowikowski.pl/soap-example/product-group");
+        wsdl11Definition.setSchema(productGroupsSchema);
+        return wsdl11Definition;
+    }
+
+    @Bean
+    public XsdSchema productGroupsSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("/schema/productGroup.xsd"));
     }
 }

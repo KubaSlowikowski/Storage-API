@@ -167,6 +167,7 @@
                 <configuration>
                     <sources>
                         <source>${project.basedir}/src/main/resources/schema/product.xsd</source>
+                        <source>${project.basedir}/src/main/resources/schema/productGroup.xsd</source>
                     </sources>
                 </configuration>
             </plugin>
