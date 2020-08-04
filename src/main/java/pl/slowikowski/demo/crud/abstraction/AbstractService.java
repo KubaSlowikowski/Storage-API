@@ -56,6 +56,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
         if(id < 1 || dto.getId() != id) {
             throw new WrongIdException(id);
         }
+        getEntityById(id);
         E entity = commonMapper.fromDto(dto);
         commonRepository.saveAndFlush(entity);
         return dto;
