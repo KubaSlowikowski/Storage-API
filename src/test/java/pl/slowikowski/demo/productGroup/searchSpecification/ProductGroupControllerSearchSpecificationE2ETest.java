@@ -33,7 +33,7 @@
 //    private ProductGroup sport;
 //    private ProductGroup transport;
 //
-//    private final String URL_PREFIX = "http://localhost:8080/groups/search?search=";
+//    private final String URL_PREFIX = "http://localhost:8080/api/groups/search?search=";
 //
 //    @BeforeAll
 //    void init() {

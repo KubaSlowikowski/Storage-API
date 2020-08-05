@@ -40,7 +40,7 @@
 //    private Product bike;
 //    private Product car;
 //
-//    private final String URL_PREFIX = "http://localhost:8080/products?search=";
+//    private final String URL_PREFIX = "http://localhost:8080/api/products?search=";
 //
 //    @BeforeAll
 //    void init() {

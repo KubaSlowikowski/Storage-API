@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.slowikowski.demo.crud.abstraction.AbstractController;
 
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/api/groups")
 public class ProductGroupController extends AbstractController<ProductGroupService, ProductGroupDTO> {
     @Autowired
     ProductGroupRepository repo;

@@ -6,7 +6,7 @@ import pl.slowikowski.demo.crud.abstraction.AbstractController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController extends AbstractController<ProductService, ProductDTO> {
 
     private final ProductService service;
