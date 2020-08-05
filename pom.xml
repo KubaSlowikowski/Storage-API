@@ -168,6 +168,7 @@
                     <sources>
                         <source>${project.basedir}/src/main/resources/schema/product.xsd</source>
                         <source>${project.basedir}/src/main/resources/schema/productGroup.xsd</source>
+                        <source>${project.basedir}/src/main/resources/schema/pageable.xsd</source>
                     </sources>
                 </configuration>
             </plugin>

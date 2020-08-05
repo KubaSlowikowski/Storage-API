@@ -9,5 +9,6 @@ import java.util.List;
 public interface CommonWebMapper<D extends AbstractDto, O, W> {
     O toWebObject(D d);
     D toDto(O o);
+    W toWeb(D d);
     List<W> toWebList(List<D> d);
 }

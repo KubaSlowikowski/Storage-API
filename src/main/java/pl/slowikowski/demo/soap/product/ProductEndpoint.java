@@ -1,5 +1,6 @@
 package pl.slowikowski.demo.soap.product;
 
+import org.springframework.data.domain.Page;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -20,6 +21,14 @@ public class ProductEndpoint {
     public ProductEndpoint(final ProductService service, final ProductWebMapper mapper) {
         this.service = service;
         this.mapper = mapper;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllProductsRequest")
+    @ResponsePayload
+    public GetAllProductsResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
+        Page<ProductDTO> result = service.getAll(mapper.toPageFromGetAllRequest(request), request.getSearch());
+        var response = mapper.toGetAllProductsResponse(result);
+        return response;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "FindProductRequest")

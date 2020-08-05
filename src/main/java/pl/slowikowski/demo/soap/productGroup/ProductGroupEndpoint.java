@@ -1,15 +1,13 @@
 package pl.slowikowski.demo.soap.productGroup;
 
+import org.springframework.data.domain.Page;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupDTO;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupService;
-import pl.slowikowski.jakub.soap_example.product_group.DeleteProductGroupRequest;
-import pl.slowikowski.jakub.soap_example.product_group.ProductGroupObject;
-import pl.slowikowski.jakub.soap_example.product_group.ProductGroupRequest;
-import pl.slowikowski.jakub.soap_example.product_group.SaveProductGroupRequest;
+import pl.slowikowski.jakub.soap_example.product_group.*;
 
 @Endpoint
 public class ProductGroupEndpoint {
@@ -21,6 +19,14 @@ public class ProductGroupEndpoint {
     public ProductGroupEndpoint(final ProductGroupService service, final ProductGroupWebMapper mapper) {
         this.service = service;
         this.mapper = mapper;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllProductGroupsRequest")
+    @ResponsePayload
+    public GetAllProductGroupsResponse getAllProductGroups(@RequestPayload GetAllProductGroupsRequest request) {
+        Page<ProductGroupDTO> result = service.getAll(mapper.toPageFromGetAllRequest(request), request.getSearch());
+        var response = mapper.toGetAllProductGroupsResponse(result);
+        return response;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ProductGroupRequest")
