@@ -26,4 +26,18 @@ public class ExceptionAdvice {
     public String wrongIdExceptionHandler(WrongIdException e) {
         return e.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(RoleNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String roleNotFoundErrorHandler(RoleNotFoundException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UserParameterAlreadyInUseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String userParameterAlreadyTakenErrorHandler(UserParameterAlreadyInUseException e) {
+        return e.getMessage();
+    }
 }

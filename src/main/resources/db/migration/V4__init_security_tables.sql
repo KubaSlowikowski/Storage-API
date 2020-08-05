@@ -6,10 +6,11 @@ create table roles
 
 create table users
 (
-    id       bigserial PRIMARY KEY,
-    username varchar(20)  not null,
-    email    varchar(50)  not null,
-    password varchar(120) not null
+    id             bigserial PRIMARY KEY,
+    username       varchar(20)  not null,
+    email          varchar(50)  not null,
+    password       varchar(120) not null,
+    created_on     timestamp
 );
 
 create table user_roles
