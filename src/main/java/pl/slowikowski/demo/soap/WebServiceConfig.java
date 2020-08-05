@@ -23,8 +23,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean(servlet, "/ws/*");
     }
 
-//    PRODUCT:
 
+//    PRODUCT:
     @Bean(name = "products")
     public DefaultWsdl11Definition productWsdl11Definition(XsdSchema productsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
@@ -40,8 +40,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new SimpleXsdSchema(new ClassPathResource("/schema/product.xsd"));
     }
 
-//    PRODUCT GROUP:
 
+//    PRODUCT GROUP:
     @Bean(name = "productGroups")
     public DefaultWsdl11Definition productGroupWsdl11Definition(XsdSchema productGroupsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();

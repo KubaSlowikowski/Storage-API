@@ -1,11 +1,17 @@
 package pl.slowikowski.demo.security.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.slowikowski.demo.security.Roles;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@NoArgsConstructor
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,27 +21,7 @@ public class Role {
     @Column(length = 20)
     private Roles name;
 
-    public Role() {
-
-    }
-
     public Role(Roles name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Roles getName() {
-        return name;
-    }
-
-    public void setName(Roles name) {
         this.name = name;
     }
 }

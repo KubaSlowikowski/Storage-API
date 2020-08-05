@@ -19,9 +19,7 @@ import pl.slowikowski.demo.security.payload.response.MessageResponse;
 import pl.slowikowski.demo.security.repository.RoleRepository;
 import pl.slowikowski.demo.security.repository.UserRepository;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,24 +72,19 @@ public class AuthServiceImpl implements AuthService {
         // Create new user's account
         User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> requestRoles = signUpRequest.getRole();
-        Set<Role> resultRoles = new HashSet<>();
+        String requestRole = signUpRequest.getRole();
 
-        if (requestRoles == null || requestRoles.isEmpty()) {
+        if (requestRole == null || requestRole.isEmpty()) {
             throw new RoleNotFoundException();
         }
 
-        requestRoles.forEach(role -> {
-            String prefix = "ROLE_" + role.toUpperCase();
-            if (!Roles.contains(prefix)) throw new RoleNotFoundException(prefix);
+        String prefix = "ROLE_" + requestRole.toUpperCase();
+        if (!Roles.contains(prefix)) throw new RoleNotFoundException(prefix);
 
-            Role adminRole = roleRepository.findByName(Roles.valueOf(prefix))
-                    .orElseThrow(() -> new RoleNotFoundException(prefix));
-            if (!resultRoles.contains(adminRole)) {
-                resultRoles.add(adminRole);
-            }
-        });
-        user.setRoles(resultRoles);
+        Role resultRole = roleRepository.findByName(Roles.valueOf(prefix))
+                .orElseThrow(() -> new RoleNotFoundException(prefix));
+
+        user.setRole(resultRole);
         userRepository.save(user);
 
         return new MessageResponse("User registered successfully!");
