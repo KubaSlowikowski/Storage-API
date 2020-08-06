@@ -11,8 +11,9 @@
     <groupId>pl.slowikowski</groupId>
     <artifactId>Storage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
+    <name>Storage</name>
     <description>Projekt z TT. Mini magazyn</description>
+    <packaging>war</packaging>
 
     <properties>
         <java.version>11</java.version>
