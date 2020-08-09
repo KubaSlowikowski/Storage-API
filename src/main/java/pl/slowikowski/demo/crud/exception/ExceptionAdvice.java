@@ -1,7 +1,11 @@
 package pl.slowikowski.demo.crud.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @ControllerAdvice
 public class ExceptionAdvice {
@@ -38,6 +42,21 @@ public class ExceptionAdvice {
     @ExceptionHandler(UserParameterAlreadyInUseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String userParameterAlreadyTakenErrorHandler(UserParameterAlreadyInUseException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String validationExceptionHandler(MethodArgumentNotValidException e) {
+        String message = e.getLocalizedMessage().split("default message ")[2];
+        return message.substring(1, message.length() - 3);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
         return e.getMessage();
     }
 }

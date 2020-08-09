@@ -9,11 +9,11 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Data
 public class ProductDTO extends AbstractDto {
-    @NotBlank(message = "Product's name must be not null and not be empty")
+    @NotBlank(message = "Product's name must be not null and not be empty.")
     private String name;
-    @NotBlank(message = "Product's description must be not null and not be empty")
+    @NotBlank(message = "Product's description must be not null and not be empty.")
     private String description;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Product's price must be positive or zero.")
     private int price;
     private boolean sold;
     @Positive

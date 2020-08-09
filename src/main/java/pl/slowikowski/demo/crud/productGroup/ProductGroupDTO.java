@@ -9,9 +9,9 @@ import java.util.Set;
 
 @Data
 public class ProductGroupDTO extends AbstractDto {
-    @NotBlank(message = "Products group's name must be not null and not be empty")
+    @NotBlank(message = "Products group's name must be not null and not be empty.")
     private String name;
-    @NotBlank(message = "Product group's description must be not null and not be empty")
+    @NotBlank(message = "Product group's description must be not null and not be empty.")
     private String description;
     private Set<ProductDTO> products;
 
