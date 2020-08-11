@@ -1,5 +1,6 @@
 package pl.slowikowski.demo.crud.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import pl.slowikowski.demo.crud.abstraction.AbstractDto;
 
@@ -15,6 +16,7 @@ public class ProductDTO extends AbstractDto {
     private String description;
     @PositiveOrZero(message = "Product's price must be positive or zero.")
     private int price;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean sold;
     @Positive
     private Long groupId;

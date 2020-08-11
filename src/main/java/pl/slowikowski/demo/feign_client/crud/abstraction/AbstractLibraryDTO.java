@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.feign_client.abstraction;
+package pl.slowikowski.demo.feign_client.crud.abstraction;
 
 import lombok.Getter;
 import lombok.Setter;

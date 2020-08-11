@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.feign_client.abstraction;
+package pl.slowikowski.demo.feign_client.crud.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

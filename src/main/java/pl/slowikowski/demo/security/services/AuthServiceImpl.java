@@ -1,5 +1,7 @@
 package pl.slowikowski.demo.security.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,11 +27,12 @@ import java.util.stream.Collectors;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    AuthenticationManager authenticationManager;
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    PasswordEncoder encoder;
-    JwtUtils jwtUtils;
+    private AuthenticationManager authenticationManager;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder encoder;
+    private JwtUtils jwtUtils;
+    private static final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     public AuthServiceImpl(final AuthenticationManager authenticationManager, final UserRepository userRepository, final RoleRepository roleRepository, final PasswordEncoder encoder, final JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
@@ -51,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+        logger.info("User: '" + loginRequest.getUsername() + "' logged in successfully.");
         return new JwtResponse(
                 jwt,
                 userDetails.getId(),
@@ -87,6 +91,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(resultRole);
         userRepository.save(user);
 
+        logger.info("User: '" + signUpRequest.getUsername() + "' registered successfully.");
         return new MessageResponse("User registered successfully!");
     }
 }

@@ -1,9 +1,10 @@
 package pl.slowikowski.demo.crud.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.crud.abstraction.AbstractController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -21,8 +22,8 @@ public class ProductController extends AbstractController<ProductService, Produc
     }
 
     @GetMapping(path = "/all/{id}")
-    List<ProductDTO> findAllProductsByGroupId(@PathVariable("id") Long groupId) {
-        return service.findAllByGroupId(groupId);
+    Page<ProductDTO> findAllProductsByGroupId(@PathVariable("id") Long groupId, @PageableDefault Pageable page) {
+        return service.findAllByGroupId(groupId, page);
     }
 
     @PostMapping(path = "/{id}")

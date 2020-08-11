@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Pageable;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.product.Product;
 import pl.slowikowski.demo.crud.product.ProductMapper;
@@ -178,7 +179,7 @@ class ProductServiceImplTest {
         var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
 
         //when
-        var result = toTest.findAllByGroupId(anyLong());
+        var result = toTest.findAllByGroupId(anyLong(), Pageable.unpaged());
 
         //then
         assertThat(result)
@@ -198,7 +199,7 @@ class ProductServiceImplTest {
         var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
 
         //when
-        var exception = catchThrowable(() -> toTest.findAllByGroupId(anyLong()));
+        var exception = catchThrowable(() -> toTest.findAllByGroupId(anyLong(), Pageable.unpaged()));
 
         //then
         assertThat(exception)
