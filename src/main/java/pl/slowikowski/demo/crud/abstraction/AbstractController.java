@@ -2,6 +2,7 @@ package pl.slowikowski.demo.crud.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,7 +17,7 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping
-    Page<E> findAll(Pageable page, @RequestParam(value = "search", required = false) String search) {
+    Page<E> findAll(@PageableDefault Pageable page, @RequestParam(value = "search", required = false) String search) {
         return service.getAll(page, search);
     }
 

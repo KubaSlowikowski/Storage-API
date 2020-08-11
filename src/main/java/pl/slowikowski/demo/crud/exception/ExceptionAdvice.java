@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,4 +69,18 @@ public class ExceptionAdvice {
     public String authenticationExceptionHandler(AuthenticationException e) {
         return "Authentication failed: " + e.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String missingRequestHeaderExceptionHandler(MissingRequestHeaderException e) {
+        return e.getMessage();
+    }
+
+//    @ResponseBody
+//    @ExceptionHandler(UserNotFoundException.class)
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public String userNotFoundExceptionHandler(UserNotFoundException e) {
+//        return e.getMessage();
+//    }
 }
