@@ -1,5 +1,6 @@
 package pl.slowikowski.demo.crud.exception;
 
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
@@ -43,7 +44,7 @@ public class ExceptionAdvice {
 
     @ResponseBody
     @ExceptionHandler(UserParameterAlreadyInUseException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public String userParameterAlreadyTakenErrorHandler(UserParameterAlreadyInUseException e) {
         return e.getMessage();
     }
@@ -83,4 +84,11 @@ public class ExceptionAdvice {
 //    public String userNotFoundExceptionHandler(UserNotFoundException e) {
 //        return e.getMessage();
 //    }
+
+    @ResponseBody //przy zlym parametrze przy getAll z pageable
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String noPropertyFoundExceptionHandler(PropertyReferenceException e) {
+        return e.getMessage();
+    }
 }
