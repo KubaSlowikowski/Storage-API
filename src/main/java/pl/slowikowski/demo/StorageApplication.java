@@ -23,8 +23,4 @@ public class StorageApplication {
         return new LocalValidatorFactoryBean();
     }
 
-//    @Bean
-//    public Module pageJacksonModule() {
-//        return new PageJacksonModule();
-//    }
 }

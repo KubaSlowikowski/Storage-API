@@ -38,4 +38,11 @@ public class LibraryExceptionAdvice {
         String message = e.getMessage().split("\\)]: \\[")[1];
         return message.substring(0, message.length() - 1);
     }
+
+    @ResponseBody
+    @ExceptionHandler(FeignException.Unauthorized.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String feignUnauthorizedExceptionHandler(FeignException e) {
+        return e.status() + " Unauthorized to library.";
+    }
 }

@@ -1,8 +1,8 @@
 package pl.slowikowski.demo.feign_client.crud.abstraction;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import pl.slowikowski.demo.feign_client.CustomPageImpl;
 
 public class AbstractLibraryController<D extends AbstractLibraryDTO, T extends CommonLibraryClient<D>> {
     private final T client;
@@ -12,7 +12,7 @@ public class AbstractLibraryController<D extends AbstractLibraryDTO, T extends C
     }
 
     @GetMapping
-    Page<D> findAll(Pageable page, @RequestParam(value = "search", required = false) String search, @RequestHeader String libraryAuth) {
+    CustomPageImpl<D> findAll(Pageable page, @RequestParam(value = "search", required = false) String search, @RequestHeader String libraryAuth) {
         return client.findAll(page, search, libraryAuth);
     }
 
