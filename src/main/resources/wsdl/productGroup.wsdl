@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://jakub.slowikowski.pl/soap-example/product-group"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:abstract="http://jakub.slowikowski.pl/soap-example/abstract"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  targetNamespace="http://jakub.slowikowski.pl/soap-example/product-group">
+
+    <wsdl:types>
+        <xs:schema targetNamespace="http://jakub.slowikowski.pl/soap-example/product-group"
+                   elementFormDefault="qualified">
+            <xs:include schemaLocation="../schema/productGroup.xsd"/>
+        </xs:schema>
+        <xs:schema targetNamespace="http://jakub.slowikowski.pl/soap-example/abstract" elementFormDefault="qualified">
+            <xs:include schemaLocation="../schema/abstract.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+
+
+    <!--Define input and output parameters -->
+    <wsdl:message name="GetAllProductGroups">
+        <wsdl:part name="request" element="tns:GetAllProductGroupsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="FindProductGroupById">
+        <wsdl:part name="request" element="tns:ProductGroupRequest"/>
+    </wsdl:message>
+    <wsdl:message name="SaveProductGroup">
+        <wsdl:part name="request" element="tns:SaveProductGroupRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateProductGroup">
+        <wsdl:part name="request" element="tns:ProductGroupXmlObject"/>
+    </wsdl:message>
+    <wsdl:message name="DeleteProductGroup">
+        <wsdl:part name="request" element="tns:DeleteProductGroupRequest">
+        </wsdl:part>
+    </wsdl:message>
+
+    <wsdl:message name="GetAllResponse">
+        <wsdl:part name="response" element="abstract:GetAllResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ProductGroup">
+        <wsdl:part name="response" element="tns:ProductGroupXmlObject"/>
+    </wsdl:message>
+
+
+    <!--Define port definition -->
+    <wsdl:portType name="ProductGroupPort">
+        <wsdl:operation name="GetAllProductGroups">
+            <wsdl:input name="GetAllProductGroupsRequest" message="tns:GetAllProductGroups"/>
+            <wsdl:output name="GetAllProductGroupsResponse" message="tns:GetAllResponse"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindProductGroupById">
+            <wsdl:input name="ProductGroupRequest" message="tns:FindProductGroupById"/>
+            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="SaveProductGroup">
+            <wsdl:input name="SaveProductGroupRequest" message="tns:SaveProductGroup"/>
+            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="UpdateProductGroup">
+            <wsdl:input name="UpdateProductGroupRequest" message="tns:UpdateProductGroup"/>
+            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="DeleteProductGroup">
+            <wsdl:input name="DeleteProductGroupRequest" message="tns:DeleteProductGroup"/>
+            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="ProductGroup">
+            <wsdl:input name="ProductGroupRequest" message="tns:ProductGroup"/>
+            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+
+    <!--Bind Soap operation and service -->
+    <wsdl:binding name="ProductGroup_SOAPBinding" type="tns:ProductGroupPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetAllProductGroups">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindProductGroupById">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="SaveProductGroup">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="UpdateProductGroup">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="DeleteProductGroup">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+
+    <!--Define service -->
+    <wsdl:service name="ProductGroupPortService">
+        <wsdl:port binding="tns:ProductGroup_SOAPBinding" name="ProductGroup_SOAPBinding">
+            <soap:address location="http://localhost:8080/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>
