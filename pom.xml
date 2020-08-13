@@ -173,9 +173,19 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${project.basedir}/src/main/resources/wsdl/product.wsdl</wsdl>
-                                    <wsdl>${project.basedir}/src/main/resources/wsdl/productGroup.wsdl</wsdl>
                                     <wsdlLocation>classpath:wsdl/product.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/productGroup.wsdl</wsdl>
                                     <wsdlLocation>classpath:wsdl/productGroup.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/books.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/books.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/readers.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/readers.wsdl</wsdlLocation>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
