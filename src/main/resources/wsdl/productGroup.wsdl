@@ -70,17 +70,13 @@
             <wsdl:input name="DeleteProductGroupRequest" message="tns:DeleteProductGroup"/>
             <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
         </wsdl:operation>
-
-        <wsdl:operation name="ProductGroup">
-            <wsdl:input name="ProductGroupRequest" message="tns:ProductGroup"/>
-            <wsdl:output name="ProductGroupResponse" message="tns:ProductGroup"/>
-        </wsdl:operation>
     </wsdl:portType>
 
 
     <!--Bind Soap operation and service -->
     <wsdl:binding name="ProductGroup_SOAPBinding" type="tns:ProductGroupPort">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
         <wsdl:operation name="GetAllProductGroups">
             <soap:operation soapAction="" style="document"/>
             <wsdl:input>

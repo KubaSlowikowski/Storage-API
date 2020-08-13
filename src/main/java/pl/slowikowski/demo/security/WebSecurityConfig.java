@@ -60,7 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
-                        "/webjars/**").permitAll()
+                        "/webjars/**",
+                        "/soap-api/**",
+                        "/ws/products.wsdl",
+                        "/ws/productGroups.wsdl").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

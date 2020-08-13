@@ -15,8 +15,7 @@ public class CommonSearchSpecification<E extends AbstractEntity> implements Spec
     }
 
     @Override
-    public Predicate toPredicate(
-            Root<E> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
         switch (criteria.getOperation()) {
             case EQUALITY:
