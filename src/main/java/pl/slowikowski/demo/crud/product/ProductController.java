@@ -11,14 +11,10 @@ import pl.slowikowski.demo.crud.abstraction.AbstractController;
 public class ProductController extends AbstractController<ProductService, ProductDTO> {
 
     private final ProductService service;
-    private final ProductMapper mapper;
-    private final ProductRepository repo;
 
-    public ProductController(final ProductService service, ProductMapper mapper, ProductRepository repo) {
+    public ProductController(final ProductService service) {
         super(service);
         this.service = service;
-        this.mapper = mapper;
-        this.repo = repo;
     }
 
     @GetMapping(path = "/all/{id}")

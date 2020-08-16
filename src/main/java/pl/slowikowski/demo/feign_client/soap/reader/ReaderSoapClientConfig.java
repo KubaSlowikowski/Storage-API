@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ReaderSoapClientConfig {
+class ReaderSoapClientConfig {
 
     private final String address = "http://s0208:8082/soap-api/readers";
 
