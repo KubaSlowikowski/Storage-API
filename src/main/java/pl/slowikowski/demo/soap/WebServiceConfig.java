@@ -13,8 +13,8 @@ import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
-import pl.slowikowski.demo.soap.product.ProductSoapService;
-import pl.slowikowski.demo.soap.productGroup.ProductGroupSoapService;
+import pl.slowikowski.demo.soap.product.ProductSoapController;
+import pl.slowikowski.demo.soap.productGroup.ProductGroupSoapController;
 
 @EnableWs
 @Configuration
@@ -58,7 +58,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "productClientEndpoint")
-    public EndpointImpl productEndpoint(ProductGroupSoapService groupService) {
+    public EndpointImpl productEndpoint(ProductGroupSoapController groupService) {
         Bus bus = applicationContext.getBean(SpringBus.class);
         EndpointImpl endpoint = new EndpointImpl(bus, groupService);
         endpoint.publish("/group");
@@ -66,7 +66,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "productGroupClientEndpoint")
-    public EndpointImpl productGroupEndpoint(ProductSoapService productService) {
+    public EndpointImpl productGroupEndpoint(ProductSoapController productService) {
         Bus bus = applicationContext.getBean(SpringBus.class);
         EndpointImpl endpoint = new EndpointImpl(bus, productService);
         endpoint.publish("/product");

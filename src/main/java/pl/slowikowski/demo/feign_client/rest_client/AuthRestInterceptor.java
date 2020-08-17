@@ -11,8 +11,8 @@ import pl.slowikowski.demo.feign_client.authorization.AuthLibraryRequest;
 @Configuration
 @Slf4j
 public class AuthRestInterceptor implements RequestInterceptor { //feign clients requests only
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private final AuthLibraryClient authClient;
 
     public AuthRestInterceptor(final AuthLibraryClient authClient) {

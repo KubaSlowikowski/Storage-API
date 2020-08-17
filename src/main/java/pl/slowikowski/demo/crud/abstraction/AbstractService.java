@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,8 +26,8 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     @Transactional
     public Page<D> getAll(Pageable page, String search) {
         Specification<E> spec = resolveSpecification(search);
-        var result = commonRepository.findAll(spec, page);
-        var content = commonMapper.toListDto(result.getContent());
+        Page<E> result = commonRepository.findAll(spec, page);
+        List<D> content = commonMapper.toListDto(result.getContent());
         return new PageImpl<>(content, page, result.getTotalElements());
     }
 
@@ -53,7 +54,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
     @Override
     @Transactional
     public D update(Long id, D dto) {
-        if(id < 1 || dto.getId() != id) {
+        if (id < 1 || dto.getId() != id) {
             throw new WrongIdException(id);
         }
         getEntityById(id);
