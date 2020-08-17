@@ -4,21 +4,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupDTO;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupService;
-import pl.slowikowski.demo.soap.SoapEndpoint;
 import pl.slowikowski.demo.soap.SoapService;
 import pl.slowikowski.jakub.soap_example._abstract.GetAllResponse;
 import pl.slowikowski.jakub.soap_example.product_group.*;
 
 import javax.jws.WebService;
-import javax.xml.ws.BindingType;
 
 @Service
-@SoapEndpoint(publish = "/group")
-@WebService(endpointInterface = "pl.slowikowski.jakub.soap_example.product_group.ProductGroupPort",
-        serviceName = "ProductGroupPortService",
-        targetNamespace = "http://jakub.slowikowski.pl/soap-example/product-group",
-        portName = "ProductGroupPort")
-@BindingType("http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+@WebService(endpointInterface = "pl.slowikowski.jakub.soap_example.product_group.ProductGroupPort")
 public class ProductGroupSoapService implements SoapService, ProductGroupPort {
 
     private final ProductGroupService service;

@@ -10,16 +10,11 @@ import pl.slowikowski.jakub.soap_example._abstract.GetAllResponse;
 import pl.slowikowski.jakub.soap_example.product.*;
 
 import javax.jws.WebService;
-import javax.xml.ws.BindingType;
 
 
 @Service
 @SoapEndpoint(publish = "/product")
-@WebService(endpointInterface = "pl.slowikowski.jakub.soap_example.product.ProductPort",
-        serviceName = "ProductPortService",
-        targetNamespace = "http://jakub.slowikowski.pl/soap-example/product",
-        portName = "ProductPort")
-@BindingType("http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+@WebService(endpointInterface = "pl.slowikowski.jakub.soap_example.product.ProductPort")
 public class ProductSoapService implements SoapService, ProductPort {
 
     private final ProductService service;
