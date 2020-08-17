@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
-import pl.slowikowski.demo.feign_client.crud.book.BookDTO;
+import pl.slowikowski.demo.feign_client.rest_client.book.BookDTO;
 import pl.slowikowski.demo.feign_client.soap_client.abstraction.CommonSoapClient;
 
 @Component

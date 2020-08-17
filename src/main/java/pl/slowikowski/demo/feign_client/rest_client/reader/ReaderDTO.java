@@ -1,8 +1,8 @@
-package pl.slowikowski.demo.feign_client.crud.reader;
+package pl.slowikowski.demo.feign_client.rest_client.reader;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.slowikowski.demo.feign_client.crud.abstraction.AbstractLibraryDTO;
+import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
 
 import java.time.LocalDate;
 

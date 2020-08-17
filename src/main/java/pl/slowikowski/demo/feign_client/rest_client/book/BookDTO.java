@@ -1,9 +1,9 @@
-package pl.slowikowski.demo.feign_client.crud.book;
+package pl.slowikowski.demo.feign_client.rest_client.book;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.slowikowski.demo.feign_client.crud.abstraction.AbstractLibraryDTO;
-import pl.slowikowski.demo.feign_client.crud.reader.ReaderDTO;
+import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
+import pl.slowikowski.demo.feign_client.rest_client.reader.ReaderDTO;
 
 @Getter
 @Setter

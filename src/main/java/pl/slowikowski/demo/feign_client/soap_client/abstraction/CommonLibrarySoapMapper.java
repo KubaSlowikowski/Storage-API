@@ -7,7 +7,7 @@ import com.raglis.library_api.soap.pageables.PageableXml;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import pl.slowikowski.demo.feign_client.crud.abstraction.AbstractLibraryDTO;
+import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
 
 import java.util.ArrayList;
 import java.util.List;

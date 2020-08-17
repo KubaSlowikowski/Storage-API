@@ -2,7 +2,7 @@ package pl.slowikowski.demo.feign_client.soap_client.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import pl.slowikowski.demo.feign_client.crud.abstraction.AbstractLibraryDTO;
+import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
 
 
 public interface CommonSoapClient<D extends AbstractLibraryDTO> {
