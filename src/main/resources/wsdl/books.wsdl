@@ -1,0 +1,324 @@
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://raglis.com/library-api/soap/books" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="BookSoapService" targetNamespace="http://raglis.com/library-api/soap/books">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://raglis.com/library-api/soap/readers" xmlns:ns2="http://raglis.com/library-api/soap/pageables" xmlns:ns1="http://raglis.com/library-api/soap/abstract" elementFormDefault="qualified" targetNamespace="http://raglis.com/library-api/soap/readers" version="1.0">
+            <xs:import namespace="http://raglis.com/library-api/soap/abstract"/>
+            <xs:import namespace="http://raglis.com/library-api/soap/pageables"/>
+            <xs:element name="createReaderRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="firstName" type="xs:string"/>
+                        <xs:element name="lastName" type="xs:string"/>
+                        <xs:element name="email" type="xs:string"/>
+                        <xs:element name="username" type="xs:string"/>
+                        <xs:element name="password" type="xs:string"/>
+                        <xs:element name="role" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteReaderRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllReadersRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="pageable" type="ns2:pageableXml"/>
+                        <xs:element name="search" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllReadersResponse">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="ns1:getAllResponse">
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="page" type="ns2:pageableXml"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getReaderRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="readerResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="reader" type="tns:readerXml"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="updateReaderRequest">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="tns:readerXml">
+                            <xs:sequence>
+                                <xs:element name="password" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="readerXml">
+                <xs:complexContent>
+                    <xs:extension base="ns1:abstractXmlType">
+                        <xs:sequence>
+                            <xs:element name="firstName" type="xs:string"/>
+                            <xs:element name="lastName" type="xs:string"/>
+                            <xs:element name="email" type="xs:string"/>
+                            <xs:element name="username" type="xs:string"/>
+                            <xs:element name="joinDate" type="xs:date"/>
+                            <xs:element name="role" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:simpleType name="role">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ROLE_USER"/>
+                    <xs:enumeration value="ROLE_ADMIN"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://raglis.com/library-api/soap/pageables" xmlns:ns1="http://raglis.com/library-api/soap/abstract" elementFormDefault="qualified" targetNamespace="http://raglis.com/library-api/soap/pageables" version="1.0">
+            <xs:import namespace="http://raglis.com/library-api/soap/abstract"/>
+            <xs:element name="pageableXmlSequel">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="content" nillable="true" type="ns1:abstractXmlType"/>
+                        <xs:element default="20" name="size" type="xs:int"/>
+                        <xs:element default="0" name="page" type="xs:int"/>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="sortOrders" nillable="true" type="tns:orderXml"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="pageableXml">
+                <xs:sequence>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="content" nillable="true" type="ns1:abstractXmlType"/>
+                    <xs:element default="20" name="size" type="xs:int"/>
+                    <xs:element default="0" name="page" type="xs:int"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="sortOrders" nillable="true" type="tns:orderXml"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="orderXml">
+                <xs:sequence>
+                    <xs:element name="sort" type="xs:string"/>
+                    <xs:element default="ASC" name="dir" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://raglis.com/library-api/soap/books" xmlns:ns3="http://raglis.com/library-api/soap/readers" xmlns:ns2="http://raglis.com/library-api/soap/pageables" xmlns:ns1="http://raglis.com/library-api/soap/abstract" elementFormDefault="qualified" targetNamespace="http://raglis.com/library-api/soap/books" version="1.0">
+            <xs:import namespace="http://raglis.com/library-api/soap/abstract"/>
+            <xs:import namespace="http://raglis.com/library-api/soap/pageables"/>
+            <xs:import namespace="http://raglis.com/library-api/soap/readers"/>
+            <xs:element name="bookResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="tns:bookXml"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="title" type="xs:string"/>
+                        <xs:element name="author" type="xs:string"/>
+                        <xs:element name="publicationYear" type="xs:int"/>
+                        <xs:element name="reader" type="ns3:readerXml"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="deleteBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllBooksRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="pageable" type="ns2:pageableXml"/>
+                        <xs:element name="search" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getAllBooksResponse">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="ns1:getAllResponse">
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="page" type="ns2:pageableXml"/>
+                            </xs:sequence>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="id" type="xs:long"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="updateBookRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="book" type="tns:bookXml"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="bookXml">
+                <xs:complexContent>
+                    <xs:extension base="ns1:abstractXmlType">
+                        <xs:sequence>
+                            <xs:element name="title" type="xs:string"/>
+                            <xs:element name="author" type="xs:string"/>
+                            <xs:element name="publicationYear" type="xs:int"/>
+                            <xs:element name="reader" type="ns3:readerXml"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://raglis.com/library-api/soap/abstract" xmlns:ns1="http://raglis.com/library-api/soap/pageables" elementFormDefault="qualified" targetNamespace="http://raglis.com/library-api/soap/abstract" version="1.0">
+            <xs:import namespace="http://raglis.com/library-api/soap/pageables"/>
+            <xs:complexType name="abstractXmlType">
+                <xs:sequence>
+                    <xs:element name="id" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="getAllResponse">
+                <xs:sequence>
+                    <xs:element name="page" type="ns1:pageableXml"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+
+
+    <wsdl:message name="create">
+        <wsdl:part element="tns:createBookRequest" name="request"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="createResponse">
+        <wsdl:part element="tns:bookResponse" name="response"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="update">
+        <wsdl:part element="tns:updateBookRequest" name="request"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="updateResponse">
+        <wsdl:part element="tns:bookResponse" name="response"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="delete">
+        <wsdl:part element="tns:deleteBookRequest" name="request"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAll">
+        <wsdl:part element="tns:getAllBooksRequest" name="request"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getByIdResponse">
+        <wsdl:part element="tns:bookResponse" name="response"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAllResponse">
+        <wsdl:part element="tns:getAllBooksResponse" name="response"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="deleteResponse">
+        <wsdl:part element="tns:bookResponse" name="response"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getById">
+        <wsdl:part element="tns:getBookRequest" name="request"> </wsdl:part>
+    </wsdl:message>
+
+
+    <wsdl:portType name="BookPortType">
+
+        <wsdl:operation name="getAll">
+            <wsdl:input message="tns:getAll" name="getAll"> </wsdl:input>
+            <wsdl:output message="tns:getAllResponse" name="getAllResponse"> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="create">
+            <wsdl:input message="tns:create" name="create"> </wsdl:input>
+            <wsdl:output message="tns:createResponse" name="createResponse"> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="update">
+            <wsdl:input message="tns:update" name="update"> </wsdl:input>
+            <wsdl:output message="tns:updateResponse" name="updateResponse"> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="delete">
+            <wsdl:input message="tns:delete" name="delete"> </wsdl:input>
+            <wsdl:output message="tns:deleteResponse" name="deleteResponse"> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getById">
+            <wsdl:input message="tns:getById" name="getById"> </wsdl:input>
+            <wsdl:output message="tns:getByIdResponse" name="getByIdResponse"> </wsdl:output>
+        </wsdl:operation>
+
+    </wsdl:portType>
+
+
+    <wsdl:binding name="BookSoapServiceSoapBinding" type="tns:BookPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="getAll">
+            <soap:operation soapAction="http://raglis.com/library-api" style="document"/>
+            <wsdl:input name="getAll">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getAllResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="create">
+            <soap:operation soapAction="http://raglis.com/library-api" style="document"/>
+            <wsdl:input name="create">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="createResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="update">
+            <soap:operation soapAction="http://raglis.com/library-api" style="document"/>
+            <wsdl:input name="update">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="updateResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="delete">
+            <soap:operation soapAction="http://raglis.com/library-api" style="document"/>
+            <wsdl:input name="delete">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="deleteResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getById">
+            <soap:operation soapAction="http://raglis.com/library-api" style="document"/>
+            <wsdl:input name="getById">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getByIdResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+    </wsdl:binding>
+
+
+    <wsdl:service name="BookSoapService">
+        <wsdl:port binding="tns:BookSoapServiceSoapBinding" name="BookPort">
+            <soap:address location="http://s0208:8082/soap-api/books"/>
+        </wsdl:port>
+    </wsdl:service>
+
+
+</wsdl:definitions>

@@ -1,4 +1,4 @@
-package pl.slowikowski.demo;
+package pl.slowikowski.demo.crud;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

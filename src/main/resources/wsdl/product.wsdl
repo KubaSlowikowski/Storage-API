@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://jakub.slowikowski.pl/soap-example/product"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:abstract="http://jakub.slowikowski.pl/soap-example/abstract"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  targetNamespace="http://jakub.slowikowski.pl/soap-example/product">
+
+    <wsdl:types>
+        <xs:schema targetNamespace="http://jakub.slowikowski.pl/soap-example/product" elementFormDefault="qualified">
+            <xs:include schemaLocation="../schema/product.xsd"/>
+        </xs:schema>
+        <xs:schema targetNamespace="http://jakub.slowikowski.pl/soap-example/abstract" elementFormDefault="qualified">
+            <xs:include schemaLocation="../schema/abstract.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+
+    <!--Define input and output parameters -->
+    <wsdl:message name="GetAllProducts">
+        <wsdl:part name="request" element="tns:GetAllProductsRequest"/>
+    </wsdl:message>
+    <wsdl:message name="FindProductById">
+        <wsdl:part name="request" element="tns:FindProductRequest"/>
+    </wsdl:message>
+    <wsdl:message name="SaveProduct">
+        <wsdl:part name="request" element="tns:SaveProductRequest"/>
+    </wsdl:message>
+    <wsdl:message name="UpdateProduct">
+        <wsdl:part name="request" element="tns:ProductXmlObject"/>
+    </wsdl:message>
+    <wsdl:message name="DeleteProduct">
+        <wsdl:part name="request" element="tns:DeleteProductRequest"/>
+    </wsdl:message>
+    <wsdl:message name="FindAllProductsByGroupId">
+        <wsdl:part name="request" element="tns:ProductsInGroupRequest"/>
+    </wsdl:message>
+    <wsdl:message name="BuyProduct">
+        <wsdl:part name="request" element="tns:BuyProductRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetAllResponse">
+        <wsdl:part name="response" element="abstract:GetAllResponse"/>
+    </wsdl:message>
+    <wsdl:message name="Product">
+        <wsdl:part name="response" element="tns:ProductXmlObject"/>
+    </wsdl:message>
+
+    <!--Define port definition -->
+    <wsdl:portType name="ProductPort">
+        <wsdl:operation name="GetAllProducts">
+            <wsdl:input name="GetAllProductsRequest" message="tns:GetAllProducts"/>
+            <wsdl:output name="GetAllResponse" message="tns:GetAllResponse"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="SaveProduct">
+            <wsdl:input name="SaveProductRequest" message="tns:SaveProduct"/>
+            <wsdl:output name="ProductResponse" message="tns:Product"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="UpdateProduct">
+            <wsdl:input name="Product" message="tns:UpdateProduct"/>
+            <wsdl:output name="ProductResponse" message="tns:Product"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="ProductsInGroup">
+            <wsdl:input name="ProductsInGroupRequest" message="tns:FindAllProductsByGroupId"/>
+            <wsdl:output name="GetAllResponse" message="tns:GetAllResponse"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="BuyProduct">
+            <wsdl:input name="BuyProductRequest" message="tns:BuyProduct"/>
+            <wsdl:output name="ProductResponse" message="tns:Product"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="DeleteProduct">
+            <wsdl:input name="DeleteProductRequest" message="tns:DeleteProduct"/>
+            <wsdl:output name="ProductResponse" message="tns:Product"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindProduct">
+            <wsdl:input name="FindProductRequest" message="tns:FindProductById"/>
+            <wsdl:output name="ProductResponse" message="tns:Product"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <!--Bind Soap operation and service -->
+    <wsdl:binding name="Product_SOAPBinding" type="tns:ProductPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetAllProducts">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="SaveProduct">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="UpdateProduct">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="ProductsInGroup">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="BuyProduct">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="DeleteProduct">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindProduct">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <!--Define service -->
+    <wsdl:service name="ProductPortService">
+        <wsdl:port binding="tns:Product_SOAPBinding" name="Product_SOAPBinding">
+            <soap:address location="http://localhost:8080/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

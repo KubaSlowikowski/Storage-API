@@ -10,8 +10,6 @@ import pl.slowikowski.demo.crud.product.ProductService;
 import pl.slowikowski.jakub.soap_example._abstract.GetAllResponse;
 import pl.slowikowski.jakub.soap_example.product.*;
 
-import java.util.List;
-
 @Endpoint
 public class ProductEndpoint {
 
@@ -63,12 +61,9 @@ public class ProductEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ProductsInGroupRequest")
     @ResponsePayload
-    public ProductXmlList findAllProductsByGroupId(@RequestPayload ProductsInGroupRequest request) {
-        List<ProductDTO> products = service.findAllByGroupId(request.getId());
-        var result = mapper.toWebList(products);
-        ProductXmlList response = new ProductXmlList();
-        response.getProducts().addAll(result);
-        return response;
+    public GetAllResponse findAllProductsByGroupId(@RequestPayload ProductsInGroupRequest request) {
+        Page<ProductDTO> result = service.findAllByGroupId(request.getId(), mapper.toPageFromPageXml(request.getPageable()));
+        return mapper.toGetAllResponse(result);
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "BuyProductRequest")

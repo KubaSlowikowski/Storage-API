@@ -1,11 +1,15 @@
 package pl.slowikowski.demo.crud.exception;
 
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ExceptionAdvice {
@@ -40,7 +44,7 @@ public class ExceptionAdvice {
 
     @ResponseBody
     @ExceptionHandler(UserParameterAlreadyInUseException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public String userParameterAlreadyTakenErrorHandler(UserParameterAlreadyInUseException e) {
         return e.getMessage();
     }
@@ -57,6 +61,34 @@ public class ExceptionAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String authenticationExceptionHandler(AuthenticationException e) {
+        return "Authentication failed: " + e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String missingRequestHeaderExceptionHandler(MissingRequestHeaderException e) {
+        return e.getMessage();
+    }
+
+//    @ResponseBody
+//    @ExceptionHandler(UserNotFoundException.class)
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public String userNotFoundExceptionHandler(UserNotFoundException e) {
+//        return e.getMessage();
+//    }
+
+    @ResponseBody //przy zlym parametrze przy getAll z pageable
+    @ExceptionHandler(PropertyReferenceException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String noPropertyFoundExceptionHandler(PropertyReferenceException e) {
         return e.getMessage();
     }
 }

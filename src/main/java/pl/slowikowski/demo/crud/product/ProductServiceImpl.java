@@ -1,5 +1,8 @@
 package pl.slowikowski.demo.crud.product;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.abstraction.AbstractService;
@@ -25,10 +28,10 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDTO> imp
 
     @Override
     @Transactional
-    public List<ProductDTO> findAllByGroupId(Long groupId) {
+    public Page<ProductDTO> findAllByGroupId(Long groupId, Pageable page) {
         groupRepository.findById(groupId).orElseThrow(() -> new NotFoundException(groupId, ProductGroup.class.getSimpleName()));
         List<Product> productList = repository.findAllByGroup_Id(groupId);
-        return productMapper.toListDto(productList);
+        return new PageImpl<>(productMapper.toListDto(productList), page, productList.size());
     }
 
     @Override

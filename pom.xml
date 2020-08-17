@@ -34,16 +34,10 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>javax.validation</groupId>-->
-        <!--            <artifactId>validation-api</artifactId>-->
-        <!--            <version>2.0.1.Final</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -113,14 +107,27 @@
 
         <!--        Soap-->
         <dependency>
-            <groupId>wsdl4j</groupId>
-            <artifactId>wsdl4j</artifactId>
-            <version>1.6.3</version>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>3.3.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>3.3.7</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
         </dependency>
+
+        <!--        Feign client-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>2.2.4.RELEASE</version>
+        </dependency>
+
 
 
     </dependencies>
@@ -154,25 +161,39 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.5.0</version>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>3.3.7</version>
                 <executions>
                     <execution>
-                        <id>xjc</id>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/product.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/product.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/productGroup.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/productGroup.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/books.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/books.wsdl</wsdlLocation>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${project.basedir}/src/main/resources/wsdl/readers.wsdl</wsdl>
+                                    <wsdlLocation>classpath:wsdl/readers.wsdl</wsdlLocation>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>wsdl2java</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <sources>
-                        <source>${project.basedir}/src/main/resources/schema/product.xsd</source>
-                        <source>${project.basedir}/src/main/resources/schema/productGroup.xsd</source>
-                        <source>${project.basedir}/src/main/resources/schema/pageable.xsd</source>
-                        <source>${project.basedir}/src/main/resources/schema/abstract.xsd</source>
-                    </sources>
-                </configuration>
             </plugin>
         </plugins>
     </build>

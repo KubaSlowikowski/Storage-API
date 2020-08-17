@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import pl.slowikowski.demo.security.jwt.AuthEntryPointJwt;
 import pl.slowikowski.demo.security.jwt.AuthTokenFilter;
 import pl.slowikowski.demo.security.services.UserDetailsServiceImpl;
 
@@ -28,9 +27,6 @@ import pl.slowikowski.demo.security.services.UserDetailsServiceImpl;
 public class TestWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {

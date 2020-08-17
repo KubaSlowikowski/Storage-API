@@ -8,10 +8,6 @@ import pl.slowikowski.demo.crud.abstraction.AbstractController;
 @RestController
 @RequestMapping("/api/groups")
 public class ProductGroupController extends AbstractController<ProductGroupService, ProductGroupDTO> {
-    @Autowired
-    ProductGroupRepository repo;
-    @Autowired
-    ProductGroupMapper mapper;
 
     public ProductGroupController(final ProductGroupServiceImpl service) {
         super(service);
