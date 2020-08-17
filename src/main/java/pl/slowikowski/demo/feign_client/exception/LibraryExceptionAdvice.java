@@ -2,7 +2,12 @@ package pl.slowikowski.demo.feign_client.exception;
 
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.xml.ws.soap.SOAPFaultException;
 
 @ControllerAdvice
 public class LibraryExceptionAdvice {
@@ -44,5 +49,12 @@ public class LibraryExceptionAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String feignUnauthorizedExceptionHandler(FeignException e) {
         return e.status() + " Unauthorized to library.";
+    }
+
+    @ResponseBody
+    @ExceptionHandler(SOAPFaultException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String soapFaultExceptionHandler(SOAPFaultException e) {
+        return e.getMessage();
     }
 }

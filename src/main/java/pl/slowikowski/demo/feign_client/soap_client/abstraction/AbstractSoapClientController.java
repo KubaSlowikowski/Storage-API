@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.feign_client.soap.abstraction;
+package pl.slowikowski.demo.feign_client.soap_client.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +24,8 @@ public class AbstractSoapClientController<D extends AbstractLibraryDTO, T extend
     }
 
     @PostMapping
-    public D add(@RequestBody D dto) {
-        return client.add(dto);
+    public D save(@RequestBody D dto) {
+        return client.save(dto);
     }
 
     @PutMapping("/{id}")

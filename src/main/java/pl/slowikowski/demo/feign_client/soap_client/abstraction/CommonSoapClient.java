@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.feign_client.soap.abstraction;
+package pl.slowikowski.demo.feign_client.soap_client.abstraction;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +10,7 @@ public interface CommonSoapClient<D extends AbstractLibraryDTO> {
 
     D getById(long id);
 
-    D add(D dto);
+    D save(D dto);
 
     D update(D dto, long id);
 

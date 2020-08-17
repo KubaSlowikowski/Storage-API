@@ -1,12 +1,15 @@
-package pl.slowikowski.demo.feign_client.soap.reader;
+package pl.slowikowski.demo.feign_client.soap_client.reader;
 
-import com.raglis.library_api.soap.readers.*;
+import com.raglis.library_api.soap.readers.GetAllReadersResponse;
+import com.raglis.library_api.soap.readers.ObjectFactory;
+import com.raglis.library_api.soap.readers.ReaderPortType;
+import com.raglis.library_api.soap.readers.ReaderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
 import pl.slowikowski.demo.feign_client.crud.reader.ReaderDTO;
-import pl.slowikowski.demo.feign_client.soap.abstraction.CommonSoapClient;
+import pl.slowikowski.demo.feign_client.soap_client.abstraction.CommonSoapClient;
 
 @Component
 class ReaderSoapClient implements CommonSoapClient<ReaderDTO> {
@@ -23,17 +26,13 @@ class ReaderSoapClient implements CommonSoapClient<ReaderDTO> {
 
     @Override
     public Page<ReaderDTO> findAll(final Pageable pageable, final String search) {
-//        var request = objectFactory.createGetAllReadersRequest();
-//        request.setSearch(search);
-//        request.setPageable(mapper.toPageableXmlFromPageable(pageable));
-//
-//        GetAllResponse response = proxy.getAll(request);
-//        var responsePage = response.getPage();
-//        responsePage.getContent().forEach(xml -> );
-//
-//        var result = new PageImpl<>();
+        var request = objectFactory.createGetAllReadersRequest();
+        request.setSearch(search);
+        request.setPageable(mapper.toPageableXml(pageable));
 
-        return null;
+        GetAllReadersResponse response = proxy.getAll(request);
+
+        return mapper.toPageImpl(response, pageable);
     }
 
     @Override
@@ -45,7 +44,7 @@ class ReaderSoapClient implements CommonSoapClient<ReaderDTO> {
     }
 
     @Override
-    public ReaderDTO add(final ReaderDTO dto) {
+    public ReaderDTO save(final ReaderDTO dto) {
         var request = mapper.toCreateReaderRequestFromDto(dto);
         ReaderResponse response = proxy.create(request);
         return mapper.toDto(response.getReader());

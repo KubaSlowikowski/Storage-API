@@ -1,14 +1,15 @@
-package pl.slowikowski.demo.feign_client.soap.book;
+package pl.slowikowski.demo.feign_client.soap_client.book;
 
 import com.raglis.library_api.soap.books.BookPortType;
 import com.raglis.library_api.soap.books.BookResponse;
+import com.raglis.library_api.soap.books.GetAllBooksResponse;
 import com.raglis.library_api.soap.books.ObjectFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
 import pl.slowikowski.demo.feign_client.crud.book.BookDTO;
-import pl.slowikowski.demo.feign_client.soap.abstraction.CommonSoapClient;
+import pl.slowikowski.demo.feign_client.soap_client.abstraction.CommonSoapClient;
 
 @Component
 class BookSoapClient implements CommonSoapClient<BookDTO> {
@@ -25,7 +26,13 @@ class BookSoapClient implements CommonSoapClient<BookDTO> {
 
     @Override
     public Page<BookDTO> findAll(final Pageable pageable, final String search) {
-        return null;
+        var request = objectFactory.createGetAllBooksRequest();
+        request.setSearch(search);
+        request.setPageable(mapper.toPageableXml(pageable));
+
+        GetAllBooksResponse response = proxy.getAll(request);
+
+        return mapper.toPageImpl(response, pageable);
     }
 
     @Override
@@ -37,7 +44,7 @@ class BookSoapClient implements CommonSoapClient<BookDTO> {
     }
 
     @Override
-    public BookDTO add(final BookDTO dto) {
+    public BookDTO save(final BookDTO dto) {
         var request = mapper.toCreateBookRequestFromDto(dto);
         BookResponse response = proxy.create(request);
         return mapper.toDto(response.getBook());
@@ -48,7 +55,8 @@ class BookSoapClient implements CommonSoapClient<BookDTO> {
         if (dto.getId() != id) {
             throw new WrongIdException();
         }
-        var request = mapper.toUpdateBookRequestFromDto(dto);
+        var request = objectFactory.createUpdateBookRequest();
+        request.setBook(mapper.toXml(dto));
         BookResponse response = proxy.update(request);
         return mapper.toDto(response.getBook());
     }
@@ -62,3 +70,4 @@ class BookSoapClient implements CommonSoapClient<BookDTO> {
         return mapper.toDto(response.getBook());
     }
 }
+
