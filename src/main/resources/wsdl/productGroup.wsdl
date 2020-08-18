@@ -45,7 +45,7 @@
 
 
     <!--Define port definition -->
-    <wsdl:portType name="ProductGroupPort">
+    <wsdl:portType name="ProductGroupClient">
         <wsdl:operation name="GetAllProductGroups">
             <wsdl:input name="GetAllProductGroupsRequest" message="tns:GetAllProductGroups"/>
             <wsdl:output name="GetAllProductGroupsResponse" message="tns:GetAllResponse"/>
@@ -74,7 +74,7 @@
 
 
     <!--Bind Soap operation and service -->
-    <wsdl:binding name="ProductGroup_SOAPBinding" type="tns:ProductGroupPort">
+    <wsdl:binding name="ProductGroup_SOAPBinding" type="tns:ProductGroupClient">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
         <wsdl:operation name="GetAllProductGroups">

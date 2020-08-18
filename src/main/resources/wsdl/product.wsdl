@@ -46,7 +46,7 @@
     </wsdl:message>
 
     <!--Define port definition -->
-    <wsdl:portType name="ProductPort">
+    <wsdl:portType name="ProductClient">
         <wsdl:operation name="GetAllProducts">
             <wsdl:input name="GetAllProductsRequest" message="tns:GetAllProducts"/>
             <wsdl:output name="GetAllResponse" message="tns:GetAllResponse"/>
@@ -84,7 +84,7 @@
     </wsdl:portType>
 
     <!--Bind Soap operation and service -->
-    <wsdl:binding name="Product_SOAPBinding" type="tns:ProductPort">
+    <wsdl:binding name="Product_SOAPBinding" type="tns:ProductClient">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="GetAllProducts">
             <soap:operation soapAction="" style="document"/>
