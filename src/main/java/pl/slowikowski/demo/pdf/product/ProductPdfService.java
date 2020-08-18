@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.pdf;
+package pl.slowikowski.demo.pdf.product;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Service
-public class ProductExportService {
-    private final PdfPTable table = new PdfPTable(5);
+public class ProductPdfService {
+    private PdfPTable table;
 
-    public ByteArrayInputStream productsPdfReport(List<ProductDTO> products) {
+    public ByteArrayInputStream exportToPdf(List<ProductDTO> products, String title, int numColumns) {
+        table = new PdfPTable(numColumns);
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -24,8 +25,8 @@ public class ProductExportService {
             document.open();
 
             //add text to pdf file
-            Font font = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLUE);
-            Paragraph paragraph = new Paragraph("Products list", font);
+            Font font = FontFactory.getFont(FontFactory.COURIER, 17, BaseColor.BLACK);
+            Paragraph paragraph = new Paragraph(title, font);
             paragraph.setAlignment(Element.ALIGN_CENTER);
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
@@ -34,7 +35,7 @@ public class ProductExportService {
             Stream.of("ID", "Name", "Description", "Price", "Sold", "Group ID").forEach(headerTitle -> {
                 PdfPCell header = new PdfPCell();
                 Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-                header.setBackgroundColor(BaseColor.GREEN);
+                header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 header.setHorizontalAlignment(Element.ALIGN_CENTER);
                 header.setBorderWidth(1);
                 header.setPhrase(new Phrase(headerTitle, headerFont));
@@ -43,6 +44,7 @@ public class ProductExportService {
 
             for (ProductDTO product : products) {
                 createCell(Long.toString(product.getId()));
+                createCell(product.getName());
                 createCell(product.getDescription());
                 createCell(Integer.toString(product.getPrice()));
                 createCell(Boolean.toString(product.isSold()));
@@ -57,10 +59,11 @@ public class ProductExportService {
     }
 
     private void createCell(String cellData) {
-        PdfPCell cell = new PdfPCell(new Phrase(cellData));
-        cell.setPadding(1);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        Font cellFont = FontFactory.getFont(FontFactory.TIMES_ITALIC, 10, BaseColor.BLACK);
+        PdfPCell cell = new PdfPCell(new Phrase(cellData, cellFont));
+        cell.setPadding(10);
+        cell.setVerticalAlignment(Element.ALIGN_CENTER);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
     }
 }
