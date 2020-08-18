@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.pdf.abstraction;
+package pl.slowikowski.demo.export.pdf.abstraction;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Pageable;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-public class AbstractExportController<T extends AbstractExportService> {
+public abstract class AbstractPdfExportController<T extends AbstractExportPdfService> {
 
     private final T service;
 
-    public AbstractExportController(T service) {
+    public AbstractPdfExportController(T service) {
         this.service = service;
     }
 

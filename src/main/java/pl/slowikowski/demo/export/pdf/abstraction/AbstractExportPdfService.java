@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.pdf.abstraction;
+package pl.slowikowski.demo.export.pdf.abstraction;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayInputStream;
 
-public abstract class AbstractExportService {
+public abstract class AbstractExportPdfService {
 
     public abstract ResponseEntity<InputStreamResource> exportAllToPdf(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search);
 
