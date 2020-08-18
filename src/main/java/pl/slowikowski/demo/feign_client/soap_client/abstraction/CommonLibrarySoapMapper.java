@@ -33,28 +33,4 @@ public interface CommonLibrarySoapMapper<X extends AbstractXmlType, D extends Ab
         response.getPage().getContent().forEach(xml -> content.add(this.toDto((X) xml)));
         return new PageImpl<>(content, pageable, content.size());
     }
-
-//    default PageableXml toPagedResponse(Page<X> page) {
-//        PageableXml pageableXml = new PageableXml();
-//        pageableXml.getContent().addAll(page.getContent());
-//        pageableXml.setPage(page.getNumber());
-//        pageableXml.setSize(page.getSize());
-//        pageableXml.getSortOrders().addAll(toResponseOrders(page.getSort().toList()));
-//        return pageableXml;
-//    }
-//
-//    default List<Sort.Order> fromRequestOrders(List<OrderXml> orderXmlList) {
-//        List<Sort.Order> orders = new ArrayList<>(orderXmlList.size());
-//        orderXmlList.forEach(ox -> {
-//            if (ox.getSort() == null) return;
-//            if (ox.getDir() != null && ox.getDir().equalsIgnoreCase("DESC")) orders.add(Sort.Order.desc(ox.getSort()));
-//            else orders.add(Sort.Order.asc(ox.getSort()));
-//        });
-//        return orders;
-//    }
-//
-//
-//    @Mapping(target = "sort", source = "property")
-//    @Mapping(target = "dir", source = "direction")
-//    OrderXml orderToOrderXml(Sort.Order order);
 }

@@ -5,7 +5,7 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import pl.slowikowski.demo.feign_client.CredentialsLoader;
+import pl.slowikowski.demo.feign_client.LibraryProperties;
 import pl.slowikowski.demo.feign_client.authorization.AuthLibraryClient;
 import pl.slowikowski.demo.feign_client.authorization.AuthLibraryRequest;
 
@@ -16,16 +16,16 @@ import java.util.TreeMap;
 
 public class AuthSoapInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private final AuthLibraryClient authClient;
 
     //https://cxf.apache.org/docs/interceptors.html
-    public AuthSoapInterceptor(final AuthLibraryClient authClient) {
+    public AuthSoapInterceptor(final AuthLibraryClient authClient, LibraryProperties libraryProperties) {
         super(Phase.USER_LOGICAL);
         this.authClient = authClient;
-        this.username = CredentialsLoader.getUsername();
-        this.password = CredentialsLoader.getPassword();
+        this.username = libraryProperties.getUsername();
+        this.password = libraryProperties.getPassword();
     }
 
     @Override
@@ -41,13 +41,5 @@ public class AuthSoapInterceptor extends AbstractPhaseInterceptor<Message> {
         protocolHeaders.put("Authorization", Collections.singletonList("Bearer " + token));
 
         message.put(Message.PROTOCOL_HEADERS, protocolHeaders);
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

@@ -4,7 +4,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import pl.slowikowski.demo.feign_client.CredentialsLoader;
+import pl.slowikowski.demo.feign_client.LibraryProperties;
 import pl.slowikowski.demo.feign_client.authorization.AuthLibraryClient;
 import pl.slowikowski.demo.feign_client.authorization.AuthLibraryRequest;
 
@@ -14,11 +14,12 @@ public class AuthRestInterceptor implements RequestInterceptor { //feign clients
     private final String username;
     private final String password;
     private final AuthLibraryClient authClient;
+    private LibraryProperties libraryProperties;
 
-    public AuthRestInterceptor(final AuthLibraryClient authClient) {
+    public AuthRestInterceptor(final AuthLibraryClient authClient, LibraryProperties libraryProperties) {
         this.authClient = authClient;
-        this.username = CredentialsLoader.getUsername();
-        this.password = CredentialsLoader.getPassword();
+        this.username = libraryProperties.getUsername();
+        this.password = libraryProperties.getPassword();
     }
 
     @Override
