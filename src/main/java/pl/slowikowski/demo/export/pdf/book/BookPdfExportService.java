@@ -25,7 +25,7 @@ public class BookPdfExportService extends AbstractExportPdfService {
     @Override
     public ResponseEntity<InputStreamResource> exportToPdf(Pageable pageable, String search) {
         List<BookDTO> products = client.findAll(pageable, search).getContent();
-        ByteArrayInputStream bais = pdfService.exportToPdf(products, "Books list", null);
+        ByteArrayInputStream bais = pdfService.exportToPdf(products, "Books list");
         return createResponse(bais, "books");
     }
 }
