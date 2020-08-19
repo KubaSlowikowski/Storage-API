@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.slowikowski.demo.export.excel.abstraction.AbstractExcelExportController;
 
 @RestController
-@RequestMapping("/export/excel/products")
+@RequestMapping("${export.excel.url}/products")
 public class ProductExcelController extends AbstractExcelExportController<ProductExcelExportService> {
     public ProductExcelController(final ProductExcelExportService exportService) {
         super(exportService);

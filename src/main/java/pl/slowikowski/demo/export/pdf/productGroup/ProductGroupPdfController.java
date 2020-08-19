@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.slowikowski.demo.export.pdf.abstraction.AbstractPdfExportController;
 
 @RestController
-@RequestMapping("/export/pdf/groups")
+@RequestMapping("${export.pdf.url}/groups")
 public class ProductGroupPdfController extends AbstractPdfExportController<ProductGroupPdfExportService> {
     public ProductGroupPdfController(final ProductGroupPdfExportService exportService) {
         super(exportService);

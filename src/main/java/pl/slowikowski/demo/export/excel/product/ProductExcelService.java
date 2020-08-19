@@ -22,7 +22,6 @@ public class ProductExcelService {
             CreationHelper creationHelper = workbook.getCreationHelper();
 
             Sheet sheet = workbook.createSheet(title);
-            sheet.autoSizeColumn(columns.length);
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -57,11 +56,17 @@ public class ProductExcelService {
                 int columnIndex = 0;
                 Row row = sheet.createRow(rowIndex++);
 
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, Long.toString(product.getId()), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, product.getName(), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, product.getDescription(), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, Integer.toString(product.getPrice()), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, Boolean.toString(product.isSold()), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex, Long.toString(product.getGroupId()), cellStyle);
             }
             workbook.write(out);

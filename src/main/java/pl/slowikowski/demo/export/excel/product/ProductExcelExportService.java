@@ -22,16 +22,10 @@ public class ProductExcelExportService extends AbstractExcelExportService {
     }
 
     @Override
-    public ResponseEntity<InputStreamResource> exportAllToExcel(Pageable pageable, String search) {
+    public ResponseEntity<InputStreamResource> exportToExcel(Pageable pageable, String search) {
         List<ProductDTO> products = service.getAll(pageable, search).getContent();
         ByteArrayInputStream bais = excelService.exportToExcel(products, "Products_list");
         return createResponse(bais, "products");
     }
 
-    @Override
-    public ResponseEntity<InputStreamResource> exportToExcel(Long id) {
-        List<ProductDTO> product = List.of(service.findById(id));
-        ByteArrayInputStream bais = excelService.exportToExcel(product, "Product_" + product.get(0).getId());
-        return createResponse(bais, "product" + product.get(0).getId());
-    }
 }

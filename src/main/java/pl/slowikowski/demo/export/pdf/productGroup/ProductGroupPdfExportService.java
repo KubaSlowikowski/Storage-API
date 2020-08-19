@@ -22,16 +22,9 @@ public class ProductGroupPdfExportService extends AbstractExportPdfService {
     }
 
     @Override
-    public ResponseEntity<InputStreamResource> exportAllToPdf(Pageable pageable, String search) {
+    public ResponseEntity<InputStreamResource> exportToPdf(Pageable pageable, String search) {
         List<ProductGroupDTO> products = service.getAll(pageable, search).getContent();
         ByteArrayInputStream bais = pdfService.exportToPdf(products, "Product groups list", 4);
         return createResponse(bais, "productsGroups");
-    }
-
-    @Override
-    public ResponseEntity<InputStreamResource> exportToPdf(Long id) {
-        List<ProductGroupDTO> product = List.of(service.findById(id));
-        ByteArrayInputStream bais = pdfService.exportToPdf(product, "Product Group " + product.get(0).getId(), 4);
-        return createResponse(bais, "productGroup" + product.get(0).getId());
     }
 }

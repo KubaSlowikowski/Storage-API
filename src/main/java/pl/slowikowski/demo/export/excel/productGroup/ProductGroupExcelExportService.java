@@ -22,16 +22,9 @@ public class ProductGroupExcelExportService extends AbstractExcelExportService {
     }
 
     @Override
-    public ResponseEntity<InputStreamResource> exportAllToExcel(Pageable pageable, String search) {
+    public ResponseEntity<InputStreamResource> exportToExcel(Pageable pageable, String search) {
         List<ProductGroupDTO> products = service.getAll(pageable, search).getContent();
         ByteArrayInputStream bais = excelService.exportToExcel(products, "Product_groups_list");
         return createResponse(bais, "productGroups");
-    }
-
-    @Override
-    public ResponseEntity<InputStreamResource> exportToExcel(Long id) {
-        List<ProductGroupDTO> product = List.of(service.findById(id));
-        ByteArrayInputStream bais = excelService.exportToExcel(product, "Product_Group_" + product.get(0).getId());
-        return createResponse(bais, "productGroup" + product.get(0).getId());
     }
 }
