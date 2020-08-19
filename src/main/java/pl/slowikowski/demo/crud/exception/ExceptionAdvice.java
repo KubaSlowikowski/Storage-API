@@ -91,4 +91,14 @@ public class ExceptionAdvice {
     public String noPropertyFoundExceptionHandler(PropertyReferenceException e) {
         return e.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(org.springframework.dao.InvalidDataAccessApiUsageException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String invalidDataExceptionHandler(org.springframework.dao.InvalidDataAccessApiUsageException e) {
+        String message = e.getMessage().split("IllegalArgumentException:")[1];
+        return message.substring(1, message.indexOf("]") + 1);
+    }
+
 }
+
