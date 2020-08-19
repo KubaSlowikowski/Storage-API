@@ -3,6 +3,7 @@ package pl.slowikowski.demo.feign_client.rest_client.abstraction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.feign_client.CustomPageImpl;
+import pl.slowikowski.demo.feign_client.dto.AbstractLibraryDTO;
 
 public class AbstractLibraryController<D extends AbstractLibraryDTO, T extends CommonLibraryClient<D>> {
     private final T client;

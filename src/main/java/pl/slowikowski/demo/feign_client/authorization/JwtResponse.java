@@ -2,7 +2,7 @@ package pl.slowikowski.demo.feign_client.authorization;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
+import pl.slowikowski.demo.feign_client.dto.AbstractLibraryDTO;
 
 @Getter
 @Setter

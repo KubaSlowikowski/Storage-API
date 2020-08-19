@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.pdf.productGroup;
+package pl.slowikowski.demo.export.pdf.productGroup;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;

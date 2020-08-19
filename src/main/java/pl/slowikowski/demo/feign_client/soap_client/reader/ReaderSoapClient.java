@@ -8,17 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
-import pl.slowikowski.demo.feign_client.rest_client.reader.ReaderDTO;
+import pl.slowikowski.demo.feign_client.dto.ReaderDTO;
 import pl.slowikowski.demo.feign_client.soap_client.abstraction.CommonSoapClient;
 
 @Component
-class ReaderSoapClient implements CommonSoapClient<ReaderDTO> {
+public class ReaderSoapClient implements CommonSoapClient<ReaderDTO> {
 
     private final ReaderPortType proxy;
     private final ObjectFactory objectFactory;
     private final ReaderWebMapper mapper;
 
-    ReaderSoapClient(final ReaderPortType proxy, final ObjectFactory objectFactory, final ReaderWebMapper mapper) {
+    public ReaderSoapClient(final ReaderPortType proxy, final ObjectFactory objectFactory, final ReaderWebMapper mapper) {
         this.proxy = proxy;
         this.objectFactory = objectFactory;
         this.mapper = mapper;
