@@ -35,6 +35,8 @@ public class ProductExcelService {
             cellStyle.setBorderRight(BorderStyle.THIN);
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Row for header
             Row headerRow = sheet.createRow(0);
@@ -53,6 +55,8 @@ public class ProductExcelService {
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
             cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("#"));
+            cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             for (ProductDTO product : products) {
                 int columnIndex = 0;

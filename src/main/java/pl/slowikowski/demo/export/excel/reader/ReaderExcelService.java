@@ -34,6 +34,8 @@ public class ReaderExcelService {
             cellStyle.setBorderRight(BorderStyle.THIN);
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Row for header
             Row headerRow = sheet.createRow(0);
@@ -52,6 +54,8 @@ public class ReaderExcelService {
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
             cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("#"));
+            cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             for (ReaderDTO reader : readers) {
                 int columnIndex = 0;

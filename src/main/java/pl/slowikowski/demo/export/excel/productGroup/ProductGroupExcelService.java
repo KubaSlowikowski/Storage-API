@@ -30,7 +30,6 @@ public class ProductGroupExcelService {
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
-            headerFont.setColor(IndexedColors.BLUE.getIndex());
 
             CellStyle cellStyle = workbook.createCellStyle();
             cellStyle.setFont(headerFont);
@@ -38,6 +37,8 @@ public class ProductGroupExcelService {
             cellStyle.setBorderRight(BorderStyle.THIN);
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
+            cellStyle.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             // Row for header
             Row headerRow = sheet.createRow(0);
@@ -56,6 +57,8 @@ public class ProductGroupExcelService {
             cellStyle.setBorderTop(BorderStyle.THIN);
             cellStyle.setBorderBottom(BorderStyle.THIN);
             cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("#"));
+            cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
             for (ProductGroupDTO group : products) {
                 int columnIndex = 0;
