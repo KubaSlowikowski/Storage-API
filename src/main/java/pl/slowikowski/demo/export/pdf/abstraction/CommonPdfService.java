@@ -1,23 +1,43 @@
-package pl.slowikowski.demo.export.pdf.product;
+package pl.slowikowski.demo.export.pdf.abstraction;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
-import pl.slowikowski.demo.crud.product.ProductDTO;
+import pl.slowikowski.demo.crud.abstraction.AbstractDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class ProductPdfService {
+public class CommonPdfService<D extends AbstractDto> {
     private PdfPTable table;
 
-    public ByteArrayInputStream exportToPdf(List<ProductDTO> products, String title, int numColumns) {
-        table = new PdfPTable(numColumns);
+    public ByteArrayInputStream exportToPdf(List<D> dtos, String title, List<String> fieldsToIgnore) {
+
+        List<Field> fields = new ArrayList<>(List.of(AbstractDto.class.getDeclaredFields()));
+        fields.addAll(List.of(dtos.get(0).getClass().getDeclaredFields()));
+
+        if (fieldsToIgnore != null) {
+            for (String ignore : fieldsToIgnore) {
+                Set<Field> toRemove = fields.stream()
+                        .filter(field -> field.getName().equals(ignore))
+                        .collect(Collectors.toSet());
+                if (!toRemove.isEmpty()) {
+                    toRemove.forEach(fields::remove);
+                }
+            }
+        }
+
+        //table size
+        table = new PdfPTable(fields.size());
+
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -31,24 +51,27 @@ public class ProductPdfService {
             document.add(paragraph);
             document.add(Chunk.NEWLINE);
 
+
             //make column titles
-            Stream.of("ID", "Name", "Description", "Price", "Sold", "Group ID").forEach(headerTitle -> {
+            fields.forEach(field -> {
                 PdfPCell header = new PdfPCell();
                 Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
                 header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                 header.setHorizontalAlignment(Element.ALIGN_CENTER);
                 header.setBorderWidth(1);
-                header.setPhrase(new Phrase(headerTitle, headerFont));
+                header.setPhrase(new Phrase(field.getName(), headerFont));
                 table.addCell(header);
             });
 
-            for (ProductDTO product : products) {
-                createCell(Long.toString(product.getId()));
-                createCell(product.getName());
-                createCell(product.getDescription());
-                createCell(Integer.toString(product.getPrice()));
-                createCell(Boolean.toString(product.isSold()));
-                createCell(Long.toString(product.getGroupId()));
+            for (D dto : dtos) {
+                fields.forEach(field -> {
+                    try {
+                        field.setAccessible(true);
+                        createCell(String.valueOf(field.get(dto)));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
             document.add(table);
             document.close();
