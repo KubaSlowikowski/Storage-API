@@ -16,7 +16,7 @@ public class ProductSoapService {
     private final ProductWebMapper mapper;
 
     public GetAllResponse getAllProducts(GetAllProductsRequest request) {
-        Page<ProductDTO> result = service.getAll(mapper.toPageFromPageXml(request.getPageable()), request.getSearch());
+        Page<ProductDTO> result = service.getAll(mapper.toPageable(request.getPageable()), request.getSearch());
         return mapper.toGetAllResponse(result);
     }
 
@@ -31,7 +31,7 @@ public class ProductSoapService {
     }
 
     public GetAllResponse productsInGroup(ProductsInGroupRequest request) {
-        Page<ProductDTO> result = service.findAllByGroupId(request.getId(), mapper.toPageFromPageXml(request.getPageable()));
+        Page<ProductDTO> result = service.findAllByGroupId(request.getId(), mapper.toPageable(request.getPageable()));
         return mapper.toGetAllResponse(result);
     }
 

@@ -25,7 +25,7 @@ public class ProductGroupEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllProductGroupsRequest")
     @ResponsePayload
     public GetAllResponse getAllProductGroups(@RequestPayload GetAllProductGroupsRequest request) {
-        Page<ProductGroupDTO> result = service.getAll(mapper.toPageFromPageXml(request.getPageable()), request.getSearch());
+        Page<ProductGroupDTO> result = service.getAll(mapper.toPageable(request.getPageable()), request.getSearch());
         return mapper.toGetAllResponse(result);
     }
 

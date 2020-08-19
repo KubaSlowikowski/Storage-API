@@ -1,9 +1,7 @@
-package pl.slowikowski.demo.feign_client.rest_client.book;
+package pl.slowikowski.demo.feign_client.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
-import pl.slowikowski.demo.feign_client.rest_client.reader.ReaderDTO;
 
 @Getter
 @Setter
@@ -12,4 +10,9 @@ public class BookDTO extends AbstractLibraryDTO {
     private int publicationYear;
     private ReaderDTO reader;
     private String title;
+
+    @Override
+    public String toString() {
+        return (author == null) ? "" : author + " '" + title + "'";
+    }
 }

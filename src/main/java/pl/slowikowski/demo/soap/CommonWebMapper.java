@@ -21,7 +21,7 @@ public interface CommonWebMapper<D extends AbstractDto, O extends AbstractXmlEle
     W toWeb(D d);
     List<W> toWebList(List<D> d);
 
-    default Pageable toPageFromPageXml(PageableXml pageable) {
+    default Pageable toPageable(PageableXml pageable) {
 
         if (pageable.getDir() == null) {
             pageable.setDir("ASC");
