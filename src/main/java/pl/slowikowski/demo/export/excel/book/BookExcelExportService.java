@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.slowikowski.demo.export.excel.abstraction.AbstractExcelExportService;
+import pl.slowikowski.demo.export.excel.abstraction.CommonExcelService;
 import pl.slowikowski.demo.feign_client.dto.BookDTO;
 import pl.slowikowski.demo.feign_client.soap_client.book.BookSoapClient;
 
@@ -15,9 +16,9 @@ import java.util.List;
 public class BookExcelExportService extends AbstractExcelExportService {
 
     private final BookSoapClient client;
-    private final BookExcelService excelService;
+    private final CommonExcelService<BookDTO> excelService;
 
-    public BookExcelExportService(final BookSoapClient client, final BookExcelService excelService) {
+    public BookExcelExportService(final BookSoapClient client, final CommonExcelService<BookDTO> excelService) {
         this.client = client;
         this.excelService = excelService;
     }
@@ -25,7 +26,7 @@ public class BookExcelExportService extends AbstractExcelExportService {
     @Override
     public ResponseEntity<InputStreamResource> exportToExcel(Pageable pageable, String search) {
         List<BookDTO> books = client.findAll(pageable, search).getContent();
-        ByteArrayInputStream bais = excelService.exportToExcel(books, "Books_list");
+        ByteArrayInputStream bais = excelService.exportToExcel(books, "Books_list", null);
         return createResponse(bais, "books");
     }
 }

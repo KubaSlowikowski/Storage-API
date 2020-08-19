@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.slowikowski.demo.crud.product.ProductDTO;
 import pl.slowikowski.demo.crud.product.ProductService;
 import pl.slowikowski.demo.export.excel.abstraction.AbstractExcelExportService;
+import pl.slowikowski.demo.export.excel.abstraction.CommonExcelService;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
 @Service
 public class ProductExcelExportService extends AbstractExcelExportService {
     private final ProductService service;
-    private final ProductExcelService excelService;
+    private final CommonExcelService<ProductDTO> excelService;
 
-    public ProductExcelExportService(final ProductService service, final ProductExcelService excelService) {
+    public ProductExcelExportService(final ProductService service, final CommonExcelService<ProductDTO> excelService) {
         this.service = service;
         this.excelService = excelService;
     }
@@ -24,7 +25,7 @@ public class ProductExcelExportService extends AbstractExcelExportService {
     @Override
     public ResponseEntity<InputStreamResource> exportToExcel(Pageable pageable, String search) {
         List<ProductDTO> products = service.getAll(pageable, search).getContent();
-        ByteArrayInputStream bais = excelService.exportToExcel(products, "Products_list");
+        ByteArrayInputStream bais = excelService.exportToExcel(products, "Products_list", null);
         return createResponse(bais, "products");
     }
 

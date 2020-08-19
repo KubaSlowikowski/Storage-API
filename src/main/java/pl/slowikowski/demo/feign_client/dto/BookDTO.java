@@ -13,6 +13,6 @@ public class BookDTO extends AbstractLibraryDTO {
 
     @Override
     public String toString() {
-        return (author == null) ? "" : author + "'" + title + "'";
+        return (author == null) ? "" : author + " '" + title + "'";
     }
 }

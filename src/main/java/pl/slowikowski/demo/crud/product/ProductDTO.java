@@ -27,12 +27,7 @@ public class ProductDTO extends AbstractDto {
 
     @Override
     public String toString() {
-        return "ProductDTO{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", sold=" + sold +
-                '}';
+        return name + "(id=" + getId() + ")";
     }
 
     @Override

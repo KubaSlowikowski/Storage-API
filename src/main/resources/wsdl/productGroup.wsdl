@@ -130,7 +130,7 @@
 
 
     <!--Define service -->
-    <wsdl:service name="ProductGroupPortService">
+    <wsdl:service name="ProductGroupClientService">
         <wsdl:port binding="tns:ProductGroup_SOAPBinding" name="ProductGroup_SOAPBinding">
             <soap:address location="http://localhost:8080/ws"/>
         </wsdl:port>
