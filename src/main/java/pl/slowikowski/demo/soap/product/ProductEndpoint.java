@@ -25,7 +25,7 @@ public class ProductEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetAllProductsRequest")
     @ResponsePayload
     public GetAllResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
-        Page<ProductDTO> result = service.getAll(mapper.toPageFromPageXml(request.getPageable()), request.getSearch());
+        Page<ProductDTO> result = service.getAll(mapper.toPageable(request.getPageable()), request.getSearch());
         return mapper.toGetAllResponse(result);
     }
 
@@ -62,7 +62,7 @@ public class ProductEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ProductsInGroupRequest")
     @ResponsePayload
     public GetAllResponse findAllProductsByGroupId(@RequestPayload ProductsInGroupRequest request) {
-        Page<ProductDTO> result = service.findAllByGroupId(request.getId(), mapper.toPageFromPageXml(request.getPageable()));
+        Page<ProductDTO> result = service.findAllByGroupId(request.getId(), mapper.toPageable(request.getPageable()));
         return mapper.toGetAllResponse(result);
     }
 

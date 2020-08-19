@@ -4,7 +4,7 @@ import com.raglis.library_api.soap.readers.CreateReaderRequest;
 import com.raglis.library_api.soap.readers.ReaderXml;
 import com.raglis.library_api.soap.readers.UpdateReaderRequest;
 import org.mapstruct.Mapper;
-import pl.slowikowski.demo.feign_client.rest_client.reader.ReaderDTO;
+import pl.slowikowski.demo.feign_client.dto.ReaderDTO;
 import pl.slowikowski.demo.feign_client.soap_client.abstraction.CommonLibrarySoapMapper;
 
 @Mapper(componentModel = "spring")

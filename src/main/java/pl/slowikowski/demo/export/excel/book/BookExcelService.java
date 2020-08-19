@@ -1,24 +1,21 @@
-package pl.slowikowski.demo.export.excel.productGroup;
+package pl.slowikowski.demo.export.excel.book;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import pl.slowikowski.demo.crud.product.ProductDTO;
-import pl.slowikowski.demo.crud.productGroup.ProductGroupDTO;
+import pl.slowikowski.demo.feign_client.dto.BookDTO;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static pl.slowikowski.demo.export.excel.abstraction.AbstractExcelService.createCellAndRow;
 
 @Service
-public class ProductGroupExcelService {
-
-    public ByteArrayInputStream exportToExcel(List<ProductGroupDTO> products, String title) {
-        String[] columns = {"ID", "Name", "Description", "Products"};
+public class BookExcelService {
+    public ByteArrayInputStream exportToExcel(List<BookDTO> books, String title) {
+        String[] columns = {"ID", "Author", "PublicationYear", "Title", "Reader"};
         try (
                 Workbook workbook = new XSSFWorkbook();
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -26,7 +23,6 @@ public class ProductGroupExcelService {
             CreationHelper creationHelper = workbook.getCreationHelper();
 
             Sheet sheet = workbook.createSheet(title);
-            sheet.autoSizeColumn(columns.length);
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -57,29 +53,20 @@ public class ProductGroupExcelService {
             cellStyle.setBorderBottom(BorderStyle.THIN);
             cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("#"));
 
-            for (ProductGroupDTO group : products) {
+            for (BookDTO book : books) {
                 int columnIndex = 0;
                 Row row = sheet.createRow(rowIndex++);
 
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, group.getId(), cellStyle);
-
+                createCellAndRow(row, columnIndex++, book.getId(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, group.getName(), cellStyle);
-
+                createCellAndRow(row, columnIndex++, book.getAuthor(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, group.getDescription(), cellStyle);
-
+                createCellAndRow(row, columnIndex++, book.getPublicationYear(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(
-                        row,
-                        columnIndex++,
-                        group.getProducts()
-                                .stream()
-                                .map(ProductDTO::toString)
-                                .collect(Collectors.toList())
-                                .toString(),
-                        cellStyle);
+                createCellAndRow(row, columnIndex++, book.getTitle(), cellStyle);
+                sheet.autoSizeColumn(columnIndex);
+                createCellAndRow(row, columnIndex, book.getReader(), cellStyle);
             }
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
@@ -88,4 +75,10 @@ public class ProductGroupExcelService {
         }
         return null;
     }
+
+//    private void createCellAndRow(Row row, int columnIndex, String cellValue, CellStyle cellStyle) {
+//        Cell cell = row.createCell(columnIndex);
+//        cell.setCellValue(cellValue);
+//        cell.setCellStyle(cellStyle);
+//    }
 }

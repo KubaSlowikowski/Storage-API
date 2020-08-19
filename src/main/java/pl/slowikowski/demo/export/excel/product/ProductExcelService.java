@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import static pl.slowikowski.demo.export.excel.abstraction.AbstractExcelService.createCellAndRow;
+
 @Service
 public class ProductExcelService {
 
@@ -57,17 +59,17 @@ public class ProductExcelService {
                 Row row = sheet.createRow(rowIndex++);
 
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, Long.toString(product.getId()), cellStyle);
+                createCellAndRow(row, columnIndex++, product.getId(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, product.getName(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
                 createCellAndRow(row, columnIndex++, product.getDescription(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, Integer.toString(product.getPrice()), cellStyle);
+                createCellAndRow(row, columnIndex++, product.getPrice(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex++, Boolean.toString(product.isSold()), cellStyle);
+                createCellAndRow(row, columnIndex++, product.isSold(), cellStyle);
                 sheet.autoSizeColumn(columnIndex);
-                createCellAndRow(row, columnIndex, Long.toString(product.getGroupId()), cellStyle);
+                createCellAndRow(row, columnIndex, product.getGroupId(), cellStyle);
             }
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());
@@ -75,11 +77,5 @@ public class ProductExcelService {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private void createCellAndRow(Row row, int columnIndex, String cellValue, CellStyle cellStyle) {
-        Cell cell = row.createCell(columnIndex);
-        cell.setCellValue(cellValue);
-        cell.setCellStyle(cellStyle);
     }
 }

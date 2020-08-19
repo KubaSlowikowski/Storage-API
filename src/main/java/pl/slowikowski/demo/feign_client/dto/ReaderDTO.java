@@ -1,8 +1,7 @@
-package pl.slowikowski.demo.feign_client.rest_client.reader;
+package pl.slowikowski.demo.feign_client.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryDTO;
 
 import java.time.LocalDate;
 
@@ -16,4 +15,9 @@ public class ReaderDTO extends AbstractLibraryDTO {
     private String role;
     private String username;
     private String password;
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " (id=" + getId() + ")";
+    }
 }

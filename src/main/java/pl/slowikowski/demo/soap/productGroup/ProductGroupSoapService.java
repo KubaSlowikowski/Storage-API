@@ -16,7 +16,7 @@ public class ProductGroupSoapService {
     private final ProductGroupWebMapper mapper;
 
     public GetAllResponse getAllProductGroups(GetAllProductGroupsRequest request) {
-        Page<ProductGroupDTO> result = service.getAll(mapper.toPageFromPageXml(request.getPageable()), request.getSearch());
+        Page<ProductGroupDTO> result = service.getAll(mapper.toPageable(request.getPageable()), request.getSearch());
         return mapper.toGetAllResponse(result);
     }
 
