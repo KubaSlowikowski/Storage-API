@@ -27,7 +27,6 @@ public class ProductExcelService {
 
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
-            headerFont.setColor(IndexedColors.BLUE.getIndex());
 
             CellStyle cellStyle = workbook.createCellStyle();
             cellStyle.setFont(headerFont);
