@@ -6,14 +6,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import pl.slowikowski.demo.crud.abstraction.AbstractDto;
+import pl.slowikowski.demo.export.pdf.annotation.PdfIgnoreField;
+import pl.slowikowski.demo.export.pdf.annotation.PdfTableName;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -32,11 +33,6 @@ public class ExportDto {
         private List<D> dtos;
         private String fileName;
         private String extension;
-        private String title;
-        private List<String> fieldsToIgnore;
-        private PdfPTable table;
-        private Document document;
-        private List<Field> fields;
 
         private PdfBuilder() {
         }
@@ -50,16 +46,6 @@ public class ExportDto {
             return this;
         }
 
-        public PdfBuilder withTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public PdfBuilder withFieldsToIgnore(List<String> fieldsToIgnore) {
-            this.fieldsToIgnore = fieldsToIgnore;
-            return this;
-        }
-
         public PdfBuilder withFileName(String fileName) {
             this.fileName = fileName;
             return this;
@@ -70,83 +56,100 @@ public class ExportDto {
             return this;
         }
 
+        @SneakyThrows
         public ExportDto build() {
-
-            fields = new ArrayList<>(List.of(AbstractDto.class.getDeclaredFields()));
-            fields.addAll(List.of(dtos.get(0).getClass().getDeclaredFields()));
-
-            ignoreFields();
-
-            table = new PdfPTable(fields.size());
-            document = new Document();
+            Document document = new Document();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Class<?> clazz = dtos.iterator().next().getClass();
 
-            try {
-                PdfWriter.getInstance(document, out);
-                createDocument();
-            } catch (DocumentException e) {
-                e.printStackTrace();
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            List<Field> columns = getFields(clazz);
+
+            if (!columns.isEmpty()) {
+                String title = getTitle(clazz);
+                document.add(getParagraph(title));
+                document.add(Chunk.NEWLINE);
+                PdfPTable pdfPTable = getPdfTable(columns);
+                document.add(pdfPTable);
+            } else {
+                document.add(new Phrase("Document is empty"));
             }
+            document.close();
+
             return new ExportDto(fileName, extension, out.toByteArray());
         }
 
-        private void createDocument() throws DocumentException {
-            document.open();
-            addTitle();
-            initTableHeaders();
-            fillCells();
-            document.add(table);
-            document.close();
-        }
-
-        private void ignoreFields() {
-            if (fieldsToIgnore != null) {
-                for (String ignore : fieldsToIgnore) {
-                    Set<Field> toRemove = fields.stream()
-                            .filter(field -> field.getName().equals(ignore))
-                            .collect(Collectors.toSet());
-                    if (!toRemove.isEmpty()) {
-                        toRemove.forEach(fields::remove);
-                    }
+        private List<Field> getFields(Class<?> clazz) {
+            Class<?> superclass = clazz.getSuperclass();
+            Field[] fields = clazz.getDeclaredFields();
+            Field[] superClassField = superclass.getDeclaredFields();
+            List<Field> columns = new ArrayList<>();
+            for (Field field : superClassField) {
+                if (!field.isAnnotationPresent(PdfIgnoreField.class)) {
+                    columns.add(field);
                 }
             }
+            for (Field field : fields) {
+                if (!field.isAnnotationPresent(PdfIgnoreField.class)) {
+                    columns.add(field);
+                }
+            }
+            return columns;
         }
 
-        private void addTitle() throws DocumentException {
+        private Paragraph getParagraph(String title) {
             Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
             Paragraph paragraph = new Paragraph(title, font);
             paragraph.setAlignment(Element.ALIGN_CENTER);
-            document.add(paragraph);
-            document.add(Chunk.NEWLINE);
+            return paragraph;
         }
 
-        private void initTableHeaders() {
-            fields.forEach(field -> {
-                PdfPCell header = new PdfPCell();
-                Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
-                header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-                header.setHorizontalAlignment(Element.ALIGN_CENTER);
-                header.setBorderWidth(1);
-                header.setPhrase(new Phrase(field.getName(), headerFont));
-                table.addCell(header);
+        private static String getTitle(Class<?> clazz) {
+            if (!clazz.isAnnotationPresent(PdfTableName.class)) {
+                return "";
+            } else {
+                PdfTableName pdfTableName = clazz.getAnnotation(PdfTableName.class);
+                return pdfTableName.value();
+            }
+        }
+
+        private PdfPTable getPdfTable(List<Field> columns) {
+            PdfPTable pdfPTable = new PdfPTable(columns.size());
+
+            columns.forEach(field -> {
+                PdfPCell header = createHeader(field.getName());
+                pdfPTable.addCell(header);
             });
-        }
 
-        private void fillCells() {
             Font cellFont = FontFactory.getFont(FontFactory.TIMES_ITALIC, 10, BaseColor.BLACK);
             for (D dto : dtos) {
-                fields.forEach(field -> {
+                columns.forEach(field -> {
                     try {
                         field.setAccessible(true);
-                        createCell(String.valueOf(field.get(dto)), cellFont);
+                        PdfPCell cell = createCell(String.valueOf(field.get(dto)), cellFont);
+                        pdfPTable.addCell(cell);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 });
             }
+            pdfPTable.setWidthPercentage(100);
+            return pdfPTable;
         }
 
-        private void createCell(String cellData, Font cellFont) {
+        private PdfPCell createHeader(String name) {
+            PdfPCell header = new PdfPCell();
+            Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            header.setHorizontalAlignment(Element.ALIGN_CENTER);
+            header.setBorderWidth(1);
+            header.setPhrase(new Phrase(name, headerFont));
+            return header;
+        }
+
+        private PdfPCell createCell(String cellData, Font cellFont) {
             if (cellData.equals("null")) {
                 cellData = null;
             }
@@ -154,7 +157,7 @@ public class ExportDto {
             cell.setPadding(10);
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            table.addCell(cell);
+            return cell;
         }
     }
 }

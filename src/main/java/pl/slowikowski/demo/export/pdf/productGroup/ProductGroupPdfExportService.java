@@ -23,6 +23,6 @@ public class ProductGroupPdfExportService extends AbstractExportPdfService {
     @Override
     public ExportDto exportToPdf(Pageable pageable, String search) {
         List<ProductGroupDTO> groups = service.getAll(pageable, search).getContent();
-        return pdfService.exportToPdf(groups, "Product groups list", "productsGroups", ".pdf");
+        return pdfService.exportToPdf(groups, "productsGroups", ".pdf");
     }
 }

@@ -23,6 +23,6 @@ public class ReaderPdfExportService extends AbstractExportPdfService {
     @Override
     public ExportDto exportToPdf(Pageable pageable, String search) {
         List<ReaderDTO> readers = client.findAll(pageable, search).getContent();
-        return pdfService.exportToPdf(readers, "Readers list", List.of("password"), "readers", ".pdf");
+        return pdfService.exportToPdf(readers, "readers", ".pdf");
     }
 }
