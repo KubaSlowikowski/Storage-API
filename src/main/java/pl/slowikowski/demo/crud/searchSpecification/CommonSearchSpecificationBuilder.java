@@ -1,6 +1,7 @@
-package pl.slowikowski.demo.crud.abstraction;
+package pl.slowikowski.demo.crud.searchSpecification;
 
 import org.springframework.data.jpa.domain.Specification;
+import pl.slowikowski.demo.crud.abstraction.AbstractEntity;
 
 import java.util.ArrayList;
 import java.util.List;

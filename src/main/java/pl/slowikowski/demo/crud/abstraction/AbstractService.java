@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
+import pl.slowikowski.demo.crud.searchSpecification.CommonSearchSpecificationBuilder;
+import pl.slowikowski.demo.crud.searchSpecification.SearchOperation;
 
 import java.util.List;
 import java.util.regex.Matcher;
