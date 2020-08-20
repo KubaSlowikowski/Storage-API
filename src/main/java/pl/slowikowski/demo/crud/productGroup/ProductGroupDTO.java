@@ -3,11 +3,13 @@ package pl.slowikowski.demo.crud.productGroup;
 import lombok.Data;
 import pl.slowikowski.demo.crud.abstraction.AbstractDto;
 import pl.slowikowski.demo.crud.product.ProductDTO;
+import pl.slowikowski.demo.export.pdf.annotation.PdfTableName;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
+@PdfTableName(value = "Product groups list")
 public class ProductGroupDTO extends AbstractDto {
     @NotBlank(message = "Products group's name must be not null and not be empty.")
     private String name;

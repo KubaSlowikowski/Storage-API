@@ -23,6 +23,6 @@ public class BookPdfExportService extends AbstractExportPdfService {
     @Override
     public ExportDto exportToPdf(Pageable pageable, String search) {
         List<BookDTO> books = client.findAll(pageable, search).getContent();
-        return pdfService.exportToPdf(books, "Books list", "books", ".pdf");
+        return pdfService.exportToPdf(books, "books", ".pdf");
     }
 }

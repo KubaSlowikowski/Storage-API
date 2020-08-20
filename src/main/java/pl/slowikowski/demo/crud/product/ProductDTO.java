@@ -3,12 +3,14 @@ package pl.slowikowski.demo.crud.product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import pl.slowikowski.demo.crud.abstraction.AbstractDto;
+import pl.slowikowski.demo.export.pdf.annotation.PdfTableName;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
-@Data
+@Data //may be changed to @Setter, @Getter, ...  etc.
+@PdfTableName(value = "Products list")
 public class ProductDTO extends AbstractDto {
     @NotBlank(message = "Product's name must be not null and not be empty.")
     private String name;
