@@ -54,14 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**", "/library/api/auth").permitAll()
-                .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/library/**", "/export/**").hasRole("MODERATOR")
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",
                         "/configuration/security",
                         "/swagger-ui.html",
                         "/webjars/**",
-                        "/soap-api/**",
+                        "/api/test/**",
                         "/ws/products.wsdl",
                         "/ws/productGroups.wsdl").permitAll()
                 .anyRequest().authenticated();

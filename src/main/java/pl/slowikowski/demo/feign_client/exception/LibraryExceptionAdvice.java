@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.xml.ws.soap.SOAPFaultException;
+import java.net.SocketTimeoutException;
 
 @ControllerAdvice
 public class LibraryExceptionAdvice {
@@ -55,6 +56,13 @@ public class LibraryExceptionAdvice {
     @ExceptionHandler(SOAPFaultException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String soapFaultExceptionHandler(SOAPFaultException e) {
+        return e.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(SocketTimeoutException.class)
+    @ResponseStatus(HttpStatus.GATEWAY_TIMEOUT)
+    public String socketTimeoutExceptionHandler(SocketTimeoutException e ) {
         return e.getMessage();
     }
 }
