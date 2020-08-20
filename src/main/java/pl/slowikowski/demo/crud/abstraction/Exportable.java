@@ -5,7 +5,7 @@ import pl.slowikowski.demo.export.ExportDto;
 
 import java.util.List;
 
-interface Exportable<D extends AbstractDto> {
+public interface Exportable<D extends AbstractDto> {
 
     @PreAuthorize("hasRole('USER')")
     default ExportDto toPdfReport(List<D> dtos, String extension) {

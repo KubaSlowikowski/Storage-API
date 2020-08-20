@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "${storage.front.url}", allowCredentials = "true")
 public abstract class AbstractExcelExportController<T extends AbstractExcelExportService> {
 
     private final T service;

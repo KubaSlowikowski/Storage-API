@@ -12,7 +12,7 @@ import pl.slowikowski.demo.export.ExportDto;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = "${storage.front.url}", allowCredentials = "true")
 public abstract class AbstractController<T extends CommonService<E>, E extends AbstractDto> {
 
     private final T service;

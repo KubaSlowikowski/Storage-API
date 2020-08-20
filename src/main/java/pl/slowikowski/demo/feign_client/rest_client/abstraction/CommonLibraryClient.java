@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.slowikowski.demo.feign_client.CustomPageImpl;
 import pl.slowikowski.demo.feign_client.dto.AbstractLibraryDTO;
 
+
 public interface CommonLibraryClient<D extends AbstractLibraryDTO> {
     @GetMapping
     CustomPageImpl<D> findAll(Pageable page, @RequestParam(value = "search", required = false) String search);
