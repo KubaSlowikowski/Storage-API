@@ -8,6 +8,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
+import pl.slowikowski.demo.crud.searchSpecification.CommonSearchSpecificationBuilder;
+import pl.slowikowski.demo.crud.searchSpecification.SearchOperation;
+import pl.slowikowski.demo.export.ExportDto;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,11 +27,11 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public Page<D> getAll(Pageable page, String search) {
+    public Page<D> getAll(Pageable pageable, String search) {
         Specification<E> spec = resolveSpecification(search);
-        Page<E> result = commonRepository.findAll(spec, page);
+        Page<E> result = commonRepository.findAll(spec, pageable);
         List<D> content = commonMapper.toListDto(result.getContent());
-        return new PageImpl<>(content, page, result.getTotalElements());
+        return new PageImpl<>(content, pageable, result.getTotalElements());
     }
 
     @Override
@@ -69,6 +72,13 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
         E entity = getEntityById(id);
         commonRepository.deleteById(entity.getId());
         return commonMapper.toDto(entity);
+    }
+
+    @Override
+    @Transactional
+    public ExportDto getPdfReport(Pageable pageable, String search) {
+        List<D> dtos = getAll(pageable, search).getContent();
+        return toPdfReport(dtos, ".pdf");
     }
 
     private Specification<E> resolveSpecification(String searchParameters) {

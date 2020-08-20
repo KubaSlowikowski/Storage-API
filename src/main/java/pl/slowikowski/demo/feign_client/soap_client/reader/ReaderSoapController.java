@@ -6,7 +6,7 @@ import pl.slowikowski.demo.feign_client.dto.ReaderDTO;
 import pl.slowikowski.demo.feign_client.soap_client.abstraction.AbstractSoapClientController;
 
 @RestController
-@RequestMapping("/library/api/soap/readers")
+@RequestMapping("${storage.library.readers.soap.url}")
 class ReaderSoapController extends AbstractSoapClientController<ReaderDTO, ReaderSoapClient> {
 
     ReaderSoapController(final ReaderSoapClient client) {

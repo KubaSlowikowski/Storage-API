@@ -6,12 +6,12 @@ import pl.slowikowski.demo.feign_client.dto.ReaderDTO;
 import pl.slowikowski.demo.feign_client.rest_client.abstraction.AbstractLibraryController;
 
 @RestController
-@RequestMapping("/library/api/readers")
+@RequestMapping("${storage.library.readers.url}")
 class ReaderController extends AbstractLibraryController<ReaderDTO, ReaderClient> {
     private final ReaderClient client;
 
-    public ReaderController(final ReaderClient client) {
-        super(client);
+    public ReaderController(final ReaderClient client, final ReaderClientService service) {
+        super(client, service);
         this.client = client;
     }
 }

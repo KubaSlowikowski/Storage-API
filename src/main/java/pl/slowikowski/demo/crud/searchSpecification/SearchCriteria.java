@@ -1,4 +1,4 @@
-package pl.slowikowski.demo.crud.abstraction;
+package pl.slowikowski.demo.crud.searchSpecification;
 
 import lombok.Getter;
 import lombok.Setter;

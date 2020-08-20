@@ -78,6 +78,10 @@ public class ExportDto {
             }
             document.close();
 
+            if(fileName == null) {
+                fileName = clazz.getSimpleName();
+            }
+
             return new ExportDto(fileName, extension, out.toByteArray());
         }
 
