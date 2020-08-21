@@ -1,30 +1,36 @@
 package pl.slowikowski.demo.email;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 
 import javax.mail.internet.MimeMessage;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import pl.slowikowski.demo.crud.product.ProductService;
+import pl.slowikowski.demo.export.ExportDto;
 
 @Component
 public class EmailServiceImpl implements EmailService {
 
     private static final String NOREPLY_ADDRESS = "ttpraktyki2020storage@gmail.com";
-
-    @Autowired
     private JavaMailSender emailSender;
+    private final ProductService service;
 
-//    @Value("classpath:/mail-logo.png")
-//    private Resource resourceFile;
+    public EmailServiceImpl(final JavaMailSender emailSender, final ProductService service) {
+        this.emailSender = emailSender;
+        this.service = service;
+    }
+
 
     @Override
     public void sendSimpleMessage(final String to, final String subject, final String text) {
@@ -39,7 +45,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @SneakyThrows
-    public void sendMessageWithAttachment(final String to, final String subject, final String text, final String pathToAttachment) {
+    public void sendMessageWithAttachment(final String to, final String subject, final String text) {
         MimeMessage message = emailSender.createMimeMessage();
         // pass 'true' to the constructor to create a multipart message
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -49,8 +55,13 @@ public class EmailServiceImpl implements EmailService {
         helper.setSubject(subject);
         helper.setText(text);
 
-        FileSystemResource file = new FileSystemResource(new File(pathToAttachment));
-        helper.addAttachment("Invoice", file);
+        ExportDto pdfReport = service.getPdfReport(Pageable.unpaged(), null);
+
+        ByteArrayResource byteArrayResource = new ByteArrayResource(pdfReport.getByteArray());
+
+        helper.addAttachment(pdfReport.getFileName() + pdfReport.getExtension(), byteArrayResource);
+
+        emailSender.send(message);
     }
 
     @Override
