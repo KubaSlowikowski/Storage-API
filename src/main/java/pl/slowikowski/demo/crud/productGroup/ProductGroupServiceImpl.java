@@ -6,6 +6,7 @@ import pl.slowikowski.demo.crud.abstraction.AbstractService;
 import pl.slowikowski.demo.crud.exception.GroupModifyingForbiddenException;
 import pl.slowikowski.demo.crud.product.ProductMapper;
 import pl.slowikowski.demo.crud.product.ProductRepository;
+import pl.slowikowski.demo.email.EmailService;
 
 @Service
 public class ProductGroupServiceImpl extends AbstractService<ProductGroup, ProductGroupDTO> implements ProductGroupService {
@@ -14,24 +15,26 @@ public class ProductGroupServiceImpl extends AbstractService<ProductGroup, Produ
     private final ProductRepository productRepository;
     private final ProductGroupMapper groupMapper;
     private final ProductMapper productMapper;
+    private final EmailService emailService;
 
-    public ProductGroupServiceImpl(final ProductGroupRepository groupRepository, final ProductRepository productRepository, final ProductGroupMapper groupMapper, final ProductMapper productMapper) {
-        super(groupMapper, groupRepository);
+    public ProductGroupServiceImpl(final ProductGroupRepository groupRepository, final ProductRepository productRepository, final ProductGroupMapper groupMapper, final ProductMapper productMapper, final EmailService emailService) {
+        super(groupMapper, groupRepository, emailService);
         this.groupRepository = groupRepository;
         this.productRepository = productRepository;
         this.groupMapper = groupMapper;
         this.productMapper = productMapper;
+        this.emailService = emailService;
     }
 
     @Override
     @Transactional
     public ProductGroupDTO save(ProductGroupDTO dto) {
-        if (dto.getId()!=null && dto.getId() == 1) {
+        if (dto.getId() != null && dto.getId() == 1) {
             throw new GroupModifyingForbiddenException();
         }
         ProductGroup entity = groupMapper.fromDto(dto);
         ProductGroup savedResult = groupRepository.saveAndFlush(entity);
-        if(entity.getProducts() != null) {
+        if (entity.getProducts() != null) {
             entity.getProducts().forEach(productRepository::saveAndFlush);
         }
         return groupMapper.toDto(savedResult);

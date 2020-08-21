@@ -80,7 +80,7 @@ class ProductGroupServiceImplTest {
         var group = getProductGroup();
         when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(group));
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, null, mapper, productMapper, null);
         //when
         var result = toTest.findById(anyLong());
         //then
@@ -97,7 +97,7 @@ class ProductGroupServiceImplTest {
         when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(null);
 
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper, null);
 
         //when
         var result = toTest.save(productGroupDto);
@@ -121,7 +121,7 @@ class ProductGroupServiceImplTest {
         when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(null);
 
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper, null);
 
         //when
         var result = toTest.update(productGroup.getId(), mapper.toDto(modifiedProduct));
@@ -141,7 +141,7 @@ class ProductGroupServiceImplTest {
         when(mockProductRepository.findAllByGroup_Id(anyLong())).thenReturn(Collections.emptyList());
 
         //system under test
-        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper);
+        var toTest = new ProductGroupServiceImpl(mockProductGroupRepository, mockProductRepository, mapper, productMapper, null);
 
         //when
         var result = toTest.delete(productGroup.getId());

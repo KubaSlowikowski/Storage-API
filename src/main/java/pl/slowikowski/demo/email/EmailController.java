@@ -15,7 +15,7 @@ class EmailController {
 
     @GetMapping(path = "/email")
     public void sendTestMessage(@ModelAttribute Message message) {
-        emailService.sendSimpleMessage(message);
+        emailService.sendMessage(message);
     }
 
     @GetMapping(path = "/attachment")

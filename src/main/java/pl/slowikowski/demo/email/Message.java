@@ -14,5 +14,6 @@ public class Message {
     private String sendFrom = "ttpraktyki2020storage@gmail.com"; //FIXME
     private String sendTo;
     private ExportDto file;
+    private String fileExtension;
 
 }
