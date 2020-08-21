@@ -54,4 +54,9 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfReport.getByteArray());
     }
+
+//    @GetMapping(path = "")
+//    Page<E> send(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search, @ModelAttribute Message message) {
+//        return service.getAll(pageable, search);
+//    }
 }
