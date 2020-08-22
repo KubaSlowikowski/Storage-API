@@ -4,6 +4,7 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -100,5 +101,14 @@ public class ExceptionAdvice {
         return message.substring(1, message.indexOf("]") + 1);
     }
 
+    @ResponseBody
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String validationExceptionHandler(BindException e) {
+        String rejetedValue = e.getLocalizedMessage().split("rejected value ")[1];
+        rejetedValue = rejetedValue.split(";")[0];
+        String message = e.getLocalizedMessage().split("default message ")[2];
+        return "Rejected value: " + rejetedValue + " (" + message.substring(1, message.length() -1) + ")";
+    }
 }
 

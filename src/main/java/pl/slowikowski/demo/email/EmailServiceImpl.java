@@ -54,7 +54,7 @@ public class EmailServiceImpl implements EmailService {
         helper.addAttachment(file.getFileName() + file.getExtension(), new ByteArrayResource(file.getByteArray()));
 
         emailSender.send(toSend);
-        logger.info("Email sent to address: " + message.getSendTo());
+        logger.info("Email sent to: " + message.getSendTo());
         return CompletableFuture.completedFuture(null);
     }
 }

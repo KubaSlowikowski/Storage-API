@@ -57,7 +57,7 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping(path = "/email")
-    void send(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search, @ModelAttribute Message message) {
+    void send(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search, @ModelAttribute @Valid Message message) {
         service.sendAllInMail(pageable, search, message);
     }
 }
