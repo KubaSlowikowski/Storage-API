@@ -1,7 +1,9 @@
 package pl.slowikowski.demo.email;
 
-public interface EmailService {
-    void sendMessage(Message message);
+import java.util.concurrent.Future;
 
-    void sendMessageWithAttachment(Message message);
+public interface EmailService {
+    Future<Void> sendMessage(Message message);
+
+    Future<Void> sendMessageWithAttachment(Message message);
 }

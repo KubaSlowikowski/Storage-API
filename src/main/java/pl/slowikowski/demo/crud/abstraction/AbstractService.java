@@ -87,6 +87,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
+//    @Async
     public void sendAllInMail(final Pageable pageable, final String search, final Message message) {
         ExportDto file = getAllInFile(pageable, search, message.getFileExtension());
         message.setFile(file);
