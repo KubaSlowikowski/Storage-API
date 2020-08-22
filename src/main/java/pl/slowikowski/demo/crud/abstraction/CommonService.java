@@ -3,6 +3,7 @@ package pl.slowikowski.demo.crud.abstraction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import pl.slowikowski.demo.email.Message;
 import pl.slowikowski.demo.export.ExportDto;
 
 public interface CommonService<D extends AbstractDto> extends Exportable<D> {
@@ -22,5 +23,9 @@ public interface CommonService<D extends AbstractDto> extends Exportable<D> {
     D delete(Long id);
 
     @PreAuthorize("hasRole('USER')")
-    ExportDto getPdfReport(Pageable pageable, String search);
+    ExportDto getAllInFile(Pageable pageable, String search, String fileExtension);
+
+    @PreAuthorize("hasRole('USER')")
+    void sendAllInMail(Pageable pageable, String search, Message message);
+
 }

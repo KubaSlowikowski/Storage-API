@@ -59,7 +59,7 @@ class ProductServiceImplTest {
         when(mockProductRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var exception = catchThrowable(() -> toTest.findById(anyLong()));
@@ -78,7 +78,7 @@ class ProductServiceImplTest {
         when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var result = toTest.findById(anyLong());
@@ -97,7 +97,7 @@ class ProductServiceImplTest {
         when(mockProductRepository.saveAndFlush(any(Product.class))).thenReturn(product);
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var result = toTest.save(productDto);
@@ -115,7 +115,7 @@ class ProductServiceImplTest {
         //and
         when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var result = toTest.update(product.getId(), mapper.toDto(modifiedProduct));
@@ -132,7 +132,7 @@ class ProductServiceImplTest {
         when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var result = toTest.delete(product.getId());
@@ -151,7 +151,7 @@ class ProductServiceImplTest {
         when(mockProductRepository.findById(anyLong())).thenReturn(Optional.of(product));
         when(mockProductRepository.saveAndFlush(changedProduct)).thenReturn(changedProduct);
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, null, mapper, null);
 
         //when
         var result = toTest.buyProduct(product.getId());
@@ -176,7 +176,7 @@ class ProductServiceImplTest {
         when(mockProductGroupRepository.findById(anyLong())).thenReturn(Optional.of(getProductGroup()));
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper, null);
 
         //when
         var result = toTest.findAllByGroupId(anyLong(), Pageable.unpaged());
@@ -196,7 +196,7 @@ class ProductServiceImplTest {
         ProductGroupRepository mockProductGroupRepository = mock(ProductGroupRepository.class);
 
         //system under test
-        var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper);
+        var toTest = new ProductServiceImpl(mockProductRepository, mockProductGroupRepository, mapper, null);
 
         //when
         var exception = catchThrowable(() -> toTest.findAllByGroupId(anyLong(), Pageable.unpaged()));

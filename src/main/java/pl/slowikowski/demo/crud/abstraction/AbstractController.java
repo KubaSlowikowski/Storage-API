@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.slowikowski.demo.email.Message;
 import pl.slowikowski.demo.export.ExportDto;
 
 import javax.validation.Valid;
@@ -47,11 +48,16 @@ public abstract class AbstractController<T extends CommonService<E>, E extends A
     }
 
     @GetMapping(path = "/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> getPdf(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search) {
-        ExportDto pdfReport = service.getPdfReport(pageable, search);
+    ResponseEntity<byte[]> getPdf(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search) {
+        ExportDto pdfReport = service.getAllInFile(pageable, search, ".pdf");
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + pdfReport.getFileName() + "_" + LocalDate.now() + pdfReport.getExtension())
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfReport.getByteArray());
+    }
+
+    @GetMapping(path = "/email")
+    void send(@PageableDefault Pageable pageable, @RequestParam(value = "search", required = false) String search, @ModelAttribute Message message) {
+        service.sendAllInMail(pageable, search, message);
     }
 }

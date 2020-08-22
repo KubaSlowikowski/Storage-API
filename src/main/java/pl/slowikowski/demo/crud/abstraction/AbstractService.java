@@ -10,19 +10,23 @@ import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.exception.WrongIdException;
 import pl.slowikowski.demo.crud.searchSpecification.CommonSearchSpecificationBuilder;
 import pl.slowikowski.demo.crud.searchSpecification.SearchOperation;
+import pl.slowikowski.demo.email.EmailService;
+import pl.slowikowski.demo.email.Message;
 import pl.slowikowski.demo.export.ExportDto;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDto> implements CommonService<D> {
-    protected final CommonMapper<E, D> commonMapper;
-    protected final CommonRepository<E> commonRepository;
+public abstract class AbstractService<E extends AbstractEntity, D extends AbstractDto> implements CommonService<D>, EmailSender {
+    private final CommonMapper<E, D> commonMapper;
+    private final CommonRepository<E> commonRepository;
+    private final EmailService emailService;
 
-    public AbstractService(CommonMapper<E, D> commonMapper, CommonRepository<E> commonRepository) {
+    public AbstractService(final CommonMapper<E, D> commonMapper, final CommonRepository<E> commonRepository, final EmailService emailService) {
         this.commonMapper = commonMapper;
         this.commonRepository = commonRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -76,9 +80,18 @@ public abstract class AbstractService<E extends AbstractEntity, D extends Abstra
 
     @Override
     @Transactional
-    public ExportDto getPdfReport(Pageable pageable, String search) {
+    public ExportDto getAllInFile(Pageable pageable, String search, String fileExtension) {
         List<D> dtos = getAll(pageable, search).getContent();
-        return toPdfReport(dtos, ".pdf");
+        return toPdfReport(dtos, fileExtension);
+    }
+
+    @Override
+    @Transactional
+//    @Async
+    public void sendAllInMail(final Pageable pageable, final String search, final Message message) {
+        ExportDto file = getAllInFile(pageable, search, message.getFileExtension());
+        message.setFile(file);
+        emailService.sendMessageWithAttachment(message);
     }
 
     private Specification<E> resolveSpecification(String searchParameters) {

@@ -9,6 +9,7 @@ import pl.slowikowski.demo.crud.abstraction.AbstractService;
 import pl.slowikowski.demo.crud.exception.NotFoundException;
 import pl.slowikowski.demo.crud.productGroup.ProductGroup;
 import pl.slowikowski.demo.crud.productGroup.ProductGroupRepository;
+import pl.slowikowski.demo.email.EmailService;
 
 import java.util.List;
 
@@ -18,12 +19,14 @@ public class ProductServiceImpl extends AbstractService<Product, ProductDTO> imp
     private final ProductRepository repository;
     private final ProductGroupRepository groupRepository;
     private final ProductMapper productMapper;
+    private final EmailService emailService;
 
-    public ProductServiceImpl(final ProductRepository repository, final ProductGroupRepository groupRepository, final ProductMapper productMapper) {
-        super(productMapper, repository);
+    public ProductServiceImpl(final ProductRepository repository, final ProductGroupRepository groupRepository, final ProductMapper productMapper, final EmailService emailService) {
+        super(productMapper, repository, emailService);
         this.repository = repository;
         this.groupRepository = groupRepository;
         this.productMapper = productMapper;
+        this.emailService = emailService;
     }
 
     @Override
